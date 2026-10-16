@@ -165,6 +165,10 @@ senha.
 
 ![Diagrama de classes](docs/diagramas/sprint1-diagrama-classes.png)
 
+## Diagrama de Componentes
+
+![Diagrama de componentes](docs/diagramas/sprint1-diagrama-componentes.png)
+
 ## Entregas por sprint
 
 - **Sprint 1** — diagrama de casos de uso, histórias de usuário, diagrama de classes e
