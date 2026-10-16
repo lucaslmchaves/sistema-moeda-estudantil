@@ -30,6 +30,17 @@ do saldo do aluno e um e-mail com um código de cupom é enviado ao aluno e à
 empresa, para conferir a troca. Todos os usuários acessam o sistema com login e
 senha.
 
+## Diagrama de Caso de Uso
+
+![Diagrama de casos de uso](docs/diagramas/sprint1-caso-de-uso.png)
+
+### Atores
+
+- **Aluno**: participa do sistema de mérito, recebe moedas e as troca por vantagens.
+- **Professor**: distribui moedas aos alunos e recebe 1.000 moedas por semestre.
+- **Empresa Parceira**: cadastra as vantagens que oferece em troca de moedas.
+- **Serviço de E-mail** (sistema externo): envia as notificações e os cupons por e-mail.
+
 ## Histórias de Usuário
 
 ### Todos os perfis
