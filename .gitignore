@@ -1,0 +1,24 @@
+# Editores e IDEs
+.claude/
+.vscode/
+.idea/
+*.iml
+
+# Compilação e dependências (Java, Node, Python)
+out/
+target/
+build/
+*.class
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+
+# Variáveis de ambiente e dados locais
+.env
+*.log
+dados/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
