@@ -161,6 +161,10 @@ senha.
 
 - Instituições de ensino e professores já vêm pré-cadastrados no sistema, por isso não há história de cadastro para eles.
 
+## Diagrama de Classes
+
+![Diagrama de classes](docs/diagramas/sprint1-diagrama-classes.png)
+
 ## Entregas por sprint
 
 - **Sprint 1** — diagrama de casos de uso, histórias de usuário, diagrama de classes e
