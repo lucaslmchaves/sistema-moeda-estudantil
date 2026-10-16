@@ -50,7 +50,8 @@ senha.
 > **Como** aluno, professor ou empresa parceira, **quero** entrar no sistema com meu login e senha, **para** acessar as funcionalidades do meu perfil.
 
 - Alunos, professores e empresas parceiras têm login e senha cadastrados.
-- Nenhuma funcionalidade é acessível sem autenticação.
+- As funcionalidades de cada perfil só são acessíveis após a autenticação.
+- O cadastro inicial de aluno e de empresa parceira é feito antes de existir um login.
 
 ### Aluno
 
