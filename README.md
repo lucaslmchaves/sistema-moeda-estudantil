@@ -181,7 +181,6 @@ senha.
 ```
 docker-compose.yml
 .env.example
-scripts/verificar.sh
 docs/
   diagramas/        diagramas de cada sprint
   entregas/         PDFs de entrega
@@ -218,7 +217,6 @@ Testes:
 docker compose exec api pytest -q
 cd src/front && npm ci && npm test
 cd src/front && npm run lint && npm run formato:verificar
-bash scripts/verificar.sh
 ```
 
 ## Entregas por sprint
