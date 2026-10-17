@@ -183,7 +183,7 @@ docker-compose.yml
 .env.example
 docs/
   diagramas/        diagramas de cada sprint
-  entregas/         PDFs de entrega
+  entregas/         PDF de entrega da Sprint 1
   enunciado/
 src/
   back/             API em Python (FastAPI)
