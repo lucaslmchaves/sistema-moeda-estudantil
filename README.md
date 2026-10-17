@@ -209,14 +209,6 @@ docker compose up -d --build
 
 As migrações e os dados iniciais (2 instituições e 3 professores) são aplicados ao subir a API. Os valores padrão do banco estão em `.env.example`; para mudá-los, copie o arquivo para `.env`.
 
-Testes:
-
-```bash
-docker compose exec api pytest -q
-cd src/front && npm ci && npm test
-cd src/front && npm run lint && npm run formato:verificar
-```
-
 ## Entregas por sprint
 
 - **Sprint 1** — diagrama de casos de uso, histórias de usuário, diagrama de classes e
