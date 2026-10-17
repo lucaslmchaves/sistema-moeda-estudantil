@@ -164,9 +164,7 @@ senha.
 
 ## Diagrama de Classes
 
-![Diagrama de classes](docs/diagramas/sprint1-diagrama-classes.png)
-
-![Diagrama de classes da Sprint 2](docs/diagramas/sprint2-diagrama-classes.png)
+![Diagrama de classes](docs/diagramas/sprint2-diagrama-classes.png)
 
 ## Diagrama de Componentes
 
