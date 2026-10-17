@@ -122,7 +122,7 @@ senha.
 
 > **Como** empresa parceira, **quero** me cadastrar no sistema, **para** oferecer vantagens aos alunos.
 
-- A empresa informa nome, e-mail, login e senha.
+- A empresa informa nome, e-mail, CNPJ, login e senha.
 
 #### Atualizar dados da empresa parceira
 
