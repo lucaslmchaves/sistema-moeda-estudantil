@@ -166,9 +166,60 @@ senha.
 
 ![Diagrama de classes](docs/diagramas/sprint1-diagrama-classes.png)
 
+![Diagrama de classes da Sprint 2](docs/diagramas/sprint2-diagrama-classes.png)
+
 ## Diagrama de Componentes
 
-![Diagrama de componentes](docs/diagramas/sprint1-diagrama-componentes.png)
+![Diagrama de componentes](docs/diagramas/sprint2-diagrama-componentes.png)
+
+## Modelo Lógico
+
+![Modelo lógico](docs/diagramas/sprint2-modelo-logico.png)
+
+## Estrutura do projeto
+
+```
+docker-compose.yml
+.env.example
+scripts/verificar.sh
+docs/
+  diagramas/        diagramas de cada sprint
+  entregas/         PDFs de entrega
+  enunciado/
+src/
+  back/             API em Python (FastAPI)
+    controller/     rotas, schemas e tratamento de erros
+    service/        regras de negócio
+    repository/     interfaces e acesso ao banco (SQLAlchemy)
+    model/          entidades
+    migrations/     migrações (Alembic)
+    tests/          modelos, repositorios, servicos e api
+  front/            interface em React, Vite e Tailwind
+    src/            api, componentes, hooks, paginas, tipos e utils
+    tests/          api, componentes, hooks e utils
+```
+
+## Como executar
+
+Requisitos: Docker com Docker Compose.
+
+```bash
+docker compose up -d --build
+```
+
+- Front-end: http://localhost:5173
+- API e documentação: http://localhost:8000/docs
+
+As migrações e os dados iniciais (2 instituições e 3 professores) são aplicados ao subir a API. Os valores padrão do banco estão em `.env.example`; para mudá-los, copie o arquivo para `.env`.
+
+Testes:
+
+```bash
+docker compose exec api pytest -q
+cd src/front && npm ci && npm test
+cd src/front && npm run lint && npm run formato:verificar
+bash scripts/verificar.sh
+```
 
 ## Entregas por sprint
 
