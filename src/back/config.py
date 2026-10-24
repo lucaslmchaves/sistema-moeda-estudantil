@@ -16,6 +16,16 @@ class Settings(BaseSettings):
         "http://localhost:3000,http://localhost:5173,http://localhost:8000"
     )
 
+    JWT_SEGREDO: str = "troque-este-segredo-no-env"
+    JWT_EXPIRA_MINUTOS: int = 120
+    PASTA_UPLOADS: str = "uploads"
+
+    SMTP_HOST: str = "smtp.gmail.com"
+    SMTP_PORTA: int = 587
+    SMTP_USUARIO: str = ""
+    SMTP_SENHA: str = ""
+    EMAIL_REMETENTE: str = ""
+
     @property
     def cors_origins_list(self) -> list[str]:
         if isinstance(self.CORS_ORIGINS, list):
