@@ -105,7 +105,7 @@ describe('useAlunoFormulario', () => {
     );
   });
 
-  it('cadastra o aluno e volta para a lista com a mensagem de sucesso', async () => {
+  it('cadastra o aluno e vai para o login com a mensagem de sucesso', async () => {
     const hook = montar();
     await waitFor(() => expect(hook.result.current.carregandoDados).toBe(false));
     preencher(hook);
@@ -125,8 +125,11 @@ describe('useAlunoFormulario', () => {
       login: 'ana.souza',
       senha: 'senha-segura-1',
     });
-    expect(navegar).toHaveBeenCalledWith('/alunos', {
-      state: { mensagemSucesso: 'Aluno Ana Souza cadastrado com sucesso!' },
+    expect(navegar).toHaveBeenCalledWith('/entrar', {
+      state: {
+        mensagemSucesso:
+          'Aluno Ana Souza cadastrado com sucesso! Entre com o seu login e a sua senha.',
+      },
     });
   });
 
@@ -142,7 +145,7 @@ describe('useAlunoFormulario', () => {
     expect(id).toBe(7);
     expect(dados).not.toHaveProperty('login');
     expect(dados).not.toHaveProperty('senha');
-    expect(navegar).toHaveBeenCalledWith('/alunos', {
+    expect(navegar).toHaveBeenCalledWith('/', {
       state: { mensagemSucesso: 'Aluno Ana Souza atualizado com sucesso!' },
     });
   });

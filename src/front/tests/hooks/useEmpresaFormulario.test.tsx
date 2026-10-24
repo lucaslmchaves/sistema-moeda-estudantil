@@ -75,7 +75,7 @@ describe('useEmpresaFormulario', () => {
     );
   });
 
-  it('cadastra a empresa e volta para a lista com a mensagem de sucesso', async () => {
+  it('cadastra a empresa e vai para o login com a mensagem de sucesso', async () => {
     const hook = montar();
     act(() => {
       hook.result.current.definirValores({
@@ -98,8 +98,11 @@ describe('useEmpresaFormulario', () => {
       login: 'livraria.horizonte',
       senha: 'senha-segura-1',
     });
-    expect(navegar).toHaveBeenCalledWith('/empresas', {
-      state: { mensagemSucesso: 'Empresa Livraria Horizonte cadastrada com sucesso!' },
+    expect(navegar).toHaveBeenCalledWith('/entrar', {
+      state: {
+        mensagemSucesso:
+          'Empresa Livraria Horizonte cadastrada com sucesso! Entre com o seu login e a sua senha.',
+      },
     });
   });
 
@@ -115,7 +118,7 @@ describe('useEmpresaFormulario', () => {
     expect(id).toBe(9);
     expect(dados).not.toHaveProperty('login');
     expect(dados).not.toHaveProperty('senha');
-    expect(navegar).toHaveBeenCalledWith('/empresas', {
+    expect(navegar).toHaveBeenCalledWith('/', {
       state: { mensagemSucesso: 'Empresa Livraria Horizonte atualizada com sucesso!' },
     });
   });
