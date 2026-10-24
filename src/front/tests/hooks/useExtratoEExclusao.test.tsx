@@ -58,7 +58,9 @@ describe('useExtrato', () => {
 describe('useExclusaoDoCadastro', () => {
   const sair = vi.fn();
   const wrapper = ({ children }: { children: ReactNode }) => (
-    <AutenticacaoContexto.Provider value={{ usuario: null, entrar: vi.fn(), sair }}>
+    <AutenticacaoContexto.Provider
+      value={{ usuario: null, aviso: null, entrar: vi.fn(), sair, limparAviso: vi.fn() }}
+    >
       {children}
     </AutenticacaoContexto.Provider>
   );
@@ -86,10 +88,8 @@ describe('useExclusaoDoCadastro', () => {
     });
 
     expect(excluir).toHaveBeenCalled();
-    expect(sair).toHaveBeenCalled();
-    expect(navegar).toHaveBeenCalledWith('/entrar', {
-      state: { mensagemSucesso: 'Seu cadastro foi excluído.' },
-    });
+    expect(sair).toHaveBeenCalledWith('Seu cadastro foi excluído.');
+    expect(navegar).toHaveBeenCalledWith('/entrar');
   });
 
   it('mostra o erro e mantém a sessão quando a exclusão falha', async () => {

@@ -19,7 +19,9 @@ const novoEvento = () => ({ preventDefault: vi.fn() }) as unknown as FormEvent;
 
 function montar() {
   const wrapper = ({ children }: { children: ReactNode }) => (
-    <AutenticacaoContexto.Provider value={{ usuario: null, entrar, sair: vi.fn() }}>
+    <AutenticacaoContexto.Provider
+      value={{ usuario: null, aviso: null, entrar, sair: vi.fn(), limparAviso: vi.fn() }}
+    >
       {children}
     </AutenticacaoContexto.Provider>
   );
