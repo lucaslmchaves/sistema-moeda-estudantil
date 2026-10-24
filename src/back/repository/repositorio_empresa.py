@@ -33,15 +33,6 @@ class RepositorioEmpresa(IRepositorioEmpresa):
         )
         return self.sessao.execute(consulta).scalar_one_or_none()
 
-    def listar(self) -> list[EmpresaParceira]:
-        """Lista todas as empresas ativas (deletado_em IS NULL)."""
-        consulta = (
-            select(EmpresaParceira)
-            .where(EmpresaParceira.deletado_em.is_(None))
-            .order_by(EmpresaParceira.id_usuario)
-        )
-        return list(self.sessao.execute(consulta).scalars().all())
-
     def buscar_por_cnpj(self, cnpj: str) -> EmpresaParceira | None:
         """Busca uma empresa por CNPJ (para validação de unicidade)."""
         consulta = select(EmpresaParceira).where(EmpresaParceira.cnpj == cnpj)

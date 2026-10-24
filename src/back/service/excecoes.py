@@ -22,3 +22,13 @@ class Conflito(ExcecaoDominio):
 class DadoInvalido(ExcecaoDominio):
     """Lançada quando dados informados falham na validação de regras de negócio."""
     pass
+
+
+class NaoAutenticado(ExcecaoDominio):
+    """Lançada quando o login, a senha ou o token de acesso não são válidos."""
+    pass
+
+
+class AcessoNegado(ExcecaoDominio):
+    """Lançada quando o usuário autenticado não pode executar a operação pedida."""
+    pass

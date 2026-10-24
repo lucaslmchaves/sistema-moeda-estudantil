@@ -64,10 +64,6 @@ class ServicoEmpresa:
             raise NaoEncontrado("Empresa parceira não encontrada.")
         return empresa
 
-    def listar_empresas(self) -> list[EmpresaParceira]:
-        """Devolve todas as empresas ativas."""
-        return self.repo_empresa.listar()
-
     def _garantir_cadastro_livre(self, login: str, cnpj: str, email: str) -> None:
         """Recusa login, CNPJ ou e-mail que já pertençam a outro cadastro."""
         garantir_login_livre(self.repo_empresa.buscar_por_login(login))

@@ -6,7 +6,10 @@ from model.aluno import Aluno
 from model.conta import Conta
 from model.empresa_parceira import EmpresaParceira
 from model.instituicao_ensino import InstituicaoEnsino
+from model.professor import Professor
+from model.transacao import Transacao
 from model.usuario import Usuario
+from model.vantagem import Vantagem
 
 
 class IRepositorioAluno(ABC):
@@ -57,10 +60,6 @@ class IRepositorioEmpresa(ABC):
         """Devolve a empresa ativa com o identificador informado."""
 
     @abstractmethod
-    def listar(self) -> list[EmpresaParceira]:
-        """Devolve todas as empresas ativas."""
-
-    @abstractmethod
     def buscar_por_cnpj(self, cnpj: str) -> EmpresaParceira | None:
         """Devolve a empresa dona do CNPJ informado, se houver."""
 
@@ -87,3 +86,79 @@ class IRepositorioInstituicao(ABC):
     @abstractmethod
     def listar(self) -> list[InstituicaoEnsino]:
         """Devolve todas as instituições de ensino."""
+
+
+class IRepositorioUsuario(ABC):
+    """Contrato de consulta dos usuários para a autenticação."""
+
+    @abstractmethod
+    def buscar_por_login(self, login: str) -> Usuario | None:
+        """Devolve o usuário dono do login informado, se houver."""
+
+    @abstractmethod
+    def buscar_por_id(self, id_usuario: int) -> Usuario | None:
+        """Devolve o usuário ativo com o identificador informado."""
+
+
+class IRepositorioProfessor(ABC):
+    """Contrato de consulta dos professores."""
+
+    @abstractmethod
+    def buscar_por_id(self, id_usuario: int) -> Professor | None:
+        """Devolve o professor ativo com o identificador informado."""
+
+    @abstractmethod
+    def listar(self) -> list[Professor]:
+        """Devolve todos os professores ativos."""
+
+
+class IRepositorioConta(ABC):
+    """Contrato de acesso às contas de moedas."""
+
+    @abstractmethod
+    def buscar_por_usuario(self, id_usuario: int, para_atualizar: bool = False) -> Conta | None:
+        """Devolve a conta do usuário, travando a linha quando for para atualizar."""
+
+
+class IRepositorioVantagem(ABC):
+    """Contrato de persistência das vantagens oferecidas pelas empresas."""
+
+    @abstractmethod
+    def salvar(self, vantagem: Vantagem) -> Vantagem:
+        """Grava uma vantagem."""
+
+    @abstractmethod
+    def buscar_por_id(self, id_vantagem: int) -> Vantagem | None:
+        """Devolve a vantagem ativa, de empresa ativa, com o identificador informado."""
+
+    @abstractmethod
+    def listar(self) -> list[Vantagem]:
+        """Devolve as vantagens ativas das empresas ativas."""
+
+    @abstractmethod
+    def listar_por_empresa(self, id_empresa: int) -> list[Vantagem]:
+        """Devolve as vantagens ativas da empresa informada."""
+
+    @abstractmethod
+    def marcar_excluida(self, vantagem: Vantagem) -> bool:
+        """Aplica a exclusão lógica na vantagem."""
+
+
+class IRepositorioTransacao(ABC):
+    """Contrato de persistência das transações de moedas."""
+
+    @abstractmethod
+    def salvar(self, transacao: Transacao) -> Transacao:
+        """Grava um envio de moedas ou um resgate de vantagem."""
+
+    @abstractmethod
+    def codigo_existe(self, codigo: str) -> bool:
+        """Informa se já existe um resgate com o código informado."""
+
+
+class IArmazenamentoFoto(ABC):
+    """Contrato de armazenamento das fotos das vantagens."""
+
+    @abstractmethod
+    def salvar(self, conteudo: bytes, extensao: str) -> str:
+        """Guarda a foto e devolve o caminho público dela."""
