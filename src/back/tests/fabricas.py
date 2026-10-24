@@ -61,3 +61,9 @@ def dados_empresa(**sobrescrita) -> dict:
     }
     dados.update(sobrescrita)
     return dados
+
+
+FOTO_PNG = b"\x89PNG\r\n\x1a\n" + b"\x00" * 32
+FOTO_JPEG = b"\xff\xd8\xff\xe0" + b"\x00" * 32
+FOTO_WEBP = b"RIFF\x00\x00\x00\x00WEBP" + b"\x00" * 32
+SENHA_PADRAO = "senhaSegura123"

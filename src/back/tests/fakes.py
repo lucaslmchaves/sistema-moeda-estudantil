@@ -6,8 +6,16 @@ from itertools import count
 from model.aluno import Aluno
 from model.conta import Conta
 from model.empresa_parceira import EmpresaParceira
+from model.envio_moedas import EnvioMoedas
 from model.instituicao_ensino import InstituicaoEnsino
-from repository.interfaces import IRepositorioAluno, IRepositorioEmpresa, IRepositorioInstituicao
+from model.resgate_vantagem import ResgateVantagem
+from repository.interfaces import (
+    IArmazenamentoFoto,
+    IRepositorioAluno,
+    IRepositorioEmpresa,
+    IRepositorioInstituicao,
+)
+from service.notificador_email import NotificadorEmail
 
 
 class RepositorioInstituicaoFalso(IRepositorioInstituicao):
@@ -91,9 +99,9 @@ class RepositorioEmpresaFalso(IRepositorioEmpresa):
 
     def buscar_por_id(self, id_usuario: int) -> EmpresaParceira | None:
         """Procura entre as empresas ativas."""
-        return next((e for e in self.listar() if e.id_usuario == id_usuario), None)
+        return next((e for e in self._ativas() if e.id_usuario == id_usuario), None)
 
-    def listar(self) -> list[EmpresaParceira]:
+    def _ativas(self) -> list[EmpresaParceira]:
         """Devolve só as empresas não excluídas."""
         return [e for e in self.empresas if e.deletado_em is None]
 
@@ -114,3 +122,35 @@ class RepositorioEmpresaFalso(IRepositorioEmpresa):
         empresa.deletado_em = datetime.now(timezone.utc)
         empresa.ativo = False
         return True
+
+
+class NotificadorFalso(NotificadorEmail):
+    """Guarda as notificações pedidas, em vez de enviar e-mails."""
+
+    def __init__(self):
+        """Inicia sem notificações."""
+        self.recebimentos: list[EnvioMoedas] = []
+        self.resgates: list[ResgateVantagem] = []
+
+    def notificar_recebimento(self, envio: EnvioMoedas) -> bool:
+        """Registra o aviso de moedas recebidas."""
+        self.recebimentos.append(envio)
+        return True
+
+    def notificar_resgate(self, resgate: ResgateVantagem) -> bool:
+        """Registra o envio do cupom e da conferência."""
+        self.resgates.append(resgate)
+        return True
+
+
+class ArmazenamentoFotoFalso(IArmazenamentoFoto):
+    """Guarda as fotos em memória e devolve caminhos numerados."""
+
+    def __init__(self):
+        """Inicia sem fotos."""
+        self.fotos: list[tuple[bytes, str]] = []
+
+    def salvar(self, conteudo: bytes, extensao: str) -> str:
+        """Guarda a foto e devolve o caminho dela."""
+        self.fotos.append((conteudo, extensao))
+        return f"/uploads/foto-{len(self.fotos)}.{extensao}"

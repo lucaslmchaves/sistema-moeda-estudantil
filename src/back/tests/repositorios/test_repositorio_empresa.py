@@ -8,7 +8,7 @@ from repository.repositorio_empresa import RepositorioEmpresa
 
 
 def test_repositorio_empresa_crud_e_consultas(sessao: Session):
-    """Testa salvar, buscar por id/cnpj/email/login, listar ativas e exclusão lógica."""
+    """Testa salvar, buscar por id/cnpj/email/login, e exclusão lógica."""
     repo = RepositorioEmpresa(sessao)
 
     empresa = EmpresaParceira(
@@ -30,9 +30,6 @@ def test_repositorio_empresa_crud_e_consultas(sessao: Session):
     assert repo.buscar_por_email("repo@empresa.com") is not None
     assert repo.buscar_por_login("empresa.repo") is not None
 
-    assert len(repo.listar()) == 1
-
     retorno = repo.marcar_excluido(empresa)
     assert retorno is True
     assert repo.buscar_por_id(empresa.id_usuario) is None
-    assert len(repo.listar()) == 0

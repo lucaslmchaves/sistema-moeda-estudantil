@@ -72,4 +72,3 @@ def test_atualizar_e_excluir_empresa_retorna_true_e_aplica_soft_delete(sessao: S
 
     with pytest.raises(NaoEncontrado):
         servico.buscar_empresa(empresa.id_usuario)
-    assert len(servico.listar_empresas()) == 0
