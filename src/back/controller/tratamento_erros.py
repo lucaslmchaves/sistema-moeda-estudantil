@@ -5,12 +5,14 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from service.excecoes import Conflito, DadoInvalido, NaoEncontrado
+from service.excecoes import AcessoNegado, Conflito, DadoInvalido, NaoAutenticado, NaoEncontrado
 from service.rotulos import rotulo_do_campo
 
-def resposta_erro(codigo: int, detalhe: str) -> JSONResponse:
+def resposta_erro(
+    codigo: int, detalhe: str, cabecalhos: dict[str, str] | None = None
+) -> JSONResponse:
     """Monta a resposta de erro no padrão {"detalhe": "..."}."""
-    return JSONResponse(status_code=codigo, content={"detalhe": detalhe})
+    return JSONResponse(status_code=codigo, content={"detalhe": detalhe}, headers=cabecalhos)
 
 
 def traduzir_erro_pydantic(erro: dict) -> str:
@@ -68,6 +70,18 @@ def configurar_tratamento_erros(app: FastAPI) -> None:
     def tratar_dado_invalido(request: Request, exc: DadoInvalido) -> JSONResponse:
         """Converte inconsistências de regras de negócio em resposta HTTP 422."""
         return resposta_erro(status.HTTP_422_UNPROCESSABLE_ENTITY, exc.mensagem)
+
+    @app.exception_handler(NaoAutenticado)
+    def tratar_nao_autenticado(request: Request, exc: NaoAutenticado) -> JSONResponse:
+        """Converte falha de autenticação em resposta HTTP 401."""
+        return resposta_erro(
+            status.HTTP_401_UNAUTHORIZED, exc.mensagem, {"WWW-Authenticate": "Bearer"}
+        )
+
+    @app.exception_handler(AcessoNegado)
+    def tratar_acesso_negado(request: Request, exc: AcessoNegado) -> JSONResponse:
+        """Converte acesso não permitido ao perfil em resposta HTTP 403."""
+        return resposta_erro(status.HTTP_403_FORBIDDEN, exc.mensagem)
 
     @app.exception_handler(StarletteHTTPException)
     def tratar_erro_http(request: Request, exc: StarletteHTTPException) -> JSONResponse:

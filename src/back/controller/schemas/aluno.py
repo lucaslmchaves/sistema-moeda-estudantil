@@ -66,3 +66,12 @@ class AlunoRespostaSchema(BaseModel):
     id_instituicao: int
     login: str
     ativo: bool
+
+
+class AlunoResumoSchema(BaseModel):
+    """Dados mínimos do aluno para o professor escolher quem recebe as moedas."""
+    model_config = ConfigDict(from_attributes=True)
+
+    id_usuario: int
+    nome: str
+    curso: str

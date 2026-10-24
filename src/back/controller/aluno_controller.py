@@ -2,12 +2,16 @@
 
 from fastapi import APIRouter, Depends, status
 
+from controller.autenticacao import exigir_dono, exigir_perfil
 from controller.dependencias import obter_servico_aluno
 from controller.schemas import (
     AlunoAtualizarSchema,
     AlunoCriarSchema,
     AlunoRespostaSchema,
+    AlunoResumoSchema,
 )
+from model.enums import TipoUsuario
+from model.usuario import Usuario
 from service.servico_aluno import ServicoAluno
 
 router = APIRouter(prefix="/alunos", tags=["Alunos"])
@@ -31,17 +35,18 @@ def cadastrar_aluno(
 
 @router.get(
     "",
-    response_model=list[AlunoRespostaSchema],
+    response_model=list[AlunoResumoSchema],
     status_code=status.HTTP_200_OK,
-    summary="Listar todos os alunos ativos",
-    description="Retorna a relação de todos os alunos ativos cadastrados no sistema.",
+    summary="Listar os alunos ativos",
+    description="Devolve nome e curso dos alunos ativos; só professores podem consultar.",
 )
 def listar_alunos(
+    _: Usuario = Depends(exigir_perfil(TipoUsuario.PROFESSOR)),
     servico: ServicoAluno = Depends(obter_servico_aluno),
-) -> list[AlunoRespostaSchema]:
-    """Lista todos os alunos ativos cadastrados no sistema."""
+) -> list[AlunoResumoSchema]:
+    """Lista os alunos ativos para o professor escolher quem recebe as moedas."""
     alunos = servico.listar_alunos()
-    return [AlunoRespostaSchema.model_validate(a) for a in alunos]
+    return [AlunoResumoSchema.model_validate(a) for a in alunos]
 
 
 @router.get(
@@ -49,10 +54,11 @@ def listar_alunos(
     response_model=AlunoRespostaSchema,
     status_code=status.HTTP_200_OK,
     summary="Buscar aluno por ID",
-    description="Obtém os dados cadastrais de um aluno pelo identificador.",
+    description="Obtém os dados cadastrais do próprio aluno autenticado.",
 )
 def buscar_aluno(
     id: int,
+    _: Usuario = Depends(exigir_dono(TipoUsuario.ALUNO)),
     servico: ServicoAluno = Depends(obter_servico_aluno),
 ) -> AlunoRespostaSchema:
     """Busca os detalhes cadastrais de um aluno ativo por seu ID."""
@@ -70,6 +76,7 @@ def buscar_aluno(
 def atualizar_aluno(
     id: int,
     dados: AlunoAtualizarSchema,
+    _: Usuario = Depends(exigir_dono(TipoUsuario.ALUNO)),
     servico: ServicoAluno = Depends(obter_servico_aluno),
 ) -> AlunoRespostaSchema:
     """Atualiza dados do aluno. O login não é alterado e a senha só muda se informada."""
@@ -85,6 +92,7 @@ def atualizar_aluno(
 )
 def excluir_aluno(
     id: int,
+    _: Usuario = Depends(exigir_dono(TipoUsuario.ALUNO)),
     servico: ServicoAluno = Depends(obter_servico_aluno),
 ) -> None:
     """Realiza a exclusão lógica do aluno (deletado_em preenchido e ativo=False)."""

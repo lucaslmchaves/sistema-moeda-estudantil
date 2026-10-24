@@ -2,12 +2,15 @@
 
 from fastapi import APIRouter, Depends, status
 
+from controller.autenticacao import exigir_dono
 from controller.dependencias import obter_servico_empresa
 from controller.schemas import (
     EmpresaAtualizarSchema,
     EmpresaCriarSchema,
     EmpresaRespostaSchema,
 )
+from model.enums import TipoUsuario
+from model.usuario import Usuario
 from service.servico_empresa import ServicoEmpresa
 
 router = APIRouter(prefix="/empresas", tags=["Empresas"])
@@ -30,29 +33,15 @@ def cadastrar_empresa(
 
 
 @router.get(
-    "",
-    response_model=list[EmpresaRespostaSchema],
-    status_code=status.HTTP_200_OK,
-    summary="Listar todas as empresas parceiras ativas",
-    description="Retorna todas as empresas parceiras ativas cadastradas no sistema.",
-)
-def listar_empresas(
-    servico: ServicoEmpresa = Depends(obter_servico_empresa),
-) -> list[EmpresaRespostaSchema]:
-    """Lista todas as empresas parceiras ativas cadastradas no sistema."""
-    empresas = servico.listar_empresas()
-    return [EmpresaRespostaSchema.model_validate(e) for e in empresas]
-
-
-@router.get(
     "/{id}",
     response_model=EmpresaRespostaSchema,
     status_code=status.HTTP_200_OK,
     summary="Buscar empresa parceira por ID",
-    description="Obtém os dados detalhados de uma empresa parceira pelo identificador.",
+    description="Obtém os dados cadastrais da própria empresa parceira autenticada.",
 )
 def buscar_empresa(
     id: int,
+    _: Usuario = Depends(exigir_dono(TipoUsuario.EMPRESA_PARCEIRA)),
     servico: ServicoEmpresa = Depends(obter_servico_empresa),
 ) -> EmpresaRespostaSchema:
     """Busca os detalhes cadastrais de uma empresa parceira ativa por seu ID."""
@@ -70,6 +59,7 @@ def buscar_empresa(
 def atualizar_empresa(
     id: int,
     dados: EmpresaAtualizarSchema,
+    _: Usuario = Depends(exigir_dono(TipoUsuario.EMPRESA_PARCEIRA)),
     servico: ServicoEmpresa = Depends(obter_servico_empresa),
 ) -> EmpresaRespostaSchema:
     """Atualiza a empresa; o login não muda e a senha só muda se for informada."""
@@ -85,6 +75,7 @@ def atualizar_empresa(
 )
 def excluir_empresa(
     id: int,
+    _: Usuario = Depends(exigir_dono(TipoUsuario.EMPRESA_PARCEIRA)),
     servico: ServicoEmpresa = Depends(obter_servico_empresa),
 ) -> None:
     """Realiza a exclusão lógica da empresa parceira (deletado_em preenchido e ativo=False)."""
