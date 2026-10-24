@@ -2,9 +2,9 @@
 
 from sqlalchemy.orm import Session
 
-from model.instituicao_ensino import InstituicaoEnsino
-from repository.repositorio_instituicao import RepositorioInstituicao
-from service.servico_instituicao import ServicoInstituicao
+from app.model.instituicao_ensino import InstituicaoEnsino
+from app.repository.repositorio_instituicao import RepositorioInstituicao
+from app.service.servico_instituicao import ServicoInstituicao
 
 
 def test_listar_instituicoes_retorna_todas_as_instituicoes(sessao: Session):

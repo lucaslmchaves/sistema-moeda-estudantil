@@ -2,11 +2,11 @@
 
 import pytest
 
-from model.instituicao_ensino import InstituicaoEnsino
-from service.excecoes import Conflito, DadoInvalido, NaoEncontrado
-from service.servico_aluno import ServicoAluno
-from tests.fabricas import dados_aluno
-from tests.fakes import RepositorioAlunoFalso, RepositorioInstituicaoFalso
+from app.model.instituicao_ensino import InstituicaoEnsino
+from app.service.excecoes import Conflito, DadoInvalido, NaoEncontrado
+from app.service.servico_aluno import ServicoAluno
+from tests.suporte.fabricas import dados_aluno
+from tests.suporte.fakes import RepositorioAlunoFalso, RepositorioInstituicaoFalso
 
 
 @pytest.fixture

@@ -2,8 +2,8 @@
 
 from sqlalchemy.orm import Session
 
-from model.instituicao_ensino import InstituicaoEnsino
-from repository.repositorio_instituicao import RepositorioInstituicao
+from app.model.instituicao_ensino import InstituicaoEnsino
+from app.repository.repositorio_instituicao import RepositorioInstituicao
 
 
 def test_repositorio_instituicao_listar_e_buscar(sessao: Session):

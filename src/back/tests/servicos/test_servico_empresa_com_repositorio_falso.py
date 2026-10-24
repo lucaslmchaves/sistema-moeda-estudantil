@@ -2,10 +2,10 @@
 
 import pytest
 
-from service.excecoes import Conflito, NaoEncontrado
-from service.servico_empresa import ServicoEmpresa
-from tests.fabricas import dados_empresa
-from tests.fakes import RepositorioEmpresaFalso
+from app.service.excecoes import Conflito, NaoEncontrado
+from app.service.servico_empresa import ServicoEmpresa
+from tests.suporte.fabricas import dados_empresa
+from tests.suporte.fakes import RepositorioEmpresaFalso
 
 
 @pytest.fixture

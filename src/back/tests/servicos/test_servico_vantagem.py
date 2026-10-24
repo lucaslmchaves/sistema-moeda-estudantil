@@ -3,19 +3,19 @@
 import pytest
 from sqlalchemy.orm import Session
 
-from repository.repositorio_empresa import RepositorioEmpresa
-from repository.repositorio_vantagem import RepositorioVantagem
-from service.excecoes import DadoInvalido, NaoEncontrado
-from service.servico_empresa import ServicoEmpresa
-from service.servico_vantagem import (
+from app.repository.repositorio_empresa import RepositorioEmpresa
+from app.repository.repositorio_vantagem import RepositorioVantagem
+from app.service.excecoes import DadoInvalido, NaoEncontrado
+from app.service.servico_empresa import ServicoEmpresa
+from app.service.servico_vantagem import (
     CUSTO_MAXIMO,
     DESCRICAO_TAMANHO_MAXIMO,
     FOTO_TAMANHO_MAXIMO,
     ServicoVantagem,
     detectar_extensao_foto,
 )
-from tests.fabricas import FOTO_JPEG, FOTO_PNG, FOTO_WEBP, dados_empresa
-from tests.fakes import ArmazenamentoFotoFalso
+from tests.suporte.fabricas import FOTO_JPEG, FOTO_PNG, FOTO_WEBP, dados_empresa
+from tests.suporte.fakes import ArmazenamentoFotoFalso
 
 
 @pytest.fixture

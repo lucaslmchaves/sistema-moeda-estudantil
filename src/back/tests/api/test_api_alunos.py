@@ -3,8 +3,8 @@
 from fastapi import status
 from fastapi.testclient import TestClient
 
-from model.instituicao_ensino import InstituicaoEnsino
-from tests.fabricas import dados_aluno
+from app.model.instituicao_ensino import InstituicaoEnsino
+from tests.suporte.fabricas import dados_aluno
 
 
 def test_api_aluno_fluxo_crud_completo(

@@ -3,28 +3,28 @@
 import pytest
 from sqlalchemy.orm import Session
 
-from model.enums import TipoUsuario
-from model.professor import Professor
-from model.vantagem import Vantagem
-from repository.repositorio_aluno import RepositorioAluno
-from repository.repositorio_conta import RepositorioConta
-from repository.repositorio_empresa import RepositorioEmpresa
-from repository.repositorio_instituicao import RepositorioInstituicao
-from repository.repositorio_professor import RepositorioProfessor
-from repository.repositorio_transacao import RepositorioTransacao
-from repository.repositorio_vantagem import RepositorioVantagem
-from service.excecoes import DadoInvalido, NaoEncontrado
-from service.servico_aluno import ServicoAluno
-from service.servico_empresa import ServicoEmpresa
-from service.servico_moedas import (
+from app.model.enums import TipoUsuario
+from app.model.professor import Professor
+from app.model.vantagem import Vantagem
+from app.repository.repositorio_aluno import RepositorioAluno
+from app.repository.repositorio_conta import RepositorioConta
+from app.repository.repositorio_empresa import RepositorioEmpresa
+from app.repository.repositorio_instituicao import RepositorioInstituicao
+from app.repository.repositorio_professor import RepositorioProfessor
+from app.repository.repositorio_transacao import RepositorioTransacao
+from app.repository.repositorio_vantagem import RepositorioVantagem
+from app.service.excecoes import DadoInvalido, NaoEncontrado
+from app.service.servico_aluno import ServicoAluno
+from app.service.servico_empresa import ServicoEmpresa
+from app.service.servico_moedas import (
     ALFABETO_CODIGO,
     CODIGO_TAMANHO,
     MENSAGEM_TAMANHO_MAXIMO,
     VALOR_MAXIMO_ENVIO,
     ServicoMoedas,
 )
-from tests.fabricas import dados_aluno, dados_empresa
-from tests.fakes import NotificadorFalso
+from tests.suporte.fabricas import dados_aluno, dados_empresa
+from tests.suporte.fakes import NotificadorFalso
 
 
 @pytest.fixture

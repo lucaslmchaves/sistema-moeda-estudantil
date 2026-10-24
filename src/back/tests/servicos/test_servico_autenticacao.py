@@ -6,14 +6,14 @@ import jwt
 import pytest
 from sqlalchemy.orm import Session
 
-from model.instituicao_ensino import InstituicaoEnsino
-from repository.repositorio_aluno import RepositorioAluno
-from repository.repositorio_instituicao import RepositorioInstituicao
-from repository.repositorio_usuario import RepositorioUsuario
-from service.excecoes import NaoAutenticado
-from service.servico_aluno import ServicoAluno
-from service.servico_autenticacao import ServicoAutenticacao
-from tests.fabricas import SENHA_PADRAO, dados_aluno
+from app.model.instituicao_ensino import InstituicaoEnsino
+from app.repository.repositorio_aluno import RepositorioAluno
+from app.repository.repositorio_instituicao import RepositorioInstituicao
+from app.repository.repositorio_usuario import RepositorioUsuario
+from app.service.excecoes import NaoAutenticado
+from app.service.servico_aluno import ServicoAluno
+from app.service.servico_autenticacao import ServicoAutenticacao
+from tests.suporte.fabricas import SENHA_PADRAO, dados_aluno
 
 SEGREDO = "segredo-de-teste"
 

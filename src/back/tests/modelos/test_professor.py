@@ -1,8 +1,8 @@
 """Testes unitários das operações específicas da entidade Professor."""
 
-from model.conta import Conta
-from model.enums import TipoUsuario
-from model.professor import Professor
+from app.model.conta import Conta
+from app.model.enums import TipoUsuario
+from app.model.professor import Professor
 
 
 def test_professor_receber_credito_semestral_incrementa_saldo():

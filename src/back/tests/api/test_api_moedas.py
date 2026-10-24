@@ -3,8 +3,8 @@
 from fastapi import status
 from fastapi.testclient import TestClient
 
-from tests.fabricas import FOTO_PNG
-from tests.fakes import NotificadorFalso
+from tests.suporte.fabricas import FOTO_PNG
+from tests.suporte.fakes import NotificadorFalso
 
 
 def _enviar_moedas(cliente, cabecalhos, id_aluno, valor=100, mensagem="Ótima participação"):

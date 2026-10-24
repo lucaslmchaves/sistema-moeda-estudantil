@@ -7,17 +7,17 @@ from sqlalchemy import create_engine, event
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.pool import StaticPool
 
-from controller.dependencias import obter_armazenamento_foto, obter_notificador
-from main import app
-from model.base import Base
-from model.conta import Conta
-from model.enums import TipoUsuario
-from model.instituicao_ensino import InstituicaoEnsino
-from model.professor import Professor
-from model.seguranca import hash_senha
-from repository.database import get_sessao
-from tests.fabricas import SENHA_PADRAO, dados_aluno, dados_empresa, gerar_cpf_valido
-from tests.fakes import ArmazenamentoFotoFalso, NotificadorFalso
+from app.controller.dependencias import obter_armazenamento_foto, obter_notificador
+from app.main import app
+from app.model.base import Base
+from app.model.conta import Conta
+from app.model.enums import TipoUsuario
+from app.model.instituicao_ensino import InstituicaoEnsino
+from app.model.professor import Professor
+from app.model.seguranca import hash_senha
+from app.repository.database import get_sessao
+from tests.suporte.fabricas import SENHA_PADRAO, dados_aluno, dados_empresa, gerar_cpf_valido
+from tests.suporte.fakes import ArmazenamentoFotoFalso, NotificadorFalso
 
 
 @pytest.fixture(scope="session")

@@ -2,9 +2,9 @@
 
 import pytest
 
-from model.aluno import Aluno
-from service.excecoes import Conflito, DadoInvalido
-from service.regras_cadastro import (
+from app.model.aluno import Aluno
+from app.service.excecoes import Conflito, DadoInvalido
+from app.service.regras_cadastro import (
     exigir_texto,
     garantir_login_livre,
     garantir_unico,

@@ -3,7 +3,7 @@
 from fastapi import status
 from fastapi.testclient import TestClient
 
-from tests.fabricas import SENHA_PADRAO
+from tests.suporte.fabricas import SENHA_PADRAO
 
 
 def test_login_devolve_token_e_dados_do_usuario(cliente_api: TestClient, cadastrar_aluno):

@@ -3,8 +3,8 @@
 import pytest
 from sqlalchemy.orm import Session
 
-from repository.armazenamento_foto_local import ArmazenamentoFotoLocal
-from repository.interfaces import (
+from app.repository.armazenamento_foto_local import ArmazenamentoFotoLocal
+from app.repository.interfaces import (
     IArmazenamentoFoto,
     IRepositorioAluno,
     IRepositorioConta,
@@ -15,15 +15,15 @@ from repository.interfaces import (
     IRepositorioUsuario,
     IRepositorioVantagem,
 )
-from repository.repositorio_aluno import RepositorioAluno
-from repository.repositorio_conta import RepositorioConta
-from repository.repositorio_empresa import RepositorioEmpresa
-from repository.repositorio_instituicao import RepositorioInstituicao
-from repository.repositorio_professor import RepositorioProfessor
-from repository.repositorio_transacao import RepositorioTransacao
-from repository.repositorio_usuario import RepositorioUsuario
-from repository.repositorio_vantagem import RepositorioVantagem
-from tests.fakes import (
+from app.repository.repositorio_aluno import RepositorioAluno
+from app.repository.repositorio_conta import RepositorioConta
+from app.repository.repositorio_empresa import RepositorioEmpresa
+from app.repository.repositorio_instituicao import RepositorioInstituicao
+from app.repository.repositorio_professor import RepositorioProfessor
+from app.repository.repositorio_transacao import RepositorioTransacao
+from app.repository.repositorio_usuario import RepositorioUsuario
+from app.repository.repositorio_vantagem import RepositorioVantagem
+from tests.suporte.fakes import (
     ArmazenamentoFotoFalso,
     RepositorioAlunoFalso,
     RepositorioEmpresaFalso,

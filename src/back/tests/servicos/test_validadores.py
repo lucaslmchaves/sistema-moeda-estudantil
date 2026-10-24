@@ -2,7 +2,7 @@
 
 import pytest
 
-from service.validadores import (
+from app.service.validadores import (
     normalizar_cnpj,
     normalizar_cpf,
     normalizar_email,

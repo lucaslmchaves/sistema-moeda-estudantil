@@ -3,7 +3,7 @@
 from fastapi import status
 from fastapi.testclient import TestClient
 
-from model.instituicao_ensino import InstituicaoEnsino
+from app.model.instituicao_ensino import InstituicaoEnsino
 
 
 def test_api_instituicoes_retorna_lista_com_sucesso(

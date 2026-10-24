@@ -3,11 +3,11 @@
 import pytest
 from sqlalchemy.orm import Session
 
-from model.empresa_parceira import EmpresaParceira
-from model.enums import TipoUsuario
-from model.vantagem import Vantagem
-from repository.repositorio_empresa import RepositorioEmpresa
-from repository.repositorio_vantagem import RepositorioVantagem
+from app.model.empresa_parceira import EmpresaParceira
+from app.model.enums import TipoUsuario
+from app.model.vantagem import Vantagem
+from app.repository.repositorio_empresa import RepositorioEmpresa
+from app.repository.repositorio_vantagem import RepositorioVantagem
 
 
 def _empresa(sessao: Session, sufixo: str) -> EmpresaParceira:

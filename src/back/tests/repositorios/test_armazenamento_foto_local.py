@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from repository.armazenamento_foto_local import ArmazenamentoFotoLocal
+from app.repository.armazenamento_foto_local import ArmazenamentoFotoLocal
 
 
 def test_salvar_grava_o_arquivo_na_pasta_e_devolve_o_caminho_publico(tmp_path: Path):

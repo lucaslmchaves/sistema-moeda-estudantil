@@ -3,7 +3,7 @@
 from fastapi import status
 from fastapi.testclient import TestClient
 
-from main import app
+from app.main import app
 
 PALAVRAS_PROIBIDAS = [
     "Field required",

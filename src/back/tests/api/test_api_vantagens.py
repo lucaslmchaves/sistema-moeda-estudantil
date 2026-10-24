@@ -3,8 +3,8 @@
 from fastapi import status
 from fastapi.testclient import TestClient
 
-from tests.fabricas import FOTO_PNG
-from tests.fakes import ArmazenamentoFotoFalso
+from tests.suporte.fabricas import FOTO_PNG
+from tests.suporte.fakes import ArmazenamentoFotoFalso
 
 
 def _enviar_vantagem(

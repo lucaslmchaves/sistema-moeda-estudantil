@@ -2,9 +2,9 @@
 
 from sqlalchemy.orm import Session
 
-from model.empresa_parceira import EmpresaParceira
-from model.enums import TipoUsuario
-from repository.repositorio_empresa import RepositorioEmpresa
+from app.model.empresa_parceira import EmpresaParceira
+from app.model.enums import TipoUsuario
+from app.repository.repositorio_empresa import RepositorioEmpresa
 
 
 def test_repositorio_empresa_crud_e_consultas(sessao: Session):

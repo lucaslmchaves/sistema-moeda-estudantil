@@ -4,22 +4,22 @@ from datetime import datetime, timezone
 
 from sqlalchemy.orm import Session
 
-from model.envio_moedas import EnvioMoedas
-from model.instituicao_ensino import InstituicaoEnsino
-from model.professor import Professor
-from model.resgate_vantagem import ResgateVantagem
-from model.vantagem import Vantagem
-from repository.repositorio_aluno import RepositorioAluno
-from repository.repositorio_conta import RepositorioConta
-from repository.repositorio_empresa import RepositorioEmpresa
-from repository.repositorio_instituicao import RepositorioInstituicao
-from repository.repositorio_professor import RepositorioProfessor
-from repository.repositorio_transacao import RepositorioTransacao
-from repository.repositorio_usuario import RepositorioUsuario
-from repository.repositorio_vantagem import RepositorioVantagem
-from service.servico_aluno import ServicoAluno
-from service.servico_empresa import ServicoEmpresa
-from tests.fabricas import dados_aluno, dados_empresa
+from app.model.envio_moedas import EnvioMoedas
+from app.model.instituicao_ensino import InstituicaoEnsino
+from app.model.professor import Professor
+from app.model.resgate_vantagem import ResgateVantagem
+from app.model.vantagem import Vantagem
+from app.repository.repositorio_aluno import RepositorioAluno
+from app.repository.repositorio_conta import RepositorioConta
+from app.repository.repositorio_empresa import RepositorioEmpresa
+from app.repository.repositorio_instituicao import RepositorioInstituicao
+from app.repository.repositorio_professor import RepositorioProfessor
+from app.repository.repositorio_transacao import RepositorioTransacao
+from app.repository.repositorio_usuario import RepositorioUsuario
+from app.repository.repositorio_vantagem import RepositorioVantagem
+from app.service.servico_aluno import ServicoAluno
+from app.service.servico_empresa import ServicoEmpresa
+from tests.suporte.fabricas import dados_aluno, dados_empresa
 
 
 def test_repositorio_usuario_busca_por_login_e_por_id_ativo(sessao: Session, criar_professor):

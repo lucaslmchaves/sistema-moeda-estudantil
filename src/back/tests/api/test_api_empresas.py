@@ -3,7 +3,7 @@
 from fastapi import status
 from fastapi.testclient import TestClient
 
-from tests.fabricas import dados_empresa
+from tests.suporte.fabricas import dados_empresa
 
 
 def test_api_empresa_fluxo_crud_completo(cliente_api: TestClient, entrar):

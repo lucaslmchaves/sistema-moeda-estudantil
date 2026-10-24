@@ -4,11 +4,11 @@ import pytest
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from model.aluno import Aluno
-from model.enums import TipoUsuario
-from model.instituicao_ensino import InstituicaoEnsino
-from model.usuario import Usuario
-from model.seguranca import hash_senha
+from app.model.aluno import Aluno
+from app.model.enums import TipoUsuario
+from app.model.instituicao_ensino import InstituicaoEnsino
+from app.model.usuario import Usuario
+from app.model.seguranca import hash_senha
 
 
 def test_autenticar_com_senha_correta_retorna_true():

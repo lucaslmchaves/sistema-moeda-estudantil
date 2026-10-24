@@ -5,15 +5,15 @@ import smtplib
 
 import pytest
 
-from model.aluno import Aluno
-from model.empresa_parceira import EmpresaParceira
-from model.envio_moedas import EnvioMoedas
-from model.professor import Professor
-from model.resgate_vantagem import ResgateVantagem
-from model.vantagem import Vantagem
-from service import servico_email_externo
-from service.notificador_email import NotificadorEmail
-from service.servico_email_externo import ServicoEmailExterno
+from app.model.aluno import Aluno
+from app.model.empresa_parceira import EmpresaParceira
+from app.model.envio_moedas import EnvioMoedas
+from app.model.professor import Professor
+from app.model.resgate_vantagem import ResgateVantagem
+from app.model.vantagem import Vantagem
+from app.service import servico_email_externo
+from app.service.notificador_email import NotificadorEmail
+from app.service.servico_email_externo import ServicoEmailExterno
 
 
 class SmtpFalso:
