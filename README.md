@@ -168,7 +168,7 @@ senha.
 
 ## Diagrama de Componentes
 
-![Diagrama de componentes](docs/diagramas/sprint2-diagrama-componentes.png)
+![Diagrama de componentes](docs/diagramas/sprint3-diagrama-componentes.png)
 
 ## Modelo Lógico
 
@@ -180,20 +180,22 @@ senha.
 docker-compose.yml
 .env.example
 docs/
-  diagramas/        diagramas de cada sprint
+  diagramas/        versões dos diagramas de cada sprint
   entregas/         PDF de entrega da Sprint 1
   apresentacao/     slides da apresentação final
-  enunciado/
+  enunciado/        enunciado do laboratório
 src/
   back/             API em Python (FastAPI)
-    controller/     rotas, schemas, login e tratamento de erros
-    service/        regras de negócio (cadastros, moedas, vantagens, e-mail)
-    repository/     interfaces, acesso ao banco (SQLAlchemy) e fotos
-    model/          entidades
+    app/
+      controller/   rotas, schemas, permissões e tratamento de erros
+      service/      regras de negócio (cadastros, moedas, vantagens, e-mail)
+      repository/   interfaces, acesso ao banco (SQLAlchemy) e armazenamento de fotos
+      model/        entidades
+      tarefas/      carga inicial e crédito do semestre
     migrations/     migrações (Alembic)
-    tests/          modelos, repositorios, servicos e api
+    tests/          modelos, repositorios, servicos, api e suporte
   front/            interface em React, Vite e Tailwind
-    src/            api, componentes, hooks, paginas, tipos e utils
+    src/            api, componentes, contextos, hooks, paginas, tipos e utils
     tests/          api, componentes, hooks e utils
 ```
 
@@ -224,7 +226,7 @@ O sistema envia o aviso de moedas recebidas e os e-mails do resgate (cupom para 
 A cada semestre, o crédito de 1.000 moedas aos professores é feito com o comando abaixo.
 
 ```bash
-docker compose exec api python -m creditar_semestre
+docker compose exec api python -m app.tarefas.creditar_semestre
 ```
 
 ## Entregas por sprint
