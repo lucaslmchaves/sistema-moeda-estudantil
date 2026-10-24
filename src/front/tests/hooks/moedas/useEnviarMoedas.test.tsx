@@ -3,12 +3,12 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
 import type { FormEvent } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { listarAlunos } from '../../src/api/alunos';
-import { consultarExtrato, enviarMoedas } from '../../src/api/moedas';
-import { useEnviarMoedas } from '../../src/hooks/useEnviarMoedas';
+import { listarAlunos } from '../../../src/api/alunos';
+import { consultarExtrato, enviarMoedas } from '../../../src/api/moedas';
+import { useEnviarMoedas } from '../../../src/hooks/moedas/useEnviarMoedas';
 
-vi.mock('../../src/api/alunos');
-vi.mock('../../src/api/moedas');
+vi.mock('../../../src/api/alunos');
+vi.mock('../../../src/api/moedas');
 
 const ALUNOS = [
   { id_usuario: 3, nome: 'Ana Souza', curso: 'ES' },

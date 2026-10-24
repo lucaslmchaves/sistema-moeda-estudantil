@@ -2,7 +2,7 @@
 // Testes da tabela genérica.
 import { cleanup, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
-import { Tabela } from '../../src/componentes/Tabela';
+import { Tabela } from '../../../src/componentes/tabela/Tabela';
 
 afterEach(cleanup);
 

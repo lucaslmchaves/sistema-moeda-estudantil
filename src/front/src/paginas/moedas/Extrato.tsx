@@ -1,14 +1,14 @@
 // Página de extrato: saldo e movimentações do aluno ou do professor logado.
 import React from 'react';
-import { CabecalhoPagina } from '../componentes/CabecalhoPagina';
-import { Cartao } from '../componentes/Cartao';
-import { Carregando } from '../componentes/Carregando';
-import { EstadoVazio } from '../componentes/EstadoVazio';
-import { MensagemAlerta } from '../componentes/MensagemAlerta';
-import { ColunaTabela, Tabela } from '../componentes/Tabela';
-import { useExtrato } from '../hooks/useExtrato';
-import type { TransacaoExtrato } from '../tipos/moedas';
-import { formatarDataHora, formatarMoedas } from '../utils/formatacao';
+import { CabecalhoPagina } from '../../componentes/layout/CabecalhoPagina';
+import { Cartao } from '../../componentes/layout/Cartao';
+import { Carregando } from '../../componentes/feedback/Carregando';
+import { EstadoVazio } from '../../componentes/feedback/EstadoVazio';
+import { MensagemAlerta } from '../../componentes/feedback/MensagemAlerta';
+import { ColunaTabela, Tabela } from '../../componentes/tabela/Tabela';
+import { useExtrato } from '../../hooks/moedas/useExtrato';
+import type { TransacaoExtrato } from '../../tipos/moedas';
+import { formatarDataHora, formatarMoedas } from '../../utils/formatacao';
 
 // Pinta de verde o que entrou na conta e de vermelho o que saiu.
 function ValorDaTransacao({ valor }: { valor: number }) {

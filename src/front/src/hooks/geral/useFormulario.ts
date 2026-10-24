@@ -1,8 +1,8 @@
 // Hook genérico de formulário: valores, erros por campo, validação e envio.
 import { useCallback, useState } from 'react';
 import type { FormEvent } from 'react';
-import { extrairMensagemErro } from '../utils/erros';
-import type { ErrosValidacao } from '../utils/validacao';
+import { extrairMensagemErro } from '../../utils/erros';
+import type { ErrosValidacao } from '../../utils/validacao';
 
 interface OpcoesFormulario<T> {
   valoresIniciais: T;

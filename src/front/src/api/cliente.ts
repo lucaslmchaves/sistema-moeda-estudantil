@@ -2,7 +2,7 @@
 import { extrairMensagemErro } from '../utils/erros';
 import { EVENTO_SESSAO_EXPIRADA, limparSessao, obterToken } from '../utils/sessao';
 
-export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 // Monta os cabeçalhos: JSON quando o corpo é texto e o token da sessão, se houver.
 function montarCabecalhos(opcoes?: RequestInit): Record<string, string> {

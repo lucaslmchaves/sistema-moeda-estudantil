@@ -3,8 +3,8 @@
 import { act, renderHook } from '@testing-library/react';
 import type { FormEvent, ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useEntrar } from '../../src/hooks/useEntrar';
-import { AutenticacaoContexto } from '../../src/hooks/useAutenticacao';
+import { useEntrar } from '../../../src/hooks/autenticacao/useEntrar';
+import { AutenticacaoContexto } from '../../../src/hooks/autenticacao/useAutenticacao';
 
 const navegar = vi.fn();
 let estadoDaRota: { origem?: string } | null = null;

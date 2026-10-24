@@ -1,10 +1,10 @@
 // Área de risco do formulário de edição: botão e confirmação para excluir o próprio cadastro.
 import React from 'react';
-import { useExclusaoDoCadastro } from '../hooks/useExclusaoDoCadastro';
-import { classeBotao } from '../utils/estilos';
-import { Cartao } from './Cartao';
-import { MensagemAlerta } from './MensagemAlerta';
-import { ModalConfirmacao } from './ModalConfirmacao';
+import { useExclusaoDoCadastro } from '../../hooks/autenticacao/useExclusaoDoCadastro';
+import { classeBotao } from '../../utils/estilos';
+import { Cartao } from '../layout/Cartao';
+import { MensagemAlerta } from '../feedback/MensagemAlerta';
+import { ModalConfirmacao } from '../feedback/ModalConfirmacao';
 
 interface ExclusaoDoCadastroProps {
   texto: string;

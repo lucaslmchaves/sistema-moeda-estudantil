@@ -1,14 +1,14 @@
 // Página de login: entrada de aluno, professor e empresa parceira.
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CabecalhoPagina } from '../componentes/CabecalhoPagina';
-import { CampoFormulario } from '../componentes/CampoFormulario';
-import { Cartao } from '../componentes/Cartao';
-import { MensagemAlerta } from '../componentes/MensagemAlerta';
-import { useAutenticacao } from '../hooks/useAutenticacao';
-import { useEntrar } from '../hooks/useEntrar';
-import { useMensagemNavegacao } from '../hooks/useMensagemNavegacao';
-import { classeBotao } from '../utils/estilos';
+import { CabecalhoPagina } from '../../componentes/layout/CabecalhoPagina';
+import { CampoFormulario } from '../../componentes/formulario/CampoFormulario';
+import { Cartao } from '../../componentes/layout/Cartao';
+import { MensagemAlerta } from '../../componentes/feedback/MensagemAlerta';
+import { useAutenticacao } from '../../hooks/autenticacao/useAutenticacao';
+import { useEntrar } from '../../hooks/autenticacao/useEntrar';
+import { useMensagemNavegacao } from '../../hooks/geral/useMensagemNavegacao';
+import { classeBotao } from '../../utils/estilos';
 
 // Monta o formulário de login com os links para os cadastros.
 export const Entrar: React.FC = () => {

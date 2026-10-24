@@ -1,9 +1,9 @@
 // Hook do catálogo: lista as vantagens e resgata a escolhida pelo aluno.
 import { useCallback, useEffect, useState } from 'react';
-import { resgatarVantagem } from '../api/moedas';
-import { listarVantagens } from '../api/vantagens';
-import type { Vantagem } from '../tipos/vantagem';
-import { extrairMensagemErro } from '../utils/erros';
+import { resgatarVantagem } from '../../api/moedas';
+import { listarVantagens } from '../../api/vantagens';
+import type { Vantagem } from '../../tipos/vantagem';
+import { extrairMensagemErro } from '../../utils/erros';
 import { useExtrato } from './useExtrato';
 
 // Carrega o catálogo e o saldo, e controla a confirmação e o resultado do resgate.

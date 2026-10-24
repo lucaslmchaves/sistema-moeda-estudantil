@@ -1,15 +1,15 @@
 // Hook do envio de moedas: carrega os alunos, valida o formulário e envia pela API.
 import { useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
-import { listarAlunos } from '../api/alunos';
-import { enviarMoedas } from '../api/moedas';
-import type { AlunoResumo } from '../tipos/aluno';
-import type { EnvioMoedasFormulario } from '../tipos/moedas';
-import { extrairMensagemErro } from '../utils/erros';
-import { formatarMoedas } from '../utils/formatacao';
-import { validarEnvioMoedas } from '../utils/validacao';
+import { listarAlunos } from '../../api/alunos';
+import { enviarMoedas } from '../../api/moedas';
+import type { AlunoResumo } from '../../tipos/aluno';
+import type { EnvioMoedasFormulario } from '../../tipos/moedas';
+import { extrairMensagemErro } from '../../utils/erros';
+import { formatarMoedas } from '../../utils/formatacao';
+import { validarEnvioMoedas } from '../../utils/validacao';
 import { useExtrato } from './useExtrato';
-import { useFormulario } from './useFormulario';
+import { useFormulario } from '../geral/useFormulario';
 
 const VALORES_INICIAIS: EnvioMoedasFormulario = { id_aluno: '', valor: '', mensagem: '' };
 

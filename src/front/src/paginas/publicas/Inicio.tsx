@@ -1,14 +1,14 @@
 // Página inicial: apresenta o sistema ao visitante e os atalhos do perfil ao usuário logado.
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CabecalhoPagina } from '../componentes/CabecalhoPagina';
-import { Cartao } from '../componentes/Cartao';
-import { MensagemAlerta } from '../componentes/MensagemAlerta';
-import { useAutenticacao } from '../hooks/useAutenticacao';
-import { useExtrato } from '../hooks/useExtrato';
-import { useMensagemNavegacao } from '../hooks/useMensagemNavegacao';
-import { classeBotao } from '../utils/estilos';
-import { formatarMoedas } from '../utils/formatacao';
+import { CabecalhoPagina } from '../../componentes/layout/CabecalhoPagina';
+import { Cartao } from '../../componentes/layout/Cartao';
+import { MensagemAlerta } from '../../componentes/feedback/MensagemAlerta';
+import { useAutenticacao } from '../../hooks/autenticacao/useAutenticacao';
+import { useExtrato } from '../../hooks/moedas/useExtrato';
+import { useMensagemNavegacao } from '../../hooks/geral/useMensagemNavegacao';
+import { classeBotao } from '../../utils/estilos';
+import { formatarMoedas } from '../../utils/formatacao';
 
 interface Atalho {
   titulo: string;

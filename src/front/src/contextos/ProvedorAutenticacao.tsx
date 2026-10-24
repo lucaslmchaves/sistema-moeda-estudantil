@@ -1,7 +1,7 @@
 // Provedor que guarda a sessão e oferece entrar e sair a toda a aplicação.
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { entrar as entrarNaApi } from '../api/autenticacao';
-import { AutenticacaoContexto } from '../hooks/useAutenticacao';
+import { AutenticacaoContexto } from '../hooks/autenticacao/useAutenticacao';
 import type { UsuarioLogado } from '../tipos/autenticacao';
 import { EVENTO_SESSAO_EXPIRADA, limparSessao, obterSessao, salvarSessao } from '../utils/sessao';
 

@@ -2,11 +2,11 @@
 import { useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { atualizarEmpresa, buscarEmpresaPorId, criarEmpresa } from '../api/empresas';
-import type { Empresa, EmpresaFormulario } from '../tipos/empresa';
-import { extrairMensagemErro } from '../utils/erros';
-import { validarEmpresa } from '../utils/validacao';
-import { useFormulario } from './useFormulario';
+import { atualizarEmpresa, buscarEmpresaPorId, criarEmpresa } from '../../api/empresas';
+import type { Empresa, EmpresaFormulario } from '../../tipos/empresa';
+import { extrairMensagemErro } from '../../utils/erros';
+import { validarEmpresa } from '../../utils/validacao';
+import { useFormulario } from '../geral/useFormulario';
 
 const VALORES_INICIAIS: EmpresaFormulario = {
   nome: '',

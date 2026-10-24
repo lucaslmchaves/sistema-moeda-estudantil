@@ -3,15 +3,15 @@
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { entrar } from '../../src/api/autenticacao';
-import { Cabecalho } from '../../src/componentes/Cabecalho';
-import { RotaProtegida } from '../../src/componentes/RotaProtegida';
-import { ProvedorAutenticacao } from '../../src/contextos/ProvedorAutenticacao';
-import { useAutenticacao } from '../../src/hooks/useAutenticacao';
-import type { UsuarioLogado } from '../../src/tipos/autenticacao';
-import { EVENTO_SESSAO_EXPIRADA, obterSessao, salvarSessao } from '../../src/utils/sessao';
+import { entrar } from '../../../src/api/autenticacao';
+import { Cabecalho } from '../../../src/componentes/layout/Cabecalho';
+import { RotaProtegida } from '../../../src/componentes/acesso/RotaProtegida';
+import { ProvedorAutenticacao } from '../../../src/contextos/ProvedorAutenticacao';
+import { useAutenticacao } from '../../../src/hooks/autenticacao/useAutenticacao';
+import type { UsuarioLogado } from '../../../src/tipos/autenticacao';
+import { EVENTO_SESSAO_EXPIRADA, obterSessao, salvarSessao } from '../../../src/utils/sessao';
 
-vi.mock('../../src/api/autenticacao');
+vi.mock('../../../src/api/autenticacao');
 
 const ANA: UsuarioLogado = { id_usuario: 3, tipo_usuario: 'ALUNO', nome: 'Ana', login: 'ana' };
 

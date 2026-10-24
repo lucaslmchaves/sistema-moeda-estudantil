@@ -1,6 +1,6 @@
 // Contexto e hook de autenticação: quem está logado e como entrar e sair.
 import { createContext, useContext } from 'react';
-import type { UsuarioLogado } from '../tipos/autenticacao';
+import type { UsuarioLogado } from '../../tipos/autenticacao';
 
 export interface ContextoAutenticacao {
   usuario: UsuarioLogado | null;

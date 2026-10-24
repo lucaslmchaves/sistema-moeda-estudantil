@@ -1,12 +1,12 @@
 // Página em que a empresa parceira cadastra uma vantagem com descrição, custo e foto.
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CabecalhoPagina } from '../componentes/CabecalhoPagina';
-import { CampoFormulario } from '../componentes/CampoFormulario';
-import { Cartao } from '../componentes/Cartao';
-import { MensagemAlerta } from '../componentes/MensagemAlerta';
-import { useVantagemFormulario } from '../hooks/useVantagemFormulario';
-import { CLASSE_ACOES_FORMULARIO, CLASSE_GRADE_FORMULARIO, classeBotao } from '../utils/estilos';
+import { CabecalhoPagina } from '../../componentes/layout/CabecalhoPagina';
+import { CampoFormulario } from '../../componentes/formulario/CampoFormulario';
+import { Cartao } from '../../componentes/layout/Cartao';
+import { MensagemAlerta } from '../../componentes/feedback/MensagemAlerta';
+import { useVantagemFormulario } from '../../hooks/cadastros/useVantagemFormulario';
+import { CLASSE_ACOES_FORMULARIO, CLASSE_GRADE_FORMULARIO, classeBotao } from '../../utils/estilos';
 
 // Monta o formulário de vantagem, com a escolha da foto do produto.
 export const VantagemFormulario: React.FC = () => {

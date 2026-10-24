@@ -1,6 +1,6 @@
 // Cartão branco com borda e sombra leve, usado para agrupar conteúdo.
 import React from 'react';
-import { CLASSE_CARTAO } from '../utils/estilos';
+import { CLASSE_CARTAO } from '../../utils/estilos';
 
 interface CartaoProps {
   children: React.ReactNode;

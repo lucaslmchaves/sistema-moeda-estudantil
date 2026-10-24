@@ -3,13 +3,13 @@
 import { act, renderHook } from '@testing-library/react';
 import type { FormEvent } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { criarVantagem } from '../../src/api/vantagens';
-import { useVantagemFormulario } from '../../src/hooks/useVantagemFormulario';
+import { criarVantagem } from '../../../src/api/vantagens';
+import { useVantagemFormulario } from '../../../src/hooks/cadastros/useVantagemFormulario';
 
 const navegar = vi.fn();
 
 vi.mock('react-router-dom', () => ({ useNavigate: () => navegar }));
-vi.mock('../../src/api/vantagens');
+vi.mock('../../../src/api/vantagens');
 
 const novoEvento = () => ({ preventDefault: vi.fn() }) as unknown as FormEvent;
 const FOTO = new File(['x'], 'foto.png', { type: 'image/png' });

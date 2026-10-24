@@ -1,9 +1,9 @@
 // Barra superior com o logotipo, os links do perfil e a saída do sistema.
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useAutenticacao } from '../hooks/useAutenticacao';
-import { classeBotao, classeLinkNavegacao } from '../utils/estilos';
-import { linksDoUsuario } from '../utils/navegacao';
+import { useAutenticacao } from '../../hooks/autenticacao/useAutenticacao';
+import { classeBotao, classeLinkNavegacao } from '../../utils/estilos';
+import { linksDoUsuario } from '../../utils/navegacao';
 
 // Mostra a navegação do perfil logado, destacando a área atual, e o botão de sair.
 export const Cabecalho: React.FC = () => {

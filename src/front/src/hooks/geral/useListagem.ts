@@ -1,7 +1,7 @@
 // Hook de listagem: carrega os itens, mostra mensagens e exclui com confirmação.
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { extrairMensagemErro } from '../utils/erros';
+import { extrairMensagemErro } from '../../utils/erros';
 
 interface OpcoesListagem<T> {
   carregarFn: () => Promise<T[]>;

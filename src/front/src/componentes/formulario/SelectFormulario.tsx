@@ -1,6 +1,6 @@
 // Campo de seleção com rótulo e mensagem de erro, no mesmo padrão dos campos de texto.
 import React from 'react';
-import { classeControle } from '../utils/estilos';
+import { classeControle } from '../../utils/estilos';
 import { CampoFormulario } from './CampoFormulario';
 
 interface OpcaoSelect {

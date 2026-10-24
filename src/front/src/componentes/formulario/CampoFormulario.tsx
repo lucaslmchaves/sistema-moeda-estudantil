@@ -1,6 +1,6 @@
 // Campo de formulário com rótulo, dica e mensagem de erro acessíveis.
 import React from 'react';
-import { classeControle } from '../utils/estilos';
+import { classeControle } from '../../utils/estilos';
 
 interface CampoFormularioProps {
   id: string;

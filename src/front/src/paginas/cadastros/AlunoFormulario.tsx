@@ -1,17 +1,17 @@
 // Página de cadastro do aluno e de edição do próprio cadastro.
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { excluirAluno } from '../api/alunos';
-import { CabecalhoPagina } from '../componentes/CabecalhoPagina';
-import { CampoFormulario } from '../componentes/CampoFormulario';
-import { Cartao } from '../componentes/Cartao';
-import { Carregando } from '../componentes/Carregando';
-import { ExclusaoDoCadastro } from '../componentes/ExclusaoDoCadastro';
-import { MensagemAlerta } from '../componentes/MensagemAlerta';
-import { SelectFormulario } from '../componentes/SelectFormulario';
-import { useAlunoFormulario } from '../hooks/useAlunoFormulario';
-import type { AlunoFormulario as ValoresAluno } from '../tipos/aluno';
-import { CLASSE_ACOES_FORMULARIO, CLASSE_GRADE_FORMULARIO, classeBotao } from '../utils/estilos';
+import { excluirAluno } from '../../api/alunos';
+import { CabecalhoPagina } from '../../componentes/layout/CabecalhoPagina';
+import { CampoFormulario } from '../../componentes/formulario/CampoFormulario';
+import { Cartao } from '../../componentes/layout/Cartao';
+import { Carregando } from '../../componentes/feedback/Carregando';
+import { ExclusaoDoCadastro } from '../../componentes/acesso/ExclusaoDoCadastro';
+import { MensagemAlerta } from '../../componentes/feedback/MensagemAlerta';
+import { SelectFormulario } from '../../componentes/formulario/SelectFormulario';
+import { useAlunoFormulario } from '../../hooks/cadastros/useAlunoFormulario';
+import type { AlunoFormulario as ValoresAluno } from '../../tipos/aluno';
+import { CLASSE_ACOES_FORMULARIO, CLASSE_GRADE_FORMULARIO, classeBotao } from '../../utils/estilos';
 
 type CampoTexto = Exclude<keyof ValoresAluno, 'id_instituicao'>;
 

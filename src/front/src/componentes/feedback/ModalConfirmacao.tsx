@@ -1,6 +1,6 @@
 // Janela de confirmação para ações que não podem ser desfeitas.
 import React from 'react';
-import { classeBotao } from '../utils/estilos';
+import { classeBotao } from '../../utils/estilos';
 
 interface ModalConfirmacaoProps {
   aberto: boolean;

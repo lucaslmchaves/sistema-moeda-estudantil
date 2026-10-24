@@ -3,8 +3,8 @@
 import { act, renderHook } from '@testing-library/react';
 import type { FormEvent } from 'react';
 import { describe, expect, it, vi } from 'vitest';
-import { useFormulario } from '../../src/hooks/useFormulario';
-import type { ErrosValidacao } from '../../src/utils/validacao';
+import { useFormulario } from '../../../src/hooks/geral/useFormulario';
+import type { ErrosValidacao } from '../../../src/utils/validacao';
 
 type Valores = { nome: string; email: string };
 

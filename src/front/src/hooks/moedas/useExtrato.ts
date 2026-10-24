@@ -1,8 +1,8 @@
 // Hook do extrato: carrega o saldo e as movimentações do usuário logado.
 import { useCallback, useEffect, useState } from 'react';
-import { consultarExtrato } from '../api/moedas';
-import type { Extrato } from '../tipos/moedas';
-import { extrairMensagemErro } from '../utils/erros';
+import { consultarExtrato } from '../../api/moedas';
+import type { Extrato } from '../../tipos/moedas';
+import { extrairMensagemErro } from '../../utils/erros';
 
 // Busca o extrato ao abrir a tela e permite recarregá-lo depois de uma operação.
 export function useExtrato() {

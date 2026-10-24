@@ -1,16 +1,16 @@
 // Página de cadastro da empresa parceira e de edição do próprio cadastro.
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { excluirEmpresa } from '../api/empresas';
-import { CabecalhoPagina } from '../componentes/CabecalhoPagina';
-import { CampoFormulario } from '../componentes/CampoFormulario';
-import { Cartao } from '../componentes/Cartao';
-import { Carregando } from '../componentes/Carregando';
-import { ExclusaoDoCadastro } from '../componentes/ExclusaoDoCadastro';
-import { MensagemAlerta } from '../componentes/MensagemAlerta';
-import { useEmpresaFormulario } from '../hooks/useEmpresaFormulario';
-import type { EmpresaFormulario as ValoresEmpresa } from '../tipos/empresa';
-import { CLASSE_ACOES_FORMULARIO, CLASSE_GRADE_FORMULARIO, classeBotao } from '../utils/estilos';
+import { excluirEmpresa } from '../../api/empresas';
+import { CabecalhoPagina } from '../../componentes/layout/CabecalhoPagina';
+import { CampoFormulario } from '../../componentes/formulario/CampoFormulario';
+import { Cartao } from '../../componentes/layout/Cartao';
+import { Carregando } from '../../componentes/feedback/Carregando';
+import { ExclusaoDoCadastro } from '../../componentes/acesso/ExclusaoDoCadastro';
+import { MensagemAlerta } from '../../componentes/feedback/MensagemAlerta';
+import { useEmpresaFormulario } from '../../hooks/cadastros/useEmpresaFormulario';
+import type { EmpresaFormulario as ValoresEmpresa } from '../../tipos/empresa';
+import { CLASSE_ACOES_FORMULARIO, CLASSE_GRADE_FORMULARIO, classeBotao } from '../../utils/estilos';
 
 // Monta o formulário de empresa; login fixo e senha opcional na edição.
 export const EmpresaFormulario: React.FC = () => {

@@ -1,10 +1,10 @@
 // Hook do formulário de vantagem: valida os dados e a foto e cadastra pela API.
 import type { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { criarVantagem } from '../api/vantagens';
-import type { VantagemFormulario } from '../tipos/vantagem';
-import { validarVantagem } from '../utils/validacao';
-import { useFormulario } from './useFormulario';
+import { criarVantagem } from '../../api/vantagens';
+import type { VantagemFormulario } from '../../tipos/vantagem';
+import { validarVantagem } from '../../utils/validacao';
+import { useFormulario } from '../geral/useFormulario';
 
 const VALORES_INICIAIS: VantagemFormulario = { descricao: '', custo: '', foto: null };
 

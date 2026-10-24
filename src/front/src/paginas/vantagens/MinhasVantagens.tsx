@@ -1,13 +1,13 @@
 // Página da empresa parceira: lista, cadastro e exclusão das suas vantagens.
 import React from 'react';
-import { urlDaApi } from '../api/cliente';
-import { excluirVantagem, listarMinhasVantagens } from '../api/vantagens';
-import { PaginaListagem } from '../componentes/PaginaListagem';
-import type { ColunaTabela } from '../componentes/Tabela';
-import { useListagem } from '../hooks/useListagem';
-import type { Vantagem } from '../tipos/vantagem';
-import { classeBotao } from '../utils/estilos';
-import { formatarMoedas } from '../utils/formatacao';
+import { urlDaApi } from '../../api/cliente';
+import { excluirVantagem, listarMinhasVantagens } from '../../api/vantagens';
+import { PaginaListagem } from '../../componentes/tabela/PaginaListagem';
+import type { ColunaTabela } from '../../componentes/tabela/Tabela';
+import { useListagem } from '../../hooks/geral/useListagem';
+import type { Vantagem } from '../../tipos/vantagem';
+import { classeBotao } from '../../utils/estilos';
+import { formatarMoedas } from '../../utils/formatacao';
 
 const COLUNAS_BASE: ColunaTabela<Vantagem>[] = [
   {

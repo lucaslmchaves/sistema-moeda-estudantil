@@ -2,12 +2,12 @@
 // Testes do hook do catálogo de vantagens, com a API simulada.
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { consultarExtrato, resgatarVantagem } from '../../src/api/moedas';
-import { listarVantagens } from '../../src/api/vantagens';
-import { useCatalogo } from '../../src/hooks/useCatalogo';
+import { consultarExtrato, resgatarVantagem } from '../../../src/api/moedas';
+import { listarVantagens } from '../../../src/api/vantagens';
+import { useCatalogo } from '../../../src/hooks/moedas/useCatalogo';
 
-vi.mock('../../src/api/moedas');
-vi.mock('../../src/api/vantagens');
+vi.mock('../../../src/api/moedas');
+vi.mock('../../../src/api/vantagens');
 
 const ALMOCO = {
   id_vantagem: 5,

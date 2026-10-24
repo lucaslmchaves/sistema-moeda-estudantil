@@ -3,13 +3,13 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
 import type { FormEvent } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { atualizarEmpresa, buscarEmpresaPorId, criarEmpresa } from '../../src/api/empresas';
-import { useEmpresaFormulario } from '../../src/hooks/useEmpresaFormulario';
+import { atualizarEmpresa, buscarEmpresaPorId, criarEmpresa } from '../../../src/api/empresas';
+import { useEmpresaFormulario } from '../../../src/hooks/cadastros/useEmpresaFormulario';
 
 const navegar = vi.fn();
 
 vi.mock('react-router-dom', () => ({ useNavigate: () => navegar }));
-vi.mock('../../src/api/empresas');
+vi.mock('../../../src/api/empresas');
 
 const EMPRESA = {
   id_usuario: 9,

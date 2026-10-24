@@ -1,14 +1,14 @@
 // Página em que o professor envia moedas a um aluno, com o motivo do reconhecimento.
 import React from 'react';
-import { CabecalhoPagina } from '../componentes/CabecalhoPagina';
-import { CampoFormulario } from '../componentes/CampoFormulario';
-import { Cartao } from '../componentes/Cartao';
-import { Carregando } from '../componentes/Carregando';
-import { MensagemAlerta } from '../componentes/MensagemAlerta';
-import { SelectFormulario } from '../componentes/SelectFormulario';
-import { useEnviarMoedas } from '../hooks/useEnviarMoedas';
-import { CLASSE_ACOES_FORMULARIO, classeBotao, classeControle } from '../utils/estilos';
-import { formatarMoedas } from '../utils/formatacao';
+import { CabecalhoPagina } from '../../componentes/layout/CabecalhoPagina';
+import { CampoFormulario } from '../../componentes/formulario/CampoFormulario';
+import { Cartao } from '../../componentes/layout/Cartao';
+import { Carregando } from '../../componentes/feedback/Carregando';
+import { MensagemAlerta } from '../../componentes/feedback/MensagemAlerta';
+import { SelectFormulario } from '../../componentes/formulario/SelectFormulario';
+import { useEnviarMoedas } from '../../hooks/moedas/useEnviarMoedas';
+import { CLASSE_ACOES_FORMULARIO, classeBotao, classeControle } from '../../utils/estilos';
+import { formatarMoedas } from '../../utils/formatacao';
 
 // Monta o formulário de envio: aluno, valor em moedas e mensagem obrigatória.
 export const EnviarMoedas: React.FC = () => {

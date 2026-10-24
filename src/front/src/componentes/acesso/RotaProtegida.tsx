@@ -1,8 +1,8 @@
 // Guarda de rota: só deixa passar quem está logado com um dos perfis permitidos.
 import React, { useRef } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAutenticacao } from '../hooks/useAutenticacao';
-import type { TipoUsuario } from '../tipos/autenticacao';
+import { useAutenticacao } from '../../hooks/autenticacao/useAutenticacao';
+import type { TipoUsuario } from '../../tipos/autenticacao';
 
 interface RotaProtegidaProps {
   perfis: TipoUsuario[];

@@ -1,7 +1,7 @@
 // Hook da exclusão do próprio cadastro: confirma, exclui, encerra a sessão e volta ao login.
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { extrairMensagemErro } from '../utils/erros';
+import { extrairMensagemErro } from '../../utils/erros';
 import { useAutenticacao } from './useAutenticacao';
 
 // Controla a confirmação e a execução da exclusão do cadastro do usuário logado.

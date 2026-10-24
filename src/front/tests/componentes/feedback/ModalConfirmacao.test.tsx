@@ -2,7 +2,7 @@
 // Testes do modal de confirmação.
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { ModalConfirmacao } from '../../src/componentes/ModalConfirmacao';
+import { ModalConfirmacao } from '../../../src/componentes/feedback/ModalConfirmacao';
 
 afterEach(cleanup);
 

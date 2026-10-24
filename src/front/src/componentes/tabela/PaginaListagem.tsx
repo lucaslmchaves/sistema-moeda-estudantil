@@ -1,12 +1,12 @@
 // Página padrão de listagem: cabeçalho, alertas, tabela e confirmação de exclusão.
 import { Link } from 'react-router-dom';
-import type { EstadoListagem } from '../hooks/useListagem';
-import { classeBotao } from '../utils/estilos';
-import { CabecalhoPagina } from './CabecalhoPagina';
-import { Carregando } from './Carregando';
-import { EstadoVazio } from './EstadoVazio';
-import { MensagemAlerta } from './MensagemAlerta';
-import { ModalConfirmacao } from './ModalConfirmacao';
+import type { EstadoListagem } from '../../hooks/geral/useListagem';
+import { classeBotao } from '../../utils/estilos';
+import { CabecalhoPagina } from '../layout/CabecalhoPagina';
+import { Carregando } from '../feedback/Carregando';
+import { EstadoVazio } from '../feedback/EstadoVazio';
+import { MensagemAlerta } from '../feedback/MensagemAlerta';
+import { ModalConfirmacao } from '../feedback/ModalConfirmacao';
 import { ColunaTabela, Tabela } from './Tabela';
 
 interface PaginaListagemProps<T> {

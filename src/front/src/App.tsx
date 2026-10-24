@@ -1,18 +1,18 @@
 // Componente raiz: sessão, roteador, cabeçalho e área de conteúdo das páginas.
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Cabecalho } from './componentes/Cabecalho';
-import { RotaProtegida } from './componentes/RotaProtegida';
+import { Cabecalho } from './componentes/layout/Cabecalho';
+import { RotaProtegida } from './componentes/acesso/RotaProtegida';
 import { ProvedorAutenticacao } from './contextos/ProvedorAutenticacao';
-import { AlunoFormulario } from './paginas/AlunoFormulario';
-import { CatalogoVantagens } from './paginas/CatalogoVantagens';
-import { EmpresaFormulario } from './paginas/EmpresaFormulario';
-import { EnviarMoedas } from './paginas/EnviarMoedas';
-import { Entrar } from './paginas/Entrar';
-import { Extrato } from './paginas/Extrato';
-import { Inicio } from './paginas/Inicio';
-import { MinhasVantagens } from './paginas/MinhasVantagens';
-import { VantagemFormulario } from './paginas/VantagemFormulario';
+import { AlunoFormulario } from './paginas/cadastros/AlunoFormulario';
+import { CatalogoVantagens } from './paginas/moedas/CatalogoVantagens';
+import { EmpresaFormulario } from './paginas/cadastros/EmpresaFormulario';
+import { EnviarMoedas } from './paginas/moedas/EnviarMoedas';
+import { Entrar } from './paginas/publicas/Entrar';
+import { Extrato } from './paginas/moedas/Extrato';
+import { Inicio } from './paginas/publicas/Inicio';
+import { MinhasVantagens } from './paginas/vantagens/MinhasVantagens';
+import { VantagemFormulario } from './paginas/vantagens/VantagemFormulario';
 
 // Liga cada rota à sua página, protegendo as telas de cada perfil.
 export const App: React.FC = () => {

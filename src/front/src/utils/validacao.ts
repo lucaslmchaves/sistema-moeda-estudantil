@@ -103,10 +103,10 @@ export interface DadosValidacaoVantagem {
 }
 
 export const MENSAGEM_TAMANHO_MAXIMO = 500;
-export const DESCRICAO_TAMANHO_MAXIMO = 255;
+const DESCRICAO_TAMANHO_MAXIMO = 255;
 export const CUSTO_MAXIMO = 1_000_000;
 export const FOTO_TAMANHO_MAXIMO = 2 * 1024 * 1024;
-export const TIPOS_FOTO = ['image/jpeg', 'image/png', 'image/webp'];
+const TIPOS_FOTO = ['image/jpeg', 'image/png', 'image/webp'];
 
 // Confere um número inteiro positivo digitado como texto, dentro do limite.
 function validarInteiroPositivo(

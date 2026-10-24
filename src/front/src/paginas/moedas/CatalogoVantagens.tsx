@@ -1,14 +1,14 @@
 // Página do aluno: catálogo das vantagens das empresas parceiras e resgate com moedas.
 import React from 'react';
-import { urlDaApi } from '../api/cliente';
-import { CabecalhoPagina } from '../componentes/CabecalhoPagina';
-import { Carregando } from '../componentes/Carregando';
-import { EstadoVazio } from '../componentes/EstadoVazio';
-import { MensagemAlerta } from '../componentes/MensagemAlerta';
-import { ModalConfirmacao } from '../componentes/ModalConfirmacao';
-import { useCatalogo } from '../hooks/useCatalogo';
-import { CLASSE_CARTAO, classeBotao } from '../utils/estilos';
-import { formatarMoedas } from '../utils/formatacao';
+import { urlDaApi } from '../../api/cliente';
+import { CabecalhoPagina } from '../../componentes/layout/CabecalhoPagina';
+import { Carregando } from '../../componentes/feedback/Carregando';
+import { EstadoVazio } from '../../componentes/feedback/EstadoVazio';
+import { MensagemAlerta } from '../../componentes/feedback/MensagemAlerta';
+import { ModalConfirmacao } from '../../componentes/feedback/ModalConfirmacao';
+import { useCatalogo } from '../../hooks/moedas/useCatalogo';
+import { CLASSE_CARTAO, classeBotao } from '../../utils/estilos';
+import { formatarMoedas } from '../../utils/formatacao';
 
 // Mostra um cartão por vantagem, com foto, empresa, custo e o botão de resgate.
 export const CatalogoVantagens: React.FC = () => {

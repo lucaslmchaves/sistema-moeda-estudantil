@@ -1,9 +1,9 @@
 // Hook do formulário de login: valida, autentica e leva o usuário à tela de destino.
 import type { FormEvent } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { validarLogin } from '../utils/validacao';
+import { validarLogin } from '../../utils/validacao';
 import { useAutenticacao } from './useAutenticacao';
-import { useFormulario } from './useFormulario';
+import { useFormulario } from '../geral/useFormulario';
 
 type LoginFormulario = { login: string; senha: string };
 

@@ -3,15 +3,15 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
 import type { FormEvent } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { atualizarAluno, buscarAlunoPorId, criarAluno } from '../../src/api/alunos';
-import { listarInstituicoes } from '../../src/api/instituicoes';
-import { useAlunoFormulario } from '../../src/hooks/useAlunoFormulario';
+import { atualizarAluno, buscarAlunoPorId, criarAluno } from '../../../src/api/alunos';
+import { listarInstituicoes } from '../../../src/api/instituicoes';
+import { useAlunoFormulario } from '../../../src/hooks/cadastros/useAlunoFormulario';
 
 const navegar = vi.fn();
 
 vi.mock('react-router-dom', () => ({ useNavigate: () => navegar }));
-vi.mock('../../src/api/alunos');
-vi.mock('../../src/api/instituicoes');
+vi.mock('../../../src/api/alunos');
+vi.mock('../../../src/api/instituicoes');
 
 const INSTITUICOES = [
   { id_instituicao: 1, nome: 'PUC Minas' },

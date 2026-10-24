@@ -2,13 +2,13 @@
 import { useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { atualizarAluno, buscarAlunoPorId, criarAluno } from '../api/alunos';
-import { listarInstituicoes } from '../api/instituicoes';
-import type { Aluno, AlunoFormulario } from '../tipos/aluno';
-import type { Instituicao } from '../tipos/instituicao';
-import { extrairMensagemErro } from '../utils/erros';
-import { validarAluno } from '../utils/validacao';
-import { useFormulario } from './useFormulario';
+import { atualizarAluno, buscarAlunoPorId, criarAluno } from '../../api/alunos';
+import { listarInstituicoes } from '../../api/instituicoes';
+import type { Aluno, AlunoFormulario } from '../../tipos/aluno';
+import type { Instituicao } from '../../tipos/instituicao';
+import { extrairMensagemErro } from '../../utils/erros';
+import { validarAluno } from '../../utils/validacao';
+import { useFormulario } from '../geral/useFormulario';
 
 const VALORES_INICIAIS: AlunoFormulario = {
   nome: '',

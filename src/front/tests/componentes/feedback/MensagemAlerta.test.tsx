@@ -2,7 +2,7 @@
 // Testes da caixa de alerta.
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { MensagemAlerta } from '../../src/componentes/MensagemAlerta';
+import { MensagemAlerta } from '../../../src/componentes/feedback/MensagemAlerta';
 
 afterEach(cleanup);
 
