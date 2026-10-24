@@ -54,19 +54,21 @@ export function useEmpresaFormulario(id: string | undefined) {
     };
   }, [id, definirValores, setErroGeral]);
 
-  // Valida o formulário e cadastra ou atualiza a empresa, voltando para a lista.
+  // Valida e cadastra a empresa (vai ao login) ou atualiza o cadastro (vai ao início).
   const enviar = (evento: FormEvent) =>
     submeter(evento, async (valores) => {
       const { nome, email, cnpj, login, senha } = valores;
       if (id) {
         await atualizarEmpresa(Number(id), { nome, email, cnpj, ...(senha ? { senha } : {}) });
-        navigate('/empresas', {
+        navigate('/', {
           state: { mensagemSucesso: `Empresa ${valores.nome} atualizada com sucesso!` },
         });
       } else {
         await criarEmpresa({ nome, email, cnpj, login, senha });
-        navigate('/empresas', {
-          state: { mensagemSucesso: `Empresa ${valores.nome} cadastrada com sucesso!` },
+        navigate('/entrar', {
+          state: {
+            mensagemSucesso: `Empresa ${valores.nome} cadastrada com sucesso! Entre com o seu login e a sua senha.`,
+          },
         });
       }
     });

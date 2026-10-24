@@ -1,23 +1,28 @@
-// Barra superior com o logotipo e os links das áreas do sistema.
+// Barra superior com o logotipo, os links do perfil e a saída do sistema.
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { classeLinkNavegacao } from '../utils/estilos';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAutenticacao } from '../hooks/useAutenticacao';
+import { classeBotao, classeLinkNavegacao } from '../utils/estilos';
+import { linksDoUsuario } from '../utils/navegacao';
 
-const LINKS = [
-  { para: '/', rotulo: 'Início' },
-  { para: '/alunos', rotulo: 'Alunos' },
-  { para: '/empresas', rotulo: 'Empresas Parceiras' },
-];
-
-// Mostra a navegação principal, destacando a área em que o usuário está.
+// Mostra a navegação do perfil logado, destacando a área atual, e o botão de sair.
 export const Cabecalho: React.FC = () => {
+  const { usuario, sair } = useAutenticacao();
+  const navigate = useNavigate();
+
+  // Encerra a sessão e leva o usuário à tela de login.
+  const aoSair = () => {
+    sair();
+    navigate('/entrar');
+  };
+
   return (
-    <header className="flex items-center justify-between border-b border-slate-200 bg-white px-8 py-4 shadow-sm">
+    <header className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 bg-white px-8 py-4 shadow-sm">
       <NavLink to="/" className="text-xl font-bold text-indigo-600 no-underline">
         🪙 Moeda Estudantil
       </NavLink>
-      <nav aria-label="Navegação principal" className="flex gap-6">
-        {LINKS.map(({ para, rotulo }) => (
+      <nav aria-label="Navegação principal" className="flex flex-wrap items-center gap-2">
+        {linksDoUsuario(usuario).map(({ para, rotulo }) => (
           <NavLink
             key={para}
             to={para}
@@ -27,6 +32,14 @@ export const Cabecalho: React.FC = () => {
             {rotulo}
           </NavLink>
         ))}
+        {usuario && (
+          <>
+            <span className="ml-2 text-sm text-slate-500">Olá, {usuario.nome}</span>
+            <button type="button" className={classeBotao('secundario', true)} onClick={aoSair}>
+              Sair
+            </button>
+          </>
+        )}
       </nav>
     </header>
   );

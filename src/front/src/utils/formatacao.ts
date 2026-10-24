@@ -19,3 +19,16 @@ export function formatarCnpj(cnpj: string): string {
   }
   return digitos.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
 }
+
+// Escreve a quantidade de moedas com separador de milhar e a palavra no singular ou plural.
+export function formatarMoedas(valor: number): string {
+  const numero = new Intl.NumberFormat('pt-BR').format(valor);
+  return `${numero} ${Math.abs(valor) === 1 ? 'moeda' : 'moedas'}`;
+}
+
+// Escreve data e hora no padrão brasileiro, sem segundos.
+export function formatarDataHora(iso: string): string {
+  const data = new Date(iso);
+  if (Number.isNaN(data.getTime())) return iso;
+  return new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'short' }).format(data);
+}

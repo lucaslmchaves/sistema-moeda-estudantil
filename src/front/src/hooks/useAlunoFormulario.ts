@@ -67,7 +67,7 @@ export function useAlunoFormulario(id: string | undefined) {
     };
   }, [id, alterarCampo, definirValores, setErroGeral]);
 
-  // Valida o formulário e cadastra ou atualiza o aluno, voltando para a lista.
+  // Valida e cadastra o aluno (vai ao login) ou atualiza o cadastro (vai ao início).
   const enviar = (evento: FormEvent) =>
     submeter(evento, async (valores) => {
       const { nome, email, cpf, rg, endereco, curso, login, senha } = valores;
@@ -83,13 +83,15 @@ export function useAlunoFormulario(id: string | undefined) {
           id_instituicao,
           ...(senha ? { senha } : {}),
         });
-        navigate('/alunos', {
+        navigate('/', {
           state: { mensagemSucesso: `Aluno ${valores.nome} atualizado com sucesso!` },
         });
       } else {
         await criarAluno({ nome, email, cpf, rg, endereco, curso, id_instituicao, login, senha });
-        navigate('/alunos', {
-          state: { mensagemSucesso: `Aluno ${valores.nome} cadastrado com sucesso!` },
+        navigate('/entrar', {
+          state: {
+            mensagemSucesso: `Aluno ${valores.nome} cadastrado com sucesso! Entre com o seu login e a sua senha.`,
+          },
         });
       }
     });

@@ -1,10 +1,12 @@
-// Página de cadastro e de edição de aluno.
+// Página de cadastro do aluno e de edição do próprio cadastro.
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { excluirAluno } from '../api/alunos';
 import { CabecalhoPagina } from '../componentes/CabecalhoPagina';
 import { CampoFormulario } from '../componentes/CampoFormulario';
 import { Cartao } from '../componentes/Cartao';
 import { Carregando } from '../componentes/Carregando';
+import { ExclusaoDoCadastro } from '../componentes/ExclusaoDoCadastro';
 import { MensagemAlerta } from '../componentes/MensagemAlerta';
 import { SelectFormulario } from '../componentes/SelectFormulario';
 import { useAlunoFormulario } from '../hooks/useAlunoFormulario';
@@ -18,6 +20,7 @@ export const AlunoFormulario: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const form = useAlunoFormulario(id);
   const { valores, erros, edicao } = form;
+  const voltarPara = edicao ? '/' : '/entrar';
 
   // Liga um campo de texto ao valor, à alteração e ao erro do formulário.
   const campo = (nome: CampoTexto) => ({
@@ -32,15 +35,15 @@ export const AlunoFormulario: React.FC = () => {
   return (
     <div>
       <CabecalhoPagina
-        titulo={edicao ? 'Editar Aluno' : 'Novo Aluno'}
+        titulo={edicao ? 'Meu Cadastro' : 'Cadastro de Aluno'}
         descricao={
           edicao
-            ? 'Atualize os dados do estudante (o login não pode ser modificado)'
-            : 'Preencha os dados para cadastrar um novo aluno'
+            ? 'Atualize os seus dados (o login não pode ser modificado)'
+            : 'Preencha os dados para participar do sistema de mérito'
         }
       >
-        <Link to="/alunos" className={classeBotao('secundario')}>
-          Voltar para Lista
+        <Link to={voltarPara} className={classeBotao('secundario')}>
+          {edicao ? 'Voltar ao Início' : 'Voltar ao Login'}
         </Link>
       </CabecalhoPagina>
 
@@ -127,7 +130,7 @@ export const AlunoFormulario: React.FC = () => {
           </div>
 
           <div className={CLASSE_ACOES_FORMULARIO}>
-            <Link to="/alunos" className={classeBotao('secundario')}>
+            <Link to={voltarPara} className={classeBotao('secundario')}>
               Cancelar
             </Link>
             <button type="submit" className={classeBotao('primario')} disabled={form.salvando}>
@@ -136,6 +139,13 @@ export const AlunoFormulario: React.FC = () => {
           </div>
         </form>
       </Cartao>
+
+      {edicao && (
+        <ExclusaoDoCadastro
+          texto="Ao excluir o cadastro você deixa de participar do sistema de mérito e perde o acesso ao seu saldo. O histórico de transações é mantido."
+          excluirFn={() => excluirAluno(Number(id))}
+        />
+      )}
     </div>
   );
 };

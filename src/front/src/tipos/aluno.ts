@@ -13,6 +13,12 @@ export interface Aluno {
   ativo: boolean;
 }
 
+export interface AlunoResumo {
+  id_usuario: number;
+  nome: string;
+  curso: string;
+}
+
 export interface AlunoCriar {
   nome: string;
   email: string;

@@ -1,10 +1,12 @@
-// Página de cadastro e de edição de empresa parceira.
+// Página de cadastro da empresa parceira e de edição do próprio cadastro.
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { excluirEmpresa } from '../api/empresas';
 import { CabecalhoPagina } from '../componentes/CabecalhoPagina';
 import { CampoFormulario } from '../componentes/CampoFormulario';
 import { Cartao } from '../componentes/Cartao';
 import { Carregando } from '../componentes/Carregando';
+import { ExclusaoDoCadastro } from '../componentes/ExclusaoDoCadastro';
 import { MensagemAlerta } from '../componentes/MensagemAlerta';
 import { useEmpresaFormulario } from '../hooks/useEmpresaFormulario';
 import type { EmpresaFormulario as ValoresEmpresa } from '../tipos/empresa';
@@ -15,6 +17,7 @@ export const EmpresaFormulario: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const form = useEmpresaFormulario(id);
   const { valores, erros, edicao } = form;
+  const voltarPara = edicao ? '/' : '/entrar';
 
   // Liga um campo ao valor, à alteração e ao erro do formulário.
   const campo = (nome: keyof ValoresEmpresa) => ({
@@ -29,15 +32,15 @@ export const EmpresaFormulario: React.FC = () => {
   return (
     <div>
       <CabecalhoPagina
-        titulo={edicao ? 'Editar Empresa Parceira' : 'Nova Empresa Parceira'}
+        titulo={edicao ? 'Meu Cadastro' : 'Cadastro de Empresa Parceira'}
         descricao={
           edicao
-            ? 'Atualize os dados da empresa parceira (o login não pode ser modificado)'
+            ? 'Atualize os dados da sua empresa (o login não pode ser modificado)'
             : 'Preencha os dados cadastrais da empresa parceira'
         }
       >
-        <Link to="/empresas" className={classeBotao('secundario')}>
-          Voltar para Lista
+        <Link to={voltarPara} className={classeBotao('secundario')}>
+          {edicao ? 'Voltar ao Início' : 'Voltar ao Login'}
         </Link>
       </CabecalhoPagina>
 
@@ -96,7 +99,7 @@ export const EmpresaFormulario: React.FC = () => {
           </div>
 
           <div className={CLASSE_ACOES_FORMULARIO}>
-            <Link to="/empresas" className={classeBotao('secundario')}>
+            <Link to={voltarPara} className={classeBotao('secundario')}>
               Cancelar
             </Link>
             <button type="submit" className={classeBotao('primario')} disabled={form.salvando}>
@@ -105,6 +108,13 @@ export const EmpresaFormulario: React.FC = () => {
           </div>
         </form>
       </Cartao>
+
+      {edicao && (
+        <ExclusaoDoCadastro
+          texto="Ao excluir o cadastro a empresa deixa de participar do sistema e as vantagens dela saem do catálogo. Os resgates já feitos são mantidos."
+          excluirFn={() => excluirEmpresa(Number(id))}
+        />
+      )}
     </div>
   );
 };
