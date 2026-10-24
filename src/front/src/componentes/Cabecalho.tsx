@@ -12,8 +12,8 @@ export const Cabecalho: React.FC = () => {
 
   // Encerra a sessão e leva o usuário à tela de login.
   const aoSair = () => {
-    sair();
     navigate('/entrar');
+    sair();
   };
 
   return (

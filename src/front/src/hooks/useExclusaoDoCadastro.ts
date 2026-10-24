@@ -18,8 +18,8 @@ export function useExclusaoDoCadastro(excluirFn: () => Promise<void>) {
     setErro(null);
     try {
       await excluirFn();
-      sair();
-      navigate('/entrar', { state: { mensagemSucesso: 'Seu cadastro foi excluído.' } });
+      navigate('/entrar');
+      sair('Seu cadastro foi excluído.');
     } catch (falha) {
       setErro(extrairMensagemErro(falha));
       setConfirmando(false);

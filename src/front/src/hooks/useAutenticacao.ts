@@ -4,8 +4,10 @@ import type { UsuarioLogado } from '../tipos/autenticacao';
 
 export interface ContextoAutenticacao {
   usuario: UsuarioLogado | null;
+  aviso: string | null;
   entrar: (login: string, senha: string) => Promise<UsuarioLogado>;
-  sair: () => void;
+  sair: (aviso?: string) => void;
+  limparAviso: () => void;
 }
 
 export const AutenticacaoContexto = createContext<ContextoAutenticacao | null>(null);

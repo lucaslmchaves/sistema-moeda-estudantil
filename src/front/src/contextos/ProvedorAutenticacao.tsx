@@ -15,17 +15,23 @@ export const ProvedorAutenticacao: React.FC<ProvedorAutenticacaoProps> = ({ chil
     () => obterSessao()?.usuario ?? null,
   );
 
+  const [aviso, setAviso] = useState<string | null>(null);
+
   const entrar = useCallback(async (login: string, senha: string) => {
     const resposta = await entrarNaApi(login, senha);
     salvarSessao({ token: resposta.access_token, usuario: resposta.usuario });
+    setAviso(null);
     setUsuario(resposta.usuario);
     return resposta.usuario;
   }, []);
 
-  const sair = useCallback(() => {
+  const sair = useCallback((mensagem?: string) => {
     limparSessao();
+    setAviso(mensagem ?? null);
     setUsuario(null);
   }, []);
+
+  const limparAviso = useCallback(() => setAviso(null), []);
 
   // Quando a API recusa o token, a sessão já foi apagada e a tela volta ao login.
   useEffect(() => {
@@ -34,7 +40,10 @@ export const ProvedorAutenticacao: React.FC<ProvedorAutenticacaoProps> = ({ chil
     return () => window.removeEventListener(EVENTO_SESSAO_EXPIRADA, aoExpirar);
   }, []);
 
-  const valor = useMemo(() => ({ usuario, entrar, sair }), [usuario, entrar, sair]);
+  const valor = useMemo(
+    () => ({ usuario, aviso, entrar, sair, limparAviso }),
+    [usuario, aviso, entrar, sair, limparAviso],
+  );
 
   return <AutenticacaoContexto.Provider value={valor}>{children}</AutenticacaoContexto.Provider>;
 };

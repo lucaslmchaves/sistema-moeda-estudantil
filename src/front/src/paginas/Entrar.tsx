@@ -5,6 +5,7 @@ import { CabecalhoPagina } from '../componentes/CabecalhoPagina';
 import { CampoFormulario } from '../componentes/CampoFormulario';
 import { Cartao } from '../componentes/Cartao';
 import { MensagemAlerta } from '../componentes/MensagemAlerta';
+import { useAutenticacao } from '../hooks/useAutenticacao';
 import { useEntrar } from '../hooks/useEntrar';
 import { useMensagemNavegacao } from '../hooks/useMensagemNavegacao';
 import { classeBotao } from '../utils/estilos';
@@ -13,13 +14,21 @@ import { classeBotao } from '../utils/estilos';
 export const Entrar: React.FC = () => {
   const form = useEntrar();
   const { mensagem, setMensagem } = useMensagemNavegacao();
+  const { aviso, limparAviso } = useAutenticacao();
   const { valores, erros } = form;
 
   return (
     <div className="mx-auto max-w-xl">
       <CabecalhoPagina titulo="Entrar" descricao="Use o login e a senha do seu cadastro" />
 
-      <MensagemAlerta tipo="sucesso" mensagem={mensagem} onFechar={() => setMensagem(null)} />
+      <MensagemAlerta
+        tipo="sucesso"
+        mensagem={mensagem ?? aviso}
+        onFechar={() => {
+          setMensagem(null);
+          limparAviso();
+        }}
+      />
       <MensagemAlerta
         tipo="erro"
         mensagem={form.erroGeral}
