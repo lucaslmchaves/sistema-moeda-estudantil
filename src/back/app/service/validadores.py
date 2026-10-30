@@ -62,4 +62,4 @@ def validar_email(email: str) -> bool:
     """Valida se o endereço respeita o padrão RFC básico com usuário e domínio."""
     if not email or not isinstance(email, str):
         return False
-    return bool(re.match(r"^[\w\.-]+@[\w\.-]+\.\w+$", email.strip()))
+    return bool(re.match(r"^[\w\.+-]+@[\w\.-]+\.\w+$", email.strip()))

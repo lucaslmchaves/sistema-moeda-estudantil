@@ -38,7 +38,7 @@ def test_validar_cnpj_recusa_cnpjs_invalidos(cnpj):
     assert validar_cnpj(cnpj) is False
 
 
-@pytest.mark.parametrize("email", ["ana@teste.com", "a.b-c@dominio.com.br"])
+@pytest.mark.parametrize("email", ["ana@teste.com", "a.b-c@dominio.com.br", "ana+aluno@gmail.com"])
 def test_validar_email_aceita_formatos_comuns(email):
     """Aceita e-mails de formato comum."""
     assert validar_email(email) is True
