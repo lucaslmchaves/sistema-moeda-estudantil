@@ -15,7 +15,7 @@ from app.service.servico_aluno import ServicoAluno
 from app.service.servico_autenticacao import ServicoAutenticacao
 from tests.suporte.fabricas import SENHA_PADRAO, dados_aluno
 
-SEGREDO = "segredo-de-teste"
+SEGREDO = "segredo-de-teste-com-mais-de-trinta-e-dois-bytes"
 
 
 @pytest.fixture
@@ -84,7 +84,8 @@ def test_token_de_outro_segredo_ou_adulterado_e_recusado(servico, aluno):
     """Token assinado com outro segredo, texto qualquer ou sem dono válido é recusado."""
     agora = datetime.now(timezone.utc)
     carga = {"sub": str(aluno.id_usuario), "exp": agora + timedelta(minutes=5)}
-    de_outro_segredo = jwt.encode(carga, "outro-segredo", algorithm="HS256")
+    outro_segredo = "outro-segredo-de-teste-com-mais-de-32-bytes"
+    de_outro_segredo = jwt.encode(carga, outro_segredo, algorithm="HS256")
     sub_invalido = jwt.encode({**carga, "sub": "abc"}, SEGREDO, algorithm="HS256")
     sem_sub = jwt.encode({"exp": carga["exp"]}, SEGREDO, algorithm="HS256")
 

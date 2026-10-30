@@ -29,7 +29,7 @@ services:
     environment:
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-moeda_estudantil}
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000,http://localhost:5173,http://localhost:8000}
-      JWT_SEGREDO: ${JWT_SEGREDO:-troque-este-segredo-no-env}
+      JWT_SEGREDO: ${JWT_SEGREDO:-troque-este-segredo-no-arquivo-env-por-um-texto-longo}
       PASTA_UPLOADS: /app/uploads
       SMTP_HOST: ${SMTP_HOST:-smtp.gmail.com}
       SMTP_PORTA: ${SMTP_PORTA:-587}

@@ -16,7 +16,7 @@ class Settings(BaseSettings):
         "http://localhost:3000,http://localhost:5173,http://localhost:8000"
     )
 
-    JWT_SEGREDO: str = "troque-este-segredo-no-env"
+    JWT_SEGREDO: str = "troque-este-segredo-no-arquivo-env-por-um-texto-longo"
     JWT_EXPIRA_MINUTOS: int = 120
     PASTA_UPLOADS: str = "uploads"
 
