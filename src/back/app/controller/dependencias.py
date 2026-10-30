@@ -24,23 +24,26 @@ from app.service.servico_instituicao import ServicoInstituicao
 from app.service.servico_moedas import ServicoMoedas
 from app.service.servico_vantagem import ServicoVantagem
 
+# A sessão é confirmada (commit) antes de a resposta sair, para o cliente já ver os dados gravados.
+SESSAO_DA_REQUISICAO = Depends(get_sessao, scope="function")
 
-def obter_servico_aluno(sessao: Session = Depends(get_sessao)) -> ServicoAluno:
+
+def obter_servico_aluno(sessao: Session = SESSAO_DA_REQUISICAO) -> ServicoAluno:
     """Monta o serviço de alunos com os repositórios da sessão da requisição."""
     return ServicoAluno(RepositorioAluno(sessao), RepositorioInstituicao(sessao))
 
 
-def obter_servico_empresa(sessao: Session = Depends(get_sessao)) -> ServicoEmpresa:
+def obter_servico_empresa(sessao: Session = SESSAO_DA_REQUISICAO) -> ServicoEmpresa:
     """Monta o serviço de empresas com o repositório da sessão da requisição."""
     return ServicoEmpresa(RepositorioEmpresa(sessao))
 
 
-def obter_servico_instituicao(sessao: Session = Depends(get_sessao)) -> ServicoInstituicao:
+def obter_servico_instituicao(sessao: Session = SESSAO_DA_REQUISICAO) -> ServicoInstituicao:
     """Monta o serviço de instituições com o repositório da sessão da requisição."""
     return ServicoInstituicao(RepositorioInstituicao(sessao))
 
 
-def obter_servico_autenticacao(sessao: Session = Depends(get_sessao)) -> ServicoAutenticacao:
+def obter_servico_autenticacao(sessao: Session = SESSAO_DA_REQUISICAO) -> ServicoAutenticacao:
     """Monta o serviço de autenticação com o segredo e a validade do token configurados."""
     return ServicoAutenticacao(
         RepositorioUsuario(sessao), settings.JWT_SEGREDO, settings.JWT_EXPIRA_MINUTOS
@@ -53,7 +56,7 @@ def obter_armazenamento_foto() -> IArmazenamentoFoto:
 
 
 def obter_servico_vantagem(
-    sessao: Session = Depends(get_sessao),
+    sessao: Session = SESSAO_DA_REQUISICAO,
     armazenamento: IArmazenamentoFoto = Depends(obter_armazenamento_foto),
 ) -> ServicoVantagem:
     """Monta o serviço de vantagens com o repositório e o armazenamento de fotos."""
@@ -72,7 +75,7 @@ def obter_notificador() -> NotificadorEmail:
 
 
 def obter_servico_moedas(
-    sessao: Session = Depends(get_sessao),
+    sessao: Session = SESSAO_DA_REQUISICAO,
     notificador: NotificadorEmail = Depends(obter_notificador),
 ) -> ServicoMoedas:
     """Monta o serviço de moedas com os repositórios da sessão e o notificador de e-mails."""
