@@ -22,7 +22,7 @@ export interface DadosValidacaoEmpresa {
   senha?: string;
 }
 
-const REGEX_EMAIL = /^[\w.-]+@[\w.-]+\.\w+$/;
+const REGEX_EMAIL = /^[\w.+-]+@[\w.-]+\.\w+$/;
 const SENHA_MINIMA = 8;
 const SENHA_MAXIMA = 72; // limite do bcrypt usado no back-end
 
