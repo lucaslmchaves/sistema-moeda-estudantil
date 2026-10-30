@@ -12,7 +12,7 @@ class EmpresaParceira(Usuario):
 
     id_usuario: Mapped[int] = mapped_column(
         Integer,
-        ForeignKey("usuario.id_usuario", name="fk_empresa_parceira_usuario"),
+        ForeignKey("usuario.id_usuario", name="fk_empresa_parceira_usuario", ondelete="CASCADE"),
         primary_key=True,
     )
     nome: Mapped[str] = mapped_column(

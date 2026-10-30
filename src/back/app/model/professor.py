@@ -20,7 +20,7 @@ class Professor(MembroInstituicao):
 
     id_usuario: Mapped[int] = mapped_column(
         Integer,
-        ForeignKey("usuario.id_usuario", name="fk_professor_usuario"),
+        ForeignKey("usuario.id_usuario", name="fk_professor_usuario", ondelete="CASCADE"),
         primary_key=True,
     )
     departamento: Mapped[str] = mapped_column(

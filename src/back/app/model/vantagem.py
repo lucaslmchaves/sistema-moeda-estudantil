@@ -19,7 +19,9 @@ class Vantagem(Base):
     )
     id_empresa: Mapped[int] = mapped_column(
         Integer,
-        ForeignKey("empresa_parceira.id_usuario", name="fk_vantagem_empresa_parceira"),
+        ForeignKey(
+            "empresa_parceira.id_usuario", name="fk_vantagem_empresa_parceira", ondelete="CASCADE"
+        ),
         nullable=False,
     )
     descricao: Mapped[str] = mapped_column(

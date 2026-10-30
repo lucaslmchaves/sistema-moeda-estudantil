@@ -17,7 +17,7 @@ class EnvioMoedas(Transacao):
 
     id_transacao: Mapped[int] = mapped_column(
         Integer,
-        ForeignKey("transacao.id_transacao", name="fk_envio_moedas_transacao"),
+        ForeignKey("transacao.id_transacao", name="fk_envio_moedas_transacao", ondelete="CASCADE"),
         primary_key=True,
     )
     id_professor: Mapped[int] = mapped_column(

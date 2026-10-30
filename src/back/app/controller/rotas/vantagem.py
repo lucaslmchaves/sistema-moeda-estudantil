@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, File, Form, UploadFile, status
 
 from app.controller.permissoes import exigir_perfil, usuario_autenticado
 from app.controller.dependencias import obter_servico_vantagem
+from app.controller.schemas.tipos import IdDaRota
 from app.controller.schemas import VantagemRespostaSchema
 from app.model.enums import TipoUsuario
 from app.model.usuario import Usuario
@@ -72,7 +73,7 @@ def listar_minhas_vantagens(
     description="Inativa a vantagem da empresa sem apagar os resgates já feitos.",
 )
 def excluir_vantagem(
-    id: int,
+    id: IdDaRota,
     empresa: Usuario = Depends(exigir_perfil(TipoUsuario.EMPRESA_PARCEIRA)),
     servico: ServicoVantagem = Depends(obter_servico_vantagem),
 ) -> None:

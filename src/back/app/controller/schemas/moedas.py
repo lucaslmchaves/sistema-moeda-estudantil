@@ -9,6 +9,7 @@ from app.model.enums import TipoTransacao, TipoUsuario
 from app.model.envio_moedas import EnvioMoedas
 from app.model.resgate_vantagem import ResgateVantagem
 from app.model.transacao import Transacao
+from app.controller.schemas.tipos import TipoId
 from app.service.servico_moedas import Extrato
 
 TipoMensagem = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
@@ -17,7 +18,7 @@ TipoMensagem = Annotated[str, StringConstraints(strip_whitespace=True, min_lengt
 class EnvioMoedasCriarSchema(BaseModel):
     """Dados do envio de moedas de um professor a um aluno."""
 
-    id_aluno: int
+    id_aluno: TipoId
     valor: int
     mensagem: TipoMensagem
 
@@ -25,7 +26,7 @@ class EnvioMoedasCriarSchema(BaseModel):
 class ResgateCriarSchema(BaseModel):
     """Vantagem que o aluno quer resgatar."""
 
-    id_vantagem: int
+    id_vantagem: TipoId
 
 
 class EnvioMoedasRespostaSchema(BaseModel):

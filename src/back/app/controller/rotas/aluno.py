@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, status
 
 from app.controller.permissoes import exigir_dono, exigir_perfil
 from app.controller.dependencias import obter_servico_aluno
+from app.controller.schemas.tipos import IdDaRota
 from app.controller.schemas import (
     AlunoAtualizarSchema,
     AlunoCriarSchema,
@@ -57,7 +58,7 @@ def listar_alunos(
     description="Obtém os dados cadastrais do próprio aluno autenticado.",
 )
 def buscar_aluno(
-    id: int,
+    id: IdDaRota,
     _: Usuario = Depends(exigir_dono(TipoUsuario.ALUNO)),
     servico: ServicoAluno = Depends(obter_servico_aluno),
 ) -> AlunoRespostaSchema:
@@ -74,7 +75,7 @@ def buscar_aluno(
     description="Atualiza os dados do aluno; o login é fixo e a senha só muda se enviada.",
 )
 def atualizar_aluno(
-    id: int,
+    id: IdDaRota,
     dados: AlunoAtualizarSchema,
     _: Usuario = Depends(exigir_dono(TipoUsuario.ALUNO)),
     servico: ServicoAluno = Depends(obter_servico_aluno),
@@ -91,7 +92,7 @@ def atualizar_aluno(
     description="Inativa o aluno sem apagar o histórico de transações.",
 )
 def excluir_aluno(
-    id: int,
+    id: IdDaRota,
     _: Usuario = Depends(exigir_dono(TipoUsuario.ALUNO)),
     servico: ServicoAluno = Depends(obter_servico_aluno),
 ) -> None:

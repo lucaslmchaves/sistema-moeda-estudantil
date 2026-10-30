@@ -6,6 +6,7 @@ from fastapi import Depends
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from app.controller.dependencias import obter_servico_autenticacao
+from app.controller.schemas.tipos import IdDaRota
 from app.model.enums import TipoUsuario
 from app.model.usuario import Usuario
 from app.service.excecoes import AcessoNegado, NaoAutenticado
@@ -39,7 +40,9 @@ def exigir_perfil(*perfis: TipoUsuario) -> Callable[..., Usuario]:
 def exigir_dono(perfil: TipoUsuario) -> Callable[..., Usuario]:
     """Cria a dependência que só deixa o próprio usuário acessar o seu cadastro."""
 
-    def verificar(id: int, usuario: Usuario = Depends(exigir_perfil(perfil))) -> Usuario:
+    def verificar(
+        id: IdDaRota, usuario: Usuario = Depends(exigir_perfil(perfil))
+    ) -> Usuario:
         """Recusa o acesso quando o identificador da rota não é o do usuário logado."""
         if usuario.id_usuario != id:
             raise AcessoNegado("Você só pode acessar o seu próprio cadastro.")

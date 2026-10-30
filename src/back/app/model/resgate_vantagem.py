@@ -15,7 +15,9 @@ class ResgateVantagem(Transacao):
 
     id_transacao: Mapped[int] = mapped_column(
         Integer,
-        ForeignKey("transacao.id_transacao", name="fk_resgate_vantagem_transacao"),
+        ForeignKey(
+            "transacao.id_transacao", name="fk_resgate_vantagem_transacao", ondelete="CASCADE"
+        ),
         primary_key=True,
     )
     id_aluno: Mapped[int] = mapped_column(

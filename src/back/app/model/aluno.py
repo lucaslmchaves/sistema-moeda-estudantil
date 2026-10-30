@@ -19,7 +19,7 @@ class Aluno(MembroInstituicao):
 
     id_usuario: Mapped[int] = mapped_column(
         Integer,
-        ForeignKey("usuario.id_usuario", name="fk_aluno_usuario"),
+        ForeignKey("usuario.id_usuario", name="fk_aluno_usuario", ondelete="CASCADE"),
         primary_key=True,
     )
     email: Mapped[str] = mapped_column(

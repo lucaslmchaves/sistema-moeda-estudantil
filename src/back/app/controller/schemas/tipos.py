@@ -1,7 +1,9 @@
 """Tipos anotados reutilizáveis com restrições de comprimento para validação Pydantic."""
 
 from typing import Annotated
-from pydantic import StringConstraints
+
+from fastapi import Path
+from pydantic import Field, StringConstraints
 
 from app.service.regras_cadastro import SENHA_TAMANHO_MAXIMO, SENHA_TAMANHO_MINIMO
 
@@ -28,3 +30,8 @@ def validar_senha_sem_espacos(v: str | None) -> str | None:
     if v is not None and not v.strip():
         raise ValueError("A senha não pode ser vazia ou conter apenas espaços.")
     return v
+
+# Identificadores cabem no inteiro de 32 bits do banco; maiores são recusados antes da consulta.
+ID_MAXIMO = 2_147_483_647
+TipoId = Annotated[int, Field(ge=1, le=ID_MAXIMO)]
+IdDaRota = Annotated[int, Path(ge=1, le=ID_MAXIMO)]

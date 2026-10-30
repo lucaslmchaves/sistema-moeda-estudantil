@@ -11,6 +11,7 @@ ROTULOS_CAMPOS = {
     "id_instituicao": "instituição",
     "login": "login",
     "senha": "senha",
+    "id": "identificador",
     "descricao": "descrição",
     "custo": "custo",
     "foto": "foto",

@@ -7,6 +7,7 @@ from app.controller.schemas.tipos import (
     TipoCurso,
     TipoEmail,
     TipoEndereco,
+    TipoId,
     TipoLogin,
     TipoNome,
     TipoRg,
@@ -23,7 +24,7 @@ class AlunoCriarSchema(BaseModel):
     rg: TipoRg
     endereco: TipoEndereco
     curso: TipoCurso
-    id_instituicao: int
+    id_instituicao: TipoId
     login: TipoLogin
     senha: TipoSenha
 
@@ -42,7 +43,7 @@ class AlunoAtualizarSchema(BaseModel):
     rg: TipoRg | None = None
     endereco: TipoEndereco | None = None
     curso: TipoCurso | None = None
-    id_instituicao: int | None = None
+    id_instituicao: TipoId | None = None
     senha: TipoSenha | None = None
 
     @field_validator("senha", mode="after")

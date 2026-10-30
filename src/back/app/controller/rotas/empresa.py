@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, status
 
 from app.controller.permissoes import exigir_dono
 from app.controller.dependencias import obter_servico_empresa
+from app.controller.schemas.tipos import IdDaRota
 from app.controller.schemas import (
     EmpresaAtualizarSchema,
     EmpresaCriarSchema,
@@ -40,7 +41,7 @@ def cadastrar_empresa(
     description="Obtém os dados cadastrais da própria empresa parceira autenticada.",
 )
 def buscar_empresa(
-    id: int,
+    id: IdDaRota,
     _: Usuario = Depends(exigir_dono(TipoUsuario.EMPRESA_PARCEIRA)),
     servico: ServicoEmpresa = Depends(obter_servico_empresa),
 ) -> EmpresaRespostaSchema:
@@ -57,7 +58,7 @@ def buscar_empresa(
     description="Atualiza razão social, CNPJ ou senha corporativa mantendo o login original.",
 )
 def atualizar_empresa(
-    id: int,
+    id: IdDaRota,
     dados: EmpresaAtualizarSchema,
     _: Usuario = Depends(exigir_dono(TipoUsuario.EMPRESA_PARCEIRA)),
     servico: ServicoEmpresa = Depends(obter_servico_empresa),
@@ -74,7 +75,7 @@ def atualizar_empresa(
     description="Inativa a empresa sem apagar as vantagens já resgatadas.",
 )
 def excluir_empresa(
-    id: int,
+    id: IdDaRota,
     _: Usuario = Depends(exigir_dono(TipoUsuario.EMPRESA_PARCEIRA)),
     servico: ServicoEmpresa = Depends(obter_servico_empresa),
 ) -> None:

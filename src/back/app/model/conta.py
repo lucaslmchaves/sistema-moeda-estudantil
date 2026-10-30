@@ -17,7 +17,7 @@ class Conta(Base):
     )
     id_usuario: Mapped[int] = mapped_column(
         Integer,
-        ForeignKey("usuario.id_usuario", name="fk_conta_usuario"),
+        ForeignKey("usuario.id_usuario", name="fk_conta_usuario", ondelete="CASCADE"),
         unique=True,
         nullable=False,
     )

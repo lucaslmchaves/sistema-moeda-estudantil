@@ -33,6 +33,10 @@ def traduzir_erro_pydantic(erro: dict) -> str:
         msg = f"deve ter no máximo {limite} caracteres"
     elif tipo in ("int_parsing", "int_type"):
         msg = "deve ser um número inteiro"
+    elif tipo == "greater_than_equal":
+        msg = f"deve ser no mínimo {ctx.get('ge')}"
+    elif tipo == "less_than_equal":
+        msg = f"deve ser no máximo {ctx.get('le')}"
     elif tipo == "string_type":
         msg = "deve ser um texto"
     elif tipo == "json_invalid":
@@ -54,7 +58,7 @@ def configurar_tratamento_erros(app: FastAPI) -> None:
         """Formata os erros de validação em português no padrão {"detalhe": "..."}."""
         mensagens = [traduzir_erro_pydantic(e) for e in exc.errors()]
         detalhe = "; ".join(mensagens) if mensagens else "Dados de requisição inválidos."
-        return resposta_erro(status.HTTP_422_UNPROCESSABLE_ENTITY, detalhe)
+        return resposta_erro(status.HTTP_422_UNPROCESSABLE_CONTENT, detalhe)
 
     @app.exception_handler(NaoEncontrado)
     def tratar_nao_encontrado(request: Request, exc: NaoEncontrado) -> JSONResponse:
@@ -69,7 +73,7 @@ def configurar_tratamento_erros(app: FastAPI) -> None:
     @app.exception_handler(DadoInvalido)
     def tratar_dado_invalido(request: Request, exc: DadoInvalido) -> JSONResponse:
         """Converte inconsistências de regras de negócio em resposta HTTP 422."""
-        return resposta_erro(status.HTTP_422_UNPROCESSABLE_ENTITY, exc.mensagem)
+        return resposta_erro(status.HTTP_422_UNPROCESSABLE_CONTENT, exc.mensagem)
 
     @app.exception_handler(NaoAutenticado)
     def tratar_nao_autenticado(request: Request, exc: NaoAutenticado) -> JSONResponse:
