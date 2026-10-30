@@ -14,7 +14,7 @@ export const CabecalhoPagina: React.FC<CabecalhoPaginaProps> = ({
   children,
 }) => {
   return (
-    <div className="mb-6 flex items-center justify-between">
+    <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
       <div>
         <h1 className="text-3xl font-bold text-slate-800">{titulo}</h1>
         <p className="mt-1 text-slate-500">{descricao}</p>
