@@ -1,6 +1,6 @@
 """Testes do hash e da verificação de senhas."""
 
-from model.seguranca import hash_senha, verificar_senha
+from app.model.seguranca import hash_senha, verificar_senha
 
 
 def test_hash_senha_nao_guarda_a_senha_em_texto_puro():

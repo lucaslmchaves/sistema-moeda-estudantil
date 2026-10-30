@@ -3,10 +3,10 @@
 import pytest
 from sqlalchemy.orm import Session
 
-from repository.repositorio_empresa import RepositorioEmpresa
-from service.excecoes import Conflito, DadoInvalido, NaoEncontrado
-from service.servico_empresa import ServicoEmpresa
-from tests.fabricas import dados_empresa
+from app.repository.repositorio_empresa import RepositorioEmpresa
+from app.service.excecoes import Conflito, DadoInvalido, NaoEncontrado
+from app.service.servico_empresa import ServicoEmpresa
+from tests.suporte.fabricas import dados_empresa
 
 
 def test_cadastrar_empresa_com_dados_validos_salva_com_sucesso(sessao: Session):
@@ -72,4 +72,3 @@ def test_atualizar_e_excluir_empresa_retorna_true_e_aplica_soft_delete(sessao: S
 
     with pytest.raises(NaoEncontrado):
         servico.buscar_empresa(empresa.id_usuario)
-    assert len(servico.listar_empresas()) == 0

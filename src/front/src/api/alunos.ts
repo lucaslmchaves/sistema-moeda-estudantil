@@ -1,10 +1,10 @@
 // Cliente HTTP para operações de Aluno na API.
 import { requisicao } from './cliente';
-import type { Aluno, AlunoAtualizar, AlunoCriar } from '../tipos/aluno';
+import type { Aluno, AlunoAtualizar, AlunoCriar, AlunoResumo } from '../tipos/aluno';
 
-// Obtém a lista completa de alunos cadastrados.
-export async function listarAlunos(): Promise<Aluno[]> {
-  return requisicao<Aluno[]>('/alunos');
+// Obtém nome e curso dos alunos ativos, para o professor escolher quem recebe as moedas.
+export async function listarAlunos(): Promise<AlunoResumo[]> {
+  return requisicao<AlunoResumo[]>('/alunos');
 }
 
 // Busca os dados detalhados de um aluno por identificador.

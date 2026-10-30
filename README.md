@@ -164,11 +164,11 @@ senha.
 
 ## Diagrama de Classes
 
-![Diagrama de classes](docs/diagramas/sprint2-diagrama-classes.png)
+![Diagrama de classes](docs/diagramas/sprint3-diagrama-classes.png)
 
 ## Diagrama de Componentes
 
-![Diagrama de componentes](docs/diagramas/sprint2-diagrama-componentes.png)
+![Diagrama de componentes](docs/diagramas/sprint3-diagrama-componentes.png)
 
 ## Modelo Lógico
 
@@ -180,19 +180,22 @@ senha.
 docker-compose.yml
 .env.example
 docs/
-  diagramas/        diagramas de cada sprint
+  diagramas/        versões dos diagramas de cada sprint
   entregas/         PDF de entrega da Sprint 1
-  enunciado/
+  apresentacao/     slides da apresentação final
+  enunciado/        enunciado do laboratório
 src/
   back/             API em Python (FastAPI)
-    controller/     rotas, schemas e tratamento de erros
-    service/        regras de negócio
-    repository/     interfaces e acesso ao banco (SQLAlchemy)
-    model/          entidades
+    app/
+      controller/   rotas, schemas, permissões e tratamento de erros
+      service/      regras de negócio (cadastros, moedas, vantagens, e-mail)
+      repository/   interfaces, acesso ao banco (SQLAlchemy) e armazenamento de fotos
+      model/        entidades
+      tarefas/      carga inicial e crédito do semestre
     migrations/     migrações (Alembic)
-    tests/          modelos, repositorios, servicos e api
+    tests/          modelos, repositorios, servicos, api e suporte
   front/            interface em React, Vite e Tailwind
-    src/            api, componentes, hooks, paginas, tipos e utils
+    src/            api, componentes, contextos, hooks, paginas, tipos e utils
     tests/          api, componentes, hooks e utils
 ```
 
@@ -209,11 +212,28 @@ docker compose up -d --build
 
 As migrações e os dados iniciais (2 instituições e 3 professores) são aplicados ao subir a API. Os valores padrão do banco estão em `.env.example`; para mudá-los, copie o arquivo para `.env`.
 
+### Acesso ao sistema
+
+- **Professores** (já cadastrados, cada um com 1.000 moedas): `prof.carlos`, `prof.ana` e `prof.marcos`, todos com a senha `senha1234`.
+- **Alunos** e **empresas parceiras** se cadastram pelas telas "Sou aluno" e "Sou empresa" e depois entram com o login e a senha escolhidos.
+
+### E-mails
+
+O sistema envia o aviso de moedas recebidas e os e-mails do resgate (cupom para o aluno e conferência para a empresa). Para enviar de verdade pelo Gmail, copie `.env.example` para `.env` e preencha `SMTP_USUARIO` e `SMTP_SENHA` (uma senha de aplicativo da conta Google). Sem essas informações, os e-mails não são enviados e o conteúdo aparece no log da API (`docker compose logs api`).
+
+### Moedas do semestre
+
+A cada semestre, o crédito de 1.000 moedas aos professores é feito com o comando abaixo.
+
+```bash
+docker compose exec api python -m app.tarefas.creditar_semestre
+```
+
 ## Entregas por sprint
 
 - **Sprint 1** — diagrama de casos de uso, histórias de usuário, diagrama de classes e
   diagrama de componentes.
 - **Sprint 2** — modelo ER, estratégia de acesso ao banco de dados e versão inicial
   dos CRUDs de aluno e empresa parceira.
-- **Sprint 3** — versão final dos CRUDs, apresentação da arquitetura e da camada de
-  persistência.
+- **Sprint 3** — versão final dos CRUDs, login, envio de moedas, vantagens com foto,
+  resgate com cupom por e-mail e apresentação da arquitetura e da camada de persistência.

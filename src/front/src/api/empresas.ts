@@ -2,11 +2,6 @@
 import { requisicao } from './cliente';
 import type { Empresa, EmpresaAtualizar, EmpresaCriar } from '../tipos/empresa';
 
-// Obtém a lista completa de empresas parceiras cadastradas.
-export async function listarEmpresas(): Promise<Empresa[]> {
-  return requisicao<Empresa[]>('/empresas');
-}
-
 // Busca os dados detalhados de uma empresa por identificador.
 export async function buscarEmpresaPorId(id: number): Promise<Empresa> {
   return requisicao<Empresa>(`/empresas/${id}`);

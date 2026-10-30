@@ -3,14 +3,14 @@
 from datetime import datetime, timezone
 from sqlalchemy.orm import Session
 
-from model.aluno import Aluno
-from model.empresa_parceira import EmpresaParceira
-from model.enums import TipoUsuario
-from model.envio_moedas import EnvioMoedas
-from model.instituicao_ensino import InstituicaoEnsino
-from model.professor import Professor
-from model.resgate_vantagem import ResgateVantagem
-from model.vantagem import Vantagem
+from app.model.aluno import Aluno
+from app.model.empresa_parceira import EmpresaParceira
+from app.model.enums import TipoUsuario
+from app.model.envio_moedas import EnvioMoedas
+from app.model.instituicao_ensino import InstituicaoEnsino
+from app.model.professor import Professor
+from app.model.resgate_vantagem import ResgateVantagem
+from app.model.vantagem import Vantagem
 
 
 def test_extrato_vazio_quando_nao_ha_transacoes(sessao: Session, instituicao_padrao: InstituicaoEnsino):

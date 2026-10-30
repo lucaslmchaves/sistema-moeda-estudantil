@@ -3,7 +3,7 @@
 from fastapi import status
 from fastapi.testclient import TestClient
 
-from main import app
+from app.main import app
 
 PALAVRAS_PROIBIDAS = [
     "Field required",
@@ -23,7 +23,7 @@ def _verificar_ausencia_ingles(detalhe: str) -> None:
 def test_erro_missing_traduzido_para_campo_obrigatorio(cliente_api: TestClient):
     """Garante que campos faltantes são traduzidos como 'campo obrigatório' em português."""
     res = cliente_api.post("/alunos", json={})
-    assert res.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+    assert res.status_code == status.HTTP_422_UNPROCESSABLE_CONTENT
     detalhe = res.json()["detalhe"]
     assert "campo obrigatório" in detalhe
     assert "nome: campo obrigatório" in detalhe
@@ -46,7 +46,7 @@ def test_erro_string_too_short_traduzido_em_portugues(cliente_api: TestClient):
             "senha": "senhaValida123",
         },
     )
-    assert res.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+    assert res.status_code == status.HTTP_422_UNPROCESSABLE_CONTENT
     detalhe = res.json()["detalhe"]
     assert "nome: não pode ficar vazio" in detalhe
     _verificar_ausencia_ingles(detalhe)
@@ -68,7 +68,7 @@ def test_erro_string_too_long_traduzido_em_portugues(cliente_api: TestClient):
             "senha": "senhaValida123",
         },
     )
-    assert res.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+    assert res.status_code == status.HTTP_422_UNPROCESSABLE_CONTENT
     detalhe = res.json()["detalhe"]
     assert "CPF: deve ter no máximo 14 caracteres" in detalhe
     _verificar_ausencia_ingles(detalhe)
@@ -90,7 +90,7 @@ def test_erro_int_parsing_traduzido_em_portugues(cliente_api: TestClient):
             "senha": "senhaValida123",
         },
     )
-    assert res.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+    assert res.status_code == status.HTTP_422_UNPROCESSABLE_CONTENT
     detalhe = res.json()["detalhe"]
     assert "instituição: deve ser um número inteiro" in detalhe
     _verificar_ausencia_ingles(detalhe)
@@ -103,7 +103,7 @@ def test_erro_json_invalid_traduzido_em_portugues(cliente_api: TestClient):
         content="{json_invalido_sem_fechamento",
         headers={"Content-Type": "application/json"},
     )
-    assert res.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+    assert res.status_code == status.HTTP_422_UNPROCESSABLE_CONTENT
     detalhe = res.json()["detalhe"]
     assert detalhe == "o corpo da requisição não é um JSON válido"
     _verificar_ausencia_ingles(detalhe)

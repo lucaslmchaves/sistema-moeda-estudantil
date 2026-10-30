@@ -2,11 +2,11 @@
 
 from sqlalchemy.orm import Session
 
-from model.aluno import Aluno
-from model.conta import Conta
-from model.enums import TipoUsuario
-from model.instituicao_ensino import InstituicaoEnsino
-from repository.repositorio_aluno import RepositorioAluno
+from app.model.aluno import Aluno
+from app.model.conta import Conta
+from app.model.enums import TipoUsuario
+from app.model.instituicao_ensino import InstituicaoEnsino
+from app.repository.repositorio_aluno import RepositorioAluno
 
 
 def test_repositorio_aluno_crud_e_consultas(sessao: Session, instituicao_padrao: InstituicaoEnsino):

@@ -5,14 +5,14 @@ import pytest
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from model.conta import Conta
-from model.instituicao_ensino import InstituicaoEnsino
-from model.usuario import Usuario
-from repository.repositorio_aluno import RepositorioAluno
-from repository.repositorio_instituicao import RepositorioInstituicao
-from service.excecoes import Conflito, DadoInvalido, NaoEncontrado
-from service.servico_aluno import ServicoAluno
-from tests.fabricas import dados_aluno
+from app.model.conta import Conta
+from app.model.instituicao_ensino import InstituicaoEnsino
+from app.model.usuario import Usuario
+from app.repository.repositorio_aluno import RepositorioAluno
+from app.repository.repositorio_instituicao import RepositorioInstituicao
+from app.service.excecoes import Conflito, DadoInvalido, NaoEncontrado
+from app.service.servico_aluno import ServicoAluno
+from tests.suporte.fabricas import dados_aluno
 
 
 def test_cadastrar_aluno_com_dados_validos_cria_usuario_e_conta(

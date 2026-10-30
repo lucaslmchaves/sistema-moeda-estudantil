@@ -22,3 +22,14 @@ dados/
 # Sistema operacional
 .DS_Store
 Thumbs.db
+
+# Caches, testes e builds
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+*.tsbuildinfo
+
+# Fotos enviadas durante o uso local
+uploads/

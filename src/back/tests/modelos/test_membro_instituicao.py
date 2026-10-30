@@ -2,7 +2,7 @@
 
 import pytest
 
-from model.membro_instituicao import MembroInstituicao
+from app.model.membro_instituicao import MembroInstituicao
 
 
 def test_membro_instituicao_extrato_abstrato_levanta_not_implemented():

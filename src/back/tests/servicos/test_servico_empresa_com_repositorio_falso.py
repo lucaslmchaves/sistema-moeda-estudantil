@@ -2,10 +2,10 @@
 
 import pytest
 
-from service.excecoes import Conflito, NaoEncontrado
-from service.servico_empresa import ServicoEmpresa
-from tests.fabricas import dados_empresa
-from tests.fakes import RepositorioEmpresaFalso
+from app.service.excecoes import Conflito, NaoEncontrado
+from app.service.servico_empresa import ServicoEmpresa
+from tests.suporte.fabricas import dados_empresa
+from tests.suporte.fakes import RepositorioEmpresaFalso
 
 
 @pytest.fixture
@@ -41,11 +41,10 @@ def test_atualizar_empresa_com_o_proprio_email_nao_gera_conflito(servico):
     assert atualizada.email == "a@loja.com"
 
 
-def test_excluir_empresa_devolve_true_e_some_da_listagem(servico):
-    """A exclusão lógica devolve True e a empresa deixa de aparecer."""
+def test_excluir_empresa_devolve_true_e_a_empresa_deixa_de_ser_encontrada(servico):
+    """A exclusão lógica devolve True e a empresa deixa de ser encontrada."""
     empresa = servico.cadastrar_empresa(dados_empresa())
 
     assert servico.excluir_empresa(empresa.id_usuario) is True
-    assert servico.listar_empresas() == []
     with pytest.raises(NaoEncontrado):
         servico.buscar_empresa(empresa.id_usuario)

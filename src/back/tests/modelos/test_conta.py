@@ -4,10 +4,10 @@ import pytest
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from model.aluno import Aluno
-from model.conta import Conta
-from model.enums import TipoUsuario
-from model.instituicao_ensino import InstituicaoEnsino
+from app.model.aluno import Aluno
+from app.model.conta import Conta
+from app.model.enums import TipoUsuario
+from app.model.instituicao_ensino import InstituicaoEnsino
 
 
 def test_consultar_saldo_retorna_valor_atual():
