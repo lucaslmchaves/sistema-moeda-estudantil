@@ -32,13 +32,14 @@ senha.
 
 ## Diagrama de Caso de Uso
 
-![Diagrama de casos de uso](docs/diagramas/sprint1-caso-de-uso.png)
+![Diagrama de casos de uso](<docs/diagramas/Laboratório 4/Sprint 1/Diagrama de Casos de Uso Atualizado.png>)
 
 ### Atores
 
 - **Aluno**: participa do sistema de mérito, recebe moedas e as troca por vantagens.
 - **Professor**: distribui moedas aos alunos e recebe 1.000 moedas por semestre.
 - **Empresa Parceira**: cadastra as vantagens que oferece em troca de moedas.
+- **Agendador do Semestre**: dispara, a cada semestre, o crédito de moedas aos professores.
 - **Serviço de E-mail** (sistema externo): envia as notificações e os cupons por e-mail.
 
 ## Histórias de Usuário
@@ -91,6 +92,16 @@ senha.
 - Um e-mail de cupom, com o código, é enviado ao aluno para a troca presencial.
 - Um e-mail, com o mesmo código, é enviado à empresa parceira para conferir a troca.
 
+### Aluno e Empresa Parceira
+
+#### Consultar vantagens
+
+> **Como** aluno ou empresa parceira, **quero** consultar as vantagens cadastradas, **para** escolher uma troca (aluno) ou acompanhar o que ofereço (empresa).
+
+- O aluno vê o catálogo com as vantagens ativas de todas as empresas, com descrição, foto e custo.
+- A empresa vê apenas as vantagens que ela cadastrou.
+- Vantagens excluídas não aparecem em nenhuma das listas.
+
 ### Professor
 
 #### Enviar moedas a um aluno
@@ -114,6 +125,7 @@ senha.
 > **Como** professor, **quero** receber moedas a cada semestre, **para** ter o que distribuir aos meus alunos.
 
 - A cada semestre o sistema credita 1.000 moedas ao professor.
+- O crédito é disparado pelo agendador do semestre, e não pelo professor.
 - O total é acumulável: as moedas não distribuídas permanecem no saldo e as 1.000 novas são somadas a ele.
 
 ### Empresa Parceira
@@ -143,6 +155,13 @@ senha.
 - A vantagem tem descrição, foto do produto e custo em moedas.
 - A vantagem pertence à empresa que a cadastrou.
 
+#### Excluir vantagem
+
+> **Como** empresa parceira, **quero** excluir uma vantagem que não ofereço mais, **para** que ela saia do catálogo dos alunos.
+
+- Só a empresa dona da vantagem a exclui.
+- A exclusão é lógica: os resgates já feitos continuam registrados.
+
 ### Serviço de e-mail (sistema externo)
 
 #### Notificar aluno sobre moedas recebidas
@@ -164,15 +183,43 @@ senha.
 
 ## Diagrama de Classes
 
-![Diagrama de classes](docs/diagramas/sprint3-diagrama-classes.png)
+![Diagrama de classes](<docs/diagramas/Laboratório 4/Sprint 1/Diagrama de Classes Inalterado.png>)
+
+## Diagramas de Sequência
+
+Há um diagrama de sequência para cada caso de uso. As telas e os controladores são objetos de projeto; os serviços, os repositórios e as entidades são as classes do diagrama de classes, e as mensagens seguem as operações dessas classes. A validação da sessão é a parte 2 do UC01, referenciada pelos casos de uso protegidos.
+
+| Caso de uso | Diagrama |
+|---|---|
+| UC01 - Autenticar-se | [UC01 - Autenticar-se](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/UC01 - Autenticar-se.png>) |
+| UC02 - Cadastrar Aluno | [UC02 - Cadastrar Aluno](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/UC02 - Cadastrar Aluno.png>) |
+| UC03 - Atualizar Dados do Aluno | [UC03 - Atualizar Dados do Aluno](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/UC03 - Atualizar Dados do Aluno.png>) |
+| UC04 - Excluir Cadastro do Aluno | [UC04 - Excluir Cadastro do Aluno](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/UC04 - Excluir Cadastro do Aluno.png>) |
+| UC05 - Consultar Extrato do Aluno | [UC05 - Consultar Extrato do Aluno](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/UC05 - Consultar Extrato do Aluno.png>) |
+| UC06 - Trocar Moedas por Vantagem | [UC06 - Trocar Moedas por Vantagem](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/UC06 - Trocar Moedas por Vantagem.png>) |
+| UC07 - Enviar Moedas a um Aluno | [UC07 - Enviar Moedas a um Aluno](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/UC07 - Enviar Moedas a um Aluno.png>) |
+| UC08 - Consultar Extrato do Professor | [UC08 - Consultar Extrato do Professor](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/UC08 - Consultar Extrato do Professor.png>) |
+| UC09 - Receber Moedas do Semestre | [UC09 - Receber Moedas do Semestre](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/UC09 - Receber Moedas do Semestre.png>) |
+| UC10 - Cadastrar Empresa Parceira | [UC10 - Cadastrar Empresa Parceira](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/UC10 - Cadastrar Empresa Parceira.png>) |
+| UC11 - Atualizar Dados da Empresa Parceira | [UC11 - Atualizar Dados da Empresa Parceira](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/UC11 - Atualizar Dados da Empresa Parceira.png>) |
+| UC12 - Excluir Cadastro da Empresa Parceira | [UC12 - Excluir Cadastro da Empresa Parceira](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/UC12 - Excluir Cadastro da Empresa Parceira.png>) |
+| UC13 - Cadastrar Vantagem | [UC13 - Cadastrar Vantagem](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/UC13 - Cadastrar Vantagem.png>) |
+| UC14 - Enviar Cupom de Resgate | [UC14 - Enviar Cupom de Resgate](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/UC14 - Enviar Cupom de Resgate.png>) |
+| UC15 - Notificar Aluno sobre Moedas Recebidas | [UC15 - Notificar Aluno sobre Moedas Recebidas](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/UC15 - Notificar Aluno sobre Moedas Recebidas.png>) |
+| UC16 - Consultar Vantagens | [UC16 - Consultar Vantagens](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/UC16 - Consultar Vantagens.png>) |
+| UC17 - Excluir Vantagem | [UC17 - Excluir Vantagem](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/UC17 - Excluir Vantagem.png>) |
+
+## Diagrama de Visão Geral da Interação
+
+![Diagrama de visão geral da interação](<docs/diagramas/Laboratório 4/Sprint 1/Diagrama de Visão Geral da Interação.png>)
 
 ## Diagrama de Componentes
 
-![Diagrama de componentes](docs/diagramas/sprint3-diagrama-componentes.png)
+![Diagrama de componentes](<docs/diagramas/Laboratório 3/Sprint 3/Diagrama de Componentes.png>)
 
 ## Modelo Lógico
 
-![Modelo lógico](docs/diagramas/sprint2-modelo-logico.png)
+![Modelo lógico](<docs/diagramas/Laboratório 3/Sprint 2/Modelo Lógico.png>)
 
 ## Estrutura do projeto
 
@@ -180,8 +227,11 @@ senha.
 docker-compose.yml
 .env.example
 docs/
-  diagramas/        versões dos diagramas de cada sprint
-  entregas/         PDF de entrega da Sprint 1
+  diagramas/
+    Laboratório 3/      diagramas de cada sprint (Sprint 1, Sprint 2 e Sprint 3)
+    Laboratório 4/      Sprint 1: casos de uso, classes, visão geral da
+                        interação e Diagramas de Sequência (um por caso de uso)
+  entregas/         PDFs de entrega (Lab03S01 e Lab04S01)
   apresentacao/     slides da apresentação final
   enunciado/        enunciado do laboratório
 src/
@@ -237,3 +287,7 @@ docker compose exec api python -m app.tarefas.creditar_semestre
   dos CRUDs de aluno e empresa parceira.
 - **Sprint 3** — versão final dos CRUDs, login, envio de moedas, vantagens com foto,
   resgate com cupom por e-mail e apresentação da arquitetura e da camada de persistência.
+- **Release 02, Sprint 1 (Lab04S01)** — diagramas de sequência (um por caso de uso),
+  diagrama de visão geral da interação e atualização do diagrama de casos de uso. Os
+  diagramas de sequência e o de visão geral estão reunidos em
+  `docs/entregas/Lab04S01-Sistema-de-Moeda-Estudantil.pdf`.
