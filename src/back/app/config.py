@@ -1,4 +1,5 @@
 from typing import Union
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -18,13 +19,21 @@ class Settings(BaseSettings):
 
     JWT_SEGREDO: str = "troque-este-segredo-no-arquivo-env-por-um-texto-longo"
     JWT_EXPIRA_MINUTOS: int = 120
-    PASTA_UPLOADS: str = "uploads"
 
     SMTP_HOST: str = "smtp.gmail.com"
     SMTP_PORTA: int = 587
     SMTP_USUARIO: str = ""
     SMTP_SENHA: str = ""
     EMAIL_REMETENTE: str = ""
+
+    @field_validator("DATABASE_URL")
+    @classmethod
+    def usar_driver_psycopg(cls, url: str) -> str:
+        """Aceita o endereço como os provedores o entregam (postgres:// ou postgresql://)."""
+        for inicio in ("postgres://", "postgresql://"):
+            if url.startswith(inicio):
+                return "postgresql+psycopg://" + url.removeprefix(inicio)
+        return url
 
     @property
     def cors_origins_list(self) -> list[str]:
