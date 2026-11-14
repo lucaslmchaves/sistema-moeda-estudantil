@@ -144,7 +144,7 @@ class NotificadorFalso(NotificadorEmail):
 
 
 class ArmazenamentoFotoFalso(IArmazenamentoFoto):
-    """Guarda as fotos em memória e devolve caminhos numerados."""
+    """Guarda as fotos em memória e devolve caminhos numerados, como o armazenamento real."""
 
     def __init__(self):
         """Inicia sem fotos."""
@@ -153,4 +153,4 @@ class ArmazenamentoFotoFalso(IArmazenamentoFoto):
     def salvar(self, conteudo: bytes, extensao: str) -> str:
         """Guarda a foto e devolve o caminho dela."""
         self.fotos.append((conteudo, extensao))
-        return f"/uploads/foto-{len(self.fotos)}.{extensao}"
+        return f"/fotos/{len(self.fotos)}"

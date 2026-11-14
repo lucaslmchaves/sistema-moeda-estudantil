@@ -1,4 +1,4 @@
-from app.repository.armazenamento_foto_local import ArmazenamentoFotoLocal
+from app.repository.armazenamento_foto_banco import ArmazenamentoFotoBanco
 from app.repository.database import SessionLocal, engine, get_sessao
 from app.repository.interfaces import (
     IArmazenamentoFoto,
@@ -33,7 +33,7 @@ __all__ = [
     "IRepositorioTransacao",
     "IRepositorioUsuario",
     "IRepositorioVantagem",
-    "ArmazenamentoFotoLocal",
+    "ArmazenamentoFotoBanco",
     "RepositorioAluno",
     "RepositorioConta",
     "RepositorioEmpresa",

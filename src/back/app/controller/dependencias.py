@@ -4,7 +4,7 @@ from fastapi import Depends
 from sqlalchemy.orm import Session
 
 from app.config import settings
-from app.repository.armazenamento_foto_local import ArmazenamentoFotoLocal
+from app.repository.armazenamento_foto_banco import ArmazenamentoFotoBanco
 from app.repository.database import get_sessao
 from app.repository.interfaces import IArmazenamentoFoto
 from app.repository.repositorio_aluno import RepositorioAluno
@@ -50,9 +50,14 @@ def obter_servico_autenticacao(sessao: Session = SESSAO_DA_REQUISICAO) -> Servic
     )
 
 
-def obter_armazenamento_foto() -> IArmazenamentoFoto:
-    """Devolve o armazenamento das fotos das vantagens, na pasta configurada."""
-    return ArmazenamentoFotoLocal(settings.PASTA_UPLOADS)
+def obter_armazenamento_foto(sessao: Session = SESSAO_DA_REQUISICAO) -> IArmazenamentoFoto:
+    """Devolve o armazenamento das fotos das vantagens, que grava no banco da requisição."""
+    return ArmazenamentoFotoBanco(sessao)
+
+
+def obter_leitor_de_fotos(sessao: Session = SESSAO_DA_REQUISICAO) -> ArmazenamentoFotoBanco:
+    """Devolve o armazenamento de fotos para a rota que entrega a imagem ao navegador."""
+    return ArmazenamentoFotoBanco(sessao)
 
 
 def obter_servico_vantagem(

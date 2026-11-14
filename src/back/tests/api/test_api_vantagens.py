@@ -2,7 +2,9 @@
 
 from fastapi import status
 from fastapi.testclient import TestClient
+from sqlalchemy.orm import Session
 
+from app.model.foto_vantagem import FotoVantagem
 from tests.suporte.fabricas import FOTO_PNG
 from tests.suporte.fakes import ArmazenamentoFotoFalso
 
@@ -38,7 +40,7 @@ def test_empresa_cadastra_vantagem_com_foto_e_ela_aparece_nas_listas(
     assert corpo["descricao"] == "Desconto de 10%"
     assert corpo["custo"] == 50
     assert corpo["nome_empresa"] == empresa["nome"]
-    assert corpo["foto"] == "/uploads/foto-1.png"
+    assert corpo["foto"] == "/fotos/1"
     assert armazenamento.fotos == [(FOTO_PNG, "png")]
 
     minhas = cliente_api.get("/vantagens/minhas", headers=cabecalhos_empresa)
@@ -116,3 +118,25 @@ def test_vantagens_de_empresa_excluida_saem_do_catalogo(
 
     catalogo = cliente_api.get("/vantagens", headers=entrar(aluno["login"]))
     assert catalogo.json() == []
+
+
+def test_foto_guardada_no_banco_e_entregue_sem_login_com_o_tipo_certo(
+    cliente_api: TestClient, sessao: Session
+):
+    """A imagem sai da rota pública /fotos/{id}, que o navegador usa direto no <img>."""
+    foto = FotoVantagem(conteudo=FOTO_PNG, extensao="png")
+    sessao.add(foto)
+    sessao.flush()
+
+    res = cliente_api.get(f"/fotos/{foto.id_foto}")
+
+    assert res.status_code == status.HTTP_200_OK
+    assert res.headers["content-type"] == "image/png"
+    assert res.content == FOTO_PNG
+
+
+def test_foto_inexistente_volta_404(cliente_api: TestClient):
+    """Pedir uma foto que não existe devolve 404 em português."""
+    res = cliente_api.get("/fotos/999")
+
+    assert res.status_code == status.HTTP_404_NOT_FOUND

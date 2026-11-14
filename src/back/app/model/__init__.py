@@ -9,6 +9,7 @@ from app.model.professor import Professor
 from app.model.empresa_parceira import EmpresaParceira
 from app.model.transacao import Transacao
 from app.model.vantagem import Vantagem
+from app.model.foto_vantagem import FotoVantagem
 from app.model.envio_moedas import EnvioMoedas
 from app.model.resgate_vantagem import ResgateVantagem
 
@@ -25,6 +26,7 @@ __all__ = [
     "EmpresaParceira",
     "Transacao",
     "Vantagem",
+    "FotoVantagem",
     "EnvioMoedas",
     "ResgateVantagem",
 ]

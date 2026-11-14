@@ -60,7 +60,7 @@ def test_cadastrar_vantagem_guarda_a_foto_e_a_vantagem_da_empresa(servico, armaz
     assert vantagem.descricao == "Café grátis"
     assert vantagem.custo == 25
     assert vantagem.id_empresa == empresa.id_usuario
-    assert vantagem.foto == "/uploads/foto-1.jpg"
+    assert vantagem.foto == "/fotos/1"
     assert armazenamento.fotos == [(FOTO_JPEG, "jpg")]
 
 
