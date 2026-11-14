@@ -183,7 +183,7 @@ senha.
 
 ## Diagrama de Classes
 
-![Diagrama de classes](<docs/diagramas/Laboratório 4/Sprint 1/Diagrama de Classes Inalterado.png>)
+![Diagrama de classes](<docs/diagramas/Laboratório 4/Sprint 2/Diagrama de Classes Atualizado.png>)
 
 ## Diagramas de Sequência
 
@@ -203,7 +203,7 @@ Há um diagrama de sequência para cada caso de uso. As telas e os controladores
 | Caso de Uso 10 - Cadastrar Empresa Parceira | [Caso de Uso 10 - Cadastrar Empresa Parceira](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/Caso de Uso 10 - Cadastrar Empresa Parceira.png>) |
 | Caso de Uso 11 - Atualizar Dados da Empresa Parceira | [Caso de Uso 11 - Atualizar Dados da Empresa Parceira](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/Caso de Uso 11 - Atualizar Dados da Empresa Parceira.png>) |
 | Caso de Uso 12 - Excluir Cadastro da Empresa Parceira | [Caso de Uso 12 - Excluir Cadastro da Empresa Parceira](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/Caso de Uso 12 - Excluir Cadastro da Empresa Parceira.png>) |
-| Caso de Uso 13 - Cadastrar Vantagem | [Caso de Uso 13 - Cadastrar Vantagem](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/Caso de Uso 13 - Cadastrar Vantagem.png>) |
+| Caso de Uso 13 - Cadastrar Vantagem | [Caso de Uso 13 - Cadastrar Vantagem](<docs/diagramas/Laboratório 4/Sprint 2/Diagramas de Sequência/Caso de Uso 13 - Cadastrar Vantagem Atualizado.png>) |
 | Caso de Uso 14 - Enviar Cupom de Resgate | [Caso de Uso 14 - Enviar Cupom de Resgate](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/Caso de Uso 14 - Enviar Cupom de Resgate.png>) |
 | Caso de Uso 15 - Notificar Aluno sobre Moedas Recebidas | [Caso de Uso 15 - Notificar Aluno sobre Moedas Recebidas](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/Caso de Uso 15 - Notificar Aluno sobre Moedas Recebidas.png>) |
 | Caso de Uso 16 - Consultar Vantagens | [Caso de Uso 16 - Consultar Vantagens](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/Caso de Uso 16 - Consultar Vantagens.png>) |
@@ -215,22 +215,32 @@ Há um diagrama de sequência para cada caso de uso. As telas e os controladores
 
 ## Diagrama de Componentes
 
-![Diagrama de componentes](<docs/diagramas/Laboratório 3/Sprint 3/Diagrama de Componentes.png>)
+![Diagrama de componentes](<docs/diagramas/Laboratório 4/Sprint 2/Diagrama de Componentes Inalterado.png>)
+
+## Diagrama de Implantação
+
+![Diagrama de implantação](<docs/diagramas/Laboratório 4/Sprint 2/Diagrama de Implantação.png>)
+
+O navegador do usuário baixa o front-end da Vercel e conversa com a API na Render por HTTPS. A API roda num contêiner Docker com os componentes do diagrama de componentes, grava os dados no PostgreSQL da Neon e envia os e-mails pelo servidor SMTP da Brevo.
 
 ## Modelo Lógico
 
 ![Modelo lógico](<docs/diagramas/Laboratório 3/Sprint 2/Modelo Lógico.png>)
 
+A tabela `foto_vantagem`, que guarda as fotos das vantagens, foi acrescentada depois deste modelo pela migração `0002_foto_vantagem`.
+
 ## Estrutura do projeto
 
 ```
 docker-compose.yml
+render.yaml         publicação da API na Render
 .env.example
 docs/
   diagramas/
     Laboratório 3/      diagramas de cada sprint (Sprint 1, Sprint 2 e Sprint 3)
     Laboratório 4/      Sprint 1: casos de uso, classes, visão geral da
                         interação e Diagramas de Sequência (um por caso de uso)
+                        Sprint 2: diagrama de implantação e versões atualizadas
   entregas/         PDFs e zip de entrega de cada laboratório
   apresentacao/     slides da apresentação final
   enunciado/        enunciado do laboratório
@@ -244,7 +254,7 @@ src/
       tarefas/      carga inicial e crédito do semestre
     migrations/     migrações (Alembic)
     tests/          modelos, repositorios, servicos, api e suporte
-  front/            interface em React, Vite e Tailwind
+  front/            interface em React, Vite e Tailwind (vercel.json para a Vercel)
     src/            api, componentes, contextos, hooks, paginas, tipos e utils
     tests/          api, componentes, hooks e utils
 ```
@@ -279,6 +289,31 @@ A cada semestre, o crédito de 1.000 moedas aos professores é feito com o coman
 docker compose exec api python -m app.tarefas.creditar_semestre
 ```
 
+## Publicação na nuvem
+
+| Parte | Serviço | Observação |
+|---|---|---|
+| Front-end | Vercel | build estático de `src/front` |
+| API | Render | contêiner Docker de `src/back`, descrito em `render.yaml` |
+| Banco de dados | Neon | PostgreSQL 16, sem prazo de validade |
+| E-mails | Brevo | SMTP na porta 2525 (a Render gratuita bloqueia as portas 25, 465 e 587, usadas pelo Gmail) |
+
+No plano gratuito a API dorme depois de 15 minutos sem acesso, e a primeira abertura depois disso leva cerca de 1 minuto. As fotos das vantagens ficam no banco, por isso não se perdem quando a API reinicia.
+
+### Passo a passo
+
+1. **Neon**: crie um projeto com PostgreSQL 16 e copie a connection string (começa com `postgresql://` e termina com `?sslmode=require`).
+2. **Brevo**: crie uma conta, verifique o e-mail remetente e gere uma chave SMTP em "SMTP e API". Anote o login SMTP e a chave.
+3. **Render**: em "New", escolha "Blueprint" e o repositório do GitHub. Preencha `DATABASE_URL` (a connection string da Neon), `SMTP_USUARIO` (login SMTP da Brevo), `SMTP_SENHA` (chave SMTP), `EMAIL_REMETENTE` (o e-mail verificado) e deixe `CORS_ORIGINS` por enquanto com qualquer valor. Quando o deploy terminar, abra `/saude` e `/docs` no endereço da API.
+4. **Vercel**: importe o repositório, informe `src/front` em "Root Directory" e crie a variável `VITE_API_URL` com o endereço da API da Render, sem barra no final. Faça o deploy.
+5. **Render de novo**: troque `CORS_ORIGINS` pelo endereço da Vercel, sem barra no final, e salve. A API reinicia e o front passa a conseguir chamá-la.
+
+Na nuvem os dados iniciais (instituições e professores) são criados ao subir a API, como no Docker local. O crédito semestral pode ser rodado do computador contra o banco da Neon:
+
+```bash
+docker compose run --rm -e DATABASE_URL="<connection string da Neon>" api python -m app.tarefas.creditar_semestre
+```
+
 ## Entregas por sprint
 
 - **Sprint 1** — diagrama de casos de uso, histórias de usuário, diagrama de classes e
@@ -291,3 +326,4 @@ docker compose exec api python -m app.tarefas.creditar_semestre
   diagrama de visão geral da interação e atualização do diagrama de casos de uso. Os
   diagramas de sequência e o de visão geral estão reunidos em
   `docs/entregas/Sistema de Moeda Estudantil - Laboratório 4 - Sprint 1.pdf` (e, em zip, só os diagramas).
+- **Release 02, Sprint 2** — diagrama de implantação e publicação da aplicação na nuvem (Vercel, Render e Neon). O diagrama de classes foi atualizado para a nova forma de guardar as fotos e o de componentes seguiu igual.
