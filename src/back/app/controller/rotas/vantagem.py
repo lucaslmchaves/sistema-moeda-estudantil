@@ -1,16 +1,21 @@
 """Rotas e controladores HTTP do recurso de Vantagem."""
 
-from fastapi import APIRouter, Depends, File, Form, UploadFile, status
+from fastapi import APIRouter, Depends, File, Form, Response, UploadFile, status
 
 from app.controller.permissoes import exigir_perfil, usuario_autenticado
-from app.controller.dependencias import obter_servico_vantagem
+from app.controller.dependencias import obter_leitor_de_fotos, obter_servico_vantagem
 from app.controller.schemas.tipos import IdDaRota
 from app.controller.schemas import VantagemRespostaSchema
 from app.model.enums import TipoUsuario
 from app.model.usuario import Usuario
+from app.repository.armazenamento_foto_banco import ArmazenamentoFotoBanco
+from app.service.excecoes import NaoEncontrado
 from app.service.servico_vantagem import FOTO_TAMANHO_MAXIMO, ServicoVantagem
 
 router = APIRouter(prefix="/vantagens", tags=["Vantagens"])
+router_fotos = APIRouter(prefix="/fotos", tags=["Vantagens"])
+
+TIPOS_DE_FOTO = {"jpg": "image/jpeg", "png": "image/png", "webp": "image/webp"}
 
 
 @router.post(
@@ -79,3 +84,24 @@ def excluir_vantagem(
 ) -> None:
     """Realiza a exclusão lógica da vantagem da empresa autenticada."""
     servico.excluir_vantagem(empresa.id_usuario, id)
+
+
+@router_fotos.get(
+    "/{id}",
+    status_code=status.HTTP_200_OK,
+    summary="Baixar a foto de uma vantagem",
+    description="Entrega a imagem guardada no banco; é pública para que o navegador a exiba.",
+)
+def baixar_foto(
+    id: IdDaRota,
+    armazenamento: ArmazenamentoFotoBanco = Depends(obter_leitor_de_fotos),
+) -> Response:
+    """Devolve os bytes da foto com o tipo de imagem correspondente."""
+    foto = armazenamento.obter(id)
+    if foto is None:
+        raise NaoEncontrado("Foto não encontrada.")
+    return Response(
+        content=foto.conteudo,
+        media_type=TIPOS_DE_FOTO.get(foto.extensao, "application/octet-stream"),
+        headers={"Cache-Control": "public, max-age=86400"},
+    )

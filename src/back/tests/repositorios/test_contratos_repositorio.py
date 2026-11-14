@@ -3,7 +3,7 @@
 import pytest
 from sqlalchemy.orm import Session
 
-from app.repository.armazenamento_foto_local import ArmazenamentoFotoLocal
+from app.repository.armazenamento_foto_banco import ArmazenamentoFotoBanco
 from app.repository.interfaces import (
     IArmazenamentoFoto,
     IRepositorioAluno,
@@ -61,7 +61,7 @@ def test_repositorios_concretos_realizam_as_interfaces(sessao: Session):
     assert isinstance(RepositorioConta(sessao), IRepositorioConta)
     assert isinstance(RepositorioVantagem(sessao), IRepositorioVantagem)
     assert isinstance(RepositorioTransacao(sessao), IRepositorioTransacao)
-    assert isinstance(ArmazenamentoFotoLocal("uploads"), IArmazenamentoFoto)
+    assert isinstance(ArmazenamentoFotoBanco(sessao), IArmazenamentoFoto)
 
 
 def test_repositorios_falsos_dos_testes_tambem_realizam_as_interfaces():
