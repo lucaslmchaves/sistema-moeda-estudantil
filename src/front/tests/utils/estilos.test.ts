@@ -4,27 +4,28 @@ import { classeBotao, classeControle, classeLinkNavegacao } from '../../src/util
 
 describe('classeBotao', () => {
   it('usa a cor de cada variante', () => {
-    expect(classeBotao('primario')).toContain('bg-indigo-600');
-    expect(classeBotao('secundario')).toContain('bg-white');
-    expect(classeBotao('perigo')).toContain('bg-red-500');
+    expect(classeBotao('primario')).toContain('bg-tinta');
+    expect(classeBotao('secundario')).toContain('bg-superficie');
+    expect(classeBotao('perigo')).toContain('bg-negativo');
   });
 
   it('usa o tamanho pequeno quando pedido', () => {
     expect(classeBotao('primario', true)).toContain('text-xs');
     expect(classeBotao('primario')).toContain('text-sm');
+    expect(classeBotao('primario', 'grande')).toContain('h-12');
   });
 });
 
 describe('classeLinkNavegacao', () => {
   it('destaca o link da rota ativa', () => {
-    expect(classeLinkNavegacao(true)).toContain('bg-indigo-50');
-    expect(classeLinkNavegacao(false)).toContain('text-slate-500');
+    expect(classeLinkNavegacao(true)).toContain('bg-lavanda-100');
+    expect(classeLinkNavegacao(false)).toContain('text-tinta-2');
   });
 });
 
 describe('classeControle', () => {
   it('usa borda vermelha quando há erro e cinza quando não há', () => {
-    expect(classeControle(true)).toContain('border-red-500');
-    expect(classeControle(false)).toContain('border-slate-200');
+    expect(classeControle(true)).toContain('border-negativo');
+    expect(classeControle(false)).toContain('border-linha-forte');
   });
 });

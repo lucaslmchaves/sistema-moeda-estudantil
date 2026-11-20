@@ -8,6 +8,7 @@ import { Cartao } from '../../componentes/layout/Cartao';
 import { Carregando } from '../../componentes/feedback/Carregando';
 import { ExclusaoDoCadastro } from '../../componentes/acesso/ExclusaoDoCadastro';
 import { MensagemAlerta } from '../../componentes/feedback/MensagemAlerta';
+import { SecaoFormulario } from '../../componentes/formulario/SecaoFormulario';
 import { SelectFormulario } from '../../componentes/formulario/SelectFormulario';
 import { useAlunoFormulario } from '../../hooks/cadastros/useAlunoFormulario';
 import type { AlunoFormulario as ValoresAluno } from '../../tipos/aluno';
@@ -33,19 +34,15 @@ export const AlunoFormulario: React.FC = () => {
   if (form.carregandoDados) return <Carregando mensagem="Carregando formulário..." />;
 
   return (
-    <div>
+    <div className={edicao ? '' : 'mx-auto max-w-[960px]'}>
       <CabecalhoPagina
-        titulo={edicao ? 'Meu Cadastro' : 'Cadastro de Aluno'}
+        titulo={edicao ? 'Meu cadastro' : 'Criar conta de aluno'}
         descricao={
           edicao
-            ? 'Atualize os seus dados (o login não pode ser modificado)'
-            : 'Preencha os dados para participar do sistema de mérito'
+            ? 'Mantenha os seus dados atualizados.'
+            : 'Com a conta, você recebe moedas dos professores e troca por vantagens.'
         }
-      >
-        <Link to={voltarPara} className={classeBotao('secundario')}>
-          {edicao ? 'Voltar ao Início' : 'Voltar ao Login'}
-        </Link>
-      </CabecalhoPagina>
+      />
 
       <MensagemAlerta
         tipo="erro"
@@ -55,96 +52,117 @@ export const AlunoFormulario: React.FC = () => {
 
       <Cartao>
         <form noValidate onSubmit={form.enviar}>
-          <div className={CLASSE_GRADE_FORMULARIO}>
-            <CampoFormulario
-              {...campo('nome')}
-              rotulo="Nome Completo"
-              placeholder="Ex: Lucas Silva"
-              obrigatorio
-            />
-            <CampoFormulario
-              {...campo('email')}
-              rotulo="E-mail"
-              tipo="email"
-              placeholder="Ex: lucas@exemplo.com"
-              obrigatorio
-            />
-            <CampoFormulario
-              {...campo('cpf')}
-              rotulo="CPF"
-              placeholder="Ex: 123.456.789-09 ou 12345678909"
-              dica="Pode ser digitado com ou sem pontos/traço."
-              obrigatorio
-            />
-            <CampoFormulario
-              {...campo('rg')}
-              rotulo="RG"
-              placeholder="Ex: MG-12.345.678"
-              obrigatorio
-            />
-            <CampoFormulario
-              {...campo('curso')}
-              rotulo="Curso"
-              placeholder="Ex: Engenharia de Software"
-              obrigatorio
-            />
-            <SelectFormulario
-              id="id_instituicao"
-              rotulo="Instituição de Ensino"
-              valor={valores.id_instituicao}
-              opcoes={form.instituicoes.map((i) => ({ valor: i.id_instituicao, rotulo: i.nome }))}
-              textoPadrao="Selecione uma instituição..."
-              onChange={(valor) => form.alterarCampo('id_instituicao', valor)}
-              erro={erros.id_instituicao}
-              obrigatorio
-            />
-            <CampoFormulario
-              {...campo('endereco')}
-              rotulo="Endereço Completo"
-              placeholder="Ex: Av. Dom José Gaspar, 500"
-              colunaCheia
-              obrigatorio
-            />
-            <CampoFormulario
-              {...campo('login')}
-              rotulo={edicao ? 'Login de Usuário (Bloqueado)' : 'Login de Usuário'}
-              placeholder="Ex: lucas.silva"
-              desabilitado={edicao}
-              dica={edicao ? 'O login é único e não pode ser alterado após o cadastro.' : undefined}
-              obrigatorio={!edicao}
-            />
-            <CampoFormulario
-              {...campo('senha')}
-              rotulo={edicao ? 'Nova Senha (Opcional)' : 'Senha de Acesso'}
-              tipo="password"
-              placeholder={
-                edicao ? 'Deixe em branco para manter a atual' : 'Mínimo de 8 caracteres'
-              }
-              dica={
-                edicao
-                  ? 'Preencha somente se desejar redefinir a senha (mínimo 8 caracteres).'
-                  : 'A senha deve conter pelo menos 8 caracteres.'
-              }
-              obrigatorio={!edicao}
-            />
-          </div>
+          <SecaoFormulario
+            titulo="Dados pessoais"
+            descricao="Usados para identificar você na instituição."
+          >
+            <div className={CLASSE_GRADE_FORMULARIO}>
+              <CampoFormulario
+                {...campo('nome')}
+                rotulo="Nome completo"
+                autoComplete="name"
+                colunaCheia
+                obrigatorio
+              />
+              <CampoFormulario
+                {...campo('email')}
+                rotulo="E-mail"
+                tipo="email"
+                placeholder="nome@exemplo.com"
+                dica="Os avisos de moedas e os cupons chegam aqui."
+                autoComplete="email"
+                colunaCheia
+                obrigatorio
+              />
+              <CampoFormulario
+                {...campo('cpf')}
+                rotulo="CPF"
+                placeholder="000.000.000-00"
+                inputMode="numeric"
+                obrigatorio
+              />
+              <CampoFormulario
+                {...campo('rg')}
+                rotulo="RG"
+                placeholder="MG-00.000.000"
+                obrigatorio
+              />
+              <CampoFormulario
+                {...campo('endereco')}
+                rotulo="Endereço"
+                autoComplete="street-address"
+                colunaCheia
+                obrigatorio
+              />
+            </div>
+          </SecaoFormulario>
+
+          <SecaoFormulario titulo="Instituição" descricao="Onde você estuda e qual curso faz.">
+            <div className={CLASSE_GRADE_FORMULARIO}>
+              <SelectFormulario
+                id="id_instituicao"
+                rotulo="Instituição de ensino"
+                valor={valores.id_instituicao}
+                opcoes={form.instituicoes.map((i) => ({ valor: i.id_instituicao, rotulo: i.nome }))}
+                textoPadrao="Selecione"
+                onChange={(valor) => form.alterarCampo('id_instituicao', valor)}
+                erro={erros.id_instituicao}
+                obrigatorio
+              />
+              <CampoFormulario {...campo('curso')} rotulo="Curso" obrigatorio />
+            </div>
+          </SecaoFormulario>
+
+          <SecaoFormulario
+            titulo="Acesso"
+            descricao={
+              edicao ? 'O login não pode ser alterado.' : 'Você vai usar estes dados para entrar.'
+            }
+          >
+            <div className={CLASSE_GRADE_FORMULARIO}>
+              <CampoFormulario
+                {...campo('login')}
+                rotulo="Login"
+                placeholder="nome.sobrenome"
+                desabilitado={edicao}
+                autoComplete="username"
+                obrigatorio={!edicao}
+              />
+              <CampoFormulario
+                {...campo('senha')}
+                rotulo={edicao ? 'Nova senha' : 'Senha'}
+                tipo="password"
+                placeholder={edicao ? 'Deixe em branco para manter' : ''}
+                dica="Mínimo de 8 caracteres."
+                autoComplete="new-password"
+                obrigatorio={!edicao}
+              />
+            </div>
+          </SecaoFormulario>
 
           <div className={CLASSE_ACOES_FORMULARIO}>
-            <Link to={voltarPara} className={classeBotao('secundario')}>
+            <Link to={voltarPara} className={classeBotao('fantasma')}>
               Cancelar
             </Link>
             <button type="submit" className={classeBotao('primario')} disabled={form.salvando}>
-              {form.salvando ? 'Salvando...' : edicao ? 'Salvar Alterações' : 'Cadastrar Aluno'}
+              {form.salvando ? 'Salvando...' : edicao ? 'Salvar alterações' : 'Criar conta'}
             </button>
           </div>
         </form>
       </Cartao>
 
-      {edicao && (
+      {edicao ? (
         <ExclusaoDoCadastro
-          texto="Ao excluir o cadastro você deixa de participar do sistema de mérito e perde o acesso ao seu saldo. O histórico de transações é mantido."
+          texto="Você deixa de participar do sistema e perde o acesso ao saldo. O histórico de transações é mantido."
           excluirFn={() => excluirAluno(Number(id))}
         />
+      ) : (
+        <p className="mt-6 text-center text-sm text-tinta-3">
+          Já tem conta?{' '}
+          <Link to="/entrar" className="font-medium text-tinta underline">
+            Entrar
+          </Link>
+        </p>
       )}
     </div>
   );

@@ -8,6 +8,7 @@ import { Cartao } from '../../componentes/layout/Cartao';
 import { Carregando } from '../../componentes/feedback/Carregando';
 import { ExclusaoDoCadastro } from '../../componentes/acesso/ExclusaoDoCadastro';
 import { MensagemAlerta } from '../../componentes/feedback/MensagemAlerta';
+import { SecaoFormulario } from '../../componentes/formulario/SecaoFormulario';
 import { useEmpresaFormulario } from '../../hooks/cadastros/useEmpresaFormulario';
 import type { EmpresaFormulario as ValoresEmpresa } from '../../tipos/empresa';
 import { CLASSE_ACOES_FORMULARIO, CLASSE_GRADE_FORMULARIO, classeBotao } from '../../utils/estilos';
@@ -30,19 +31,15 @@ export const EmpresaFormulario: React.FC = () => {
   if (form.carregandoDados) return <Carregando mensagem="Carregando formulário..." />;
 
   return (
-    <div>
+    <div className={edicao ? '' : 'mx-auto max-w-[960px]'}>
       <CabecalhoPagina
-        titulo={edicao ? 'Meu Cadastro' : 'Cadastro de Empresa Parceira'}
+        titulo={edicao ? 'Meu cadastro' : 'Cadastrar empresa parceira'}
         descricao={
           edicao
-            ? 'Atualize os dados da sua empresa (o login não pode ser modificado)'
-            : 'Preencha os dados cadastrais da empresa parceira'
+            ? 'Mantenha os dados da empresa atualizados.'
+            : 'Ofereça vantagens aos estudantes em troca de moedas.'
         }
-      >
-        <Link to={voltarPara} className={classeBotao('secundario')}>
-          {edicao ? 'Voltar ao Início' : 'Voltar ao Login'}
-        </Link>
-      </CabecalhoPagina>
+      />
 
       <MensagemAlerta
         tipo="erro"
@@ -52,68 +49,84 @@ export const EmpresaFormulario: React.FC = () => {
 
       <Cartao>
         <form noValidate onSubmit={form.enviar}>
-          <div className={CLASSE_GRADE_FORMULARIO}>
-            <CampoFormulario
-              {...campo('nome')}
-              rotulo="Razão Social / Nome Fantasia"
-              placeholder="Ex: Livraria Universitária Ltda"
-              obrigatorio
-            />
-            <CampoFormulario
-              {...campo('email')}
-              rotulo="E-mail Corporativo"
-              tipo="email"
-              placeholder="Ex: contato@livraria.com.br"
-              obrigatorio
-            />
-            <CampoFormulario
-              {...campo('cnpj')}
-              rotulo="CNPJ"
-              placeholder="Ex: 00.000.000/0001-91 ou 00000000000191"
-              dica="Pode ser digitado com ou sem pontuação."
-              obrigatorio
-            />
-            <CampoFormulario
-              {...campo('login')}
-              rotulo={edicao ? 'Login de Usuário (Bloqueado)' : 'Login de Usuário'}
-              placeholder="Ex: livraria.universitaria"
-              desabilitado={edicao}
-              dica={edicao ? 'O login é único e não pode ser alterado após o cadastro.' : undefined}
-              obrigatorio={!edicao}
-            />
-            <CampoFormulario
-              {...campo('senha')}
-              rotulo={edicao ? 'Nova Senha (Opcional)' : 'Senha de Acesso'}
-              tipo="password"
-              placeholder={
-                edicao ? 'Deixe em branco para manter a atual' : 'Mínimo de 8 caracteres'
-              }
-              dica={
-                edicao
-                  ? 'Preencha somente se desejar redefinir a senha da empresa (mínimo 8 caracteres).'
-                  : 'A senha deve conter pelo menos 8 caracteres.'
-              }
-              colunaCheia
-              obrigatorio={!edicao}
-            />
-          </div>
+          <SecaoFormulario titulo="Empresa" descricao="Como a empresa aparece para os alunos.">
+            <div className={CLASSE_GRADE_FORMULARIO}>
+              <CampoFormulario
+                {...campo('nome')}
+                rotulo="Nome da empresa"
+                autoComplete="organization"
+                colunaCheia
+                obrigatorio
+              />
+              <CampoFormulario
+                {...campo('cnpj')}
+                rotulo="CNPJ"
+                placeholder="00.000.000/0000-00"
+                inputMode="numeric"
+                obrigatorio
+              />
+              <CampoFormulario
+                {...campo('email')}
+                rotulo="E-mail"
+                tipo="email"
+                placeholder="contato@empresa.com.br"
+                dica="Recebe o código de cada troca."
+                autoComplete="email"
+                obrigatorio
+              />
+            </div>
+          </SecaoFormulario>
+
+          <SecaoFormulario
+            titulo="Acesso"
+            descricao={
+              edicao ? 'O login não pode ser alterado.' : 'Você vai usar estes dados para entrar.'
+            }
+          >
+            <div className={CLASSE_GRADE_FORMULARIO}>
+              <CampoFormulario
+                {...campo('login')}
+                rotulo="Login"
+                placeholder="nome.da.empresa"
+                desabilitado={edicao}
+                autoComplete="username"
+                obrigatorio={!edicao}
+              />
+              <CampoFormulario
+                {...campo('senha')}
+                rotulo={edicao ? 'Nova senha' : 'Senha'}
+                tipo="password"
+                placeholder={edicao ? 'Deixe em branco para manter' : ''}
+                dica="Mínimo de 8 caracteres."
+                autoComplete="new-password"
+                obrigatorio={!edicao}
+              />
+            </div>
+          </SecaoFormulario>
 
           <div className={CLASSE_ACOES_FORMULARIO}>
-            <Link to={voltarPara} className={classeBotao('secundario')}>
+            <Link to={voltarPara} className={classeBotao('fantasma')}>
               Cancelar
             </Link>
             <button type="submit" className={classeBotao('primario')} disabled={form.salvando}>
-              {form.salvando ? 'Salvando...' : edicao ? 'Salvar Alterações' : 'Cadastrar Empresa'}
+              {form.salvando ? 'Salvando...' : edicao ? 'Salvar alterações' : 'Cadastrar empresa'}
             </button>
           </div>
         </form>
       </Cartao>
 
-      {edicao && (
+      {edicao ? (
         <ExclusaoDoCadastro
-          texto="Ao excluir o cadastro a empresa deixa de participar do sistema e as vantagens dela saem do catálogo. Os resgates já feitos são mantidos."
+          texto="A empresa deixa de participar e as vantagens saem do catálogo. Os resgates já feitos são mantidos."
           excluirFn={() => excluirEmpresa(Number(id))}
         />
+      ) : (
+        <p className="mt-6 text-center text-sm text-tinta-3">
+          Já tem conta?{' '}
+          <Link to="/entrar" className="font-medium text-tinta underline">
+            Entrar
+          </Link>
+        </p>
       )}
     </div>
   );

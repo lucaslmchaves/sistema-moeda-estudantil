@@ -7,6 +7,7 @@ import { Carregando } from '../feedback/Carregando';
 import { EstadoVazio } from '../feedback/EstadoVazio';
 import { MensagemAlerta } from '../feedback/MensagemAlerta';
 import { ModalConfirmacao } from '../feedback/ModalConfirmacao';
+import { Icone, type NomeIcone } from '../icones/Icone';
 import { ColunaTabela, Tabela } from './Tabela';
 
 interface PaginaListagemProps<T> {
@@ -23,6 +24,7 @@ interface PaginaListagemProps<T> {
   colunas: ColunaTabela<T>[];
   chaveExtrator: (item: T) => number;
   listagem: EstadoListagem<T>;
+  iconeVazio?: NomeIcone;
 }
 
 // Monta a tela de listagem a partir do estado do hook e das colunas informadas.
@@ -40,6 +42,7 @@ export function PaginaListagem<T>({
   colunas,
   chaveExtrator,
   listagem,
+  iconeVazio,
 }: PaginaListagemProps<T>) {
   const { itens, carregando, erro, sucesso, itemParaExcluir, excluindo } = listagem;
 
@@ -47,6 +50,7 @@ export function PaginaListagem<T>({
     <div>
       <CabecalhoPagina titulo={titulo} descricao={descricao}>
         <Link to={rotaNovo} className={classeBotao('primario')}>
+          <Icone nome="plus" tamanho={16} />
           {textoNovo}
         </Link>
       </CabecalhoPagina>
@@ -61,8 +65,9 @@ export function PaginaListagem<T>({
       {carregando ? (
         <Carregando mensagem={textoCarregando} />
       ) : itens.length === 0 ? (
-        <EstadoVazio titulo={tituloVazio} mensagem={mensagemVazia}>
+        <EstadoVazio titulo={tituloVazio} mensagem={mensagemVazia} icone={iconeVazio}>
           <Link to={rotaNovo} className={classeBotao('primario')}>
+            <Icone nome="plus" tamanho={16} />
             {textoPrimeiroCadastro}
           </Link>
         </EstadoVazio>

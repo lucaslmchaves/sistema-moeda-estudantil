@@ -8,6 +8,7 @@ interface OpcoesListagem<T> {
   excluirFn: (id: number) => Promise<void>;
   obterId: (item: T) => number;
   obterNome: (item: T) => string;
+  mensagemExcluido?: (nome: string) => string;
 }
 
 export interface EstadoListagem<T> {
@@ -30,6 +31,7 @@ export function useListagem<T>({
   excluirFn,
   obterId,
   obterNome,
+  mensagemExcluido = (nome) => `Cadastro "${nome}" excluído com sucesso.`,
 }: OpcoesListagem<T>): EstadoListagem<T> {
   const [itens, setItens] = useState<T[]>([]);
   const [carregando, setCarregando] = useState(true);
@@ -67,7 +69,7 @@ export function useListagem<T>({
     setErro(null);
     try {
       await excluirFn(obterId(itemParaExcluir));
-      setSucesso(`Cadastro "${obterNome(itemParaExcluir)}" excluído com sucesso.`);
+      setSucesso(mensagemExcluido(obterNome(itemParaExcluir)));
       setItemParaExcluir(null);
       await carregar();
     } catch (falha) {

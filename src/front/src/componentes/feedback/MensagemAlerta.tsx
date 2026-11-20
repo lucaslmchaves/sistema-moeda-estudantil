@@ -1,5 +1,6 @@
 // Caixa de alerta para mensagens de sucesso ou de erro.
 import React from 'react';
+import { Icone } from '../icones/Icone';
 
 interface MensagemAlertaProps {
   tipo: 'erro' | 'sucesso';
@@ -8,28 +9,30 @@ interface MensagemAlertaProps {
 }
 
 const ESTILO_POR_TIPO = {
-  erro: 'border-red-200 bg-red-50 text-red-700',
-  sucesso: 'border-emerald-200 bg-emerald-50 text-emerald-800',
-};
+  erro: { caixa: 'border-negativo/20 bg-negativo-fundo text-negativo', icone: 'warning-circle' },
+  sucesso: { caixa: 'border-positivo/20 bg-positivo-fundo text-positivo', icone: 'check-circle' },
+} as const;
 
 // Mostra a mensagem em destaque, com botão opcional para dispensá-la.
 export const MensagemAlerta: React.FC<MensagemAlertaProps> = ({ tipo, mensagem, onFechar }) => {
   if (!mensagem) return null;
+  const estilo = ESTILO_POR_TIPO[tipo];
 
   return (
     <div
       role={tipo === 'erro' ? 'alert' : 'status'}
-      className={`mb-5 flex items-center justify-between rounded-lg border px-4 py-3 text-sm ${ESTILO_POR_TIPO[tipo]}`}
+      className={`mb-6 flex animate-surgir items-start gap-3 rounded-controle border px-4 py-3 text-sm ${estilo.caixa}`}
     >
-      <span>{mensagem}</span>
+      <Icone nome={estilo.icone} tamanho={20} className="mt-px" />
+      <span className="flex-1 leading-relaxed font-medium">{mensagem}</span>
       {onFechar && (
         <button
           type="button"
           aria-label="Fechar mensagem"
           onClick={onFechar}
-          className="ml-4 cursor-pointer border-0 bg-transparent font-bold text-inherit"
+          className="-m-1 inline-flex size-7 cursor-pointer items-center justify-center rounded-md text-inherit opacity-70 transition hover:bg-black/5 hover:opacity-100"
         >
-          ✕
+          <Icone nome="x" tamanho={16} />
         </button>
       )}
     </div>

@@ -14,6 +14,7 @@ export function useCatalogo() {
   const [sucesso, setSucesso] = useState<string | null>(null);
   const [vantagemParaResgatar, setVantagemParaResgatar] = useState<Vantagem | null>(null);
   const [resgatando, setResgatando] = useState(false);
+  const [cupom, setCupom] = useState<{ codigo: string; vantagem: Vantagem } | null>(null);
   const { extrato, recarregar } = useExtrato();
 
   const carregar = useCallback(async () => {
@@ -38,6 +39,7 @@ export function useCatalogo() {
     setSucesso(null);
     try {
       const resgate = await resgatarVantagem(vantagemParaResgatar.id_vantagem);
+      setCupom({ codigo: resgate.codigo, vantagem: vantagemParaResgatar });
       setSucesso(
         `Resgate realizado! Código do cupom: ${resgate.codigo}. Enviamos o cupom para o seu e-mail.`,
       );
@@ -63,5 +65,7 @@ export function useCatalogo() {
     fecharResgate: () => setVantagemParaResgatar(null),
     resgatando,
     confirmarResgate,
+    cupom,
+    fecharCupom: () => setCupom(null),
   };
 }

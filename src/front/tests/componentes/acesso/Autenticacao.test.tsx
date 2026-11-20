@@ -1,10 +1,10 @@
 // @vitest-environment jsdom
-// Testes do provedor de autenticação, do guarda de rotas e do cabeçalho.
+// Testes do provedor de autenticação, do guarda de rotas e das estruturas de página.
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { entrar } from '../../../src/api/autenticacao';
-import { Cabecalho } from '../../../src/componentes/layout/Cabecalho';
+import { EstruturaApp, EstruturaPublica } from '../../../src/componentes/layout/Cabecalho';
 import { RotaProtegida } from '../../../src/componentes/acesso/RotaProtegida';
 import { ProvedorAutenticacao } from '../../../src/contextos/ProvedorAutenticacao';
 import { useAutenticacao } from '../../../src/hooks/autenticacao/useAutenticacao';
@@ -185,30 +185,44 @@ describe('RotaProtegida', () => {
   });
 });
 
-describe('Cabecalho', () => {
-  function cabecalho() {
+describe('Estruturas de página', () => {
+  // Mostra a casca de visitante ou a do usuário logado, como faz o App.
+  function Casca() {
+    const { usuario } = useAutenticacao();
+    return usuario ? (
+      <EstruturaApp usuario={usuario}>
+        <span>conteúdo</span>
+      </EstruturaApp>
+    ) : (
+      <EstruturaPublica>
+        <span>conteúdo</span>
+      </EstruturaPublica>
+    );
+  }
+
+  function estrutura() {
     return render(
       <MemoryRouter>
         <ProvedorAutenticacao>
-          <Cabecalho />
+          <Casca />
         </ProvedorAutenticacao>
       </MemoryRouter>,
     );
   }
 
-  it('mostra login e cadastros ao visitante, sem botão de sair', () => {
-    cabecalho();
+  it('mostra entrar e criar conta ao visitante, sem botão de sair', () => {
+    estrutura();
 
     expect(screen.getByRole('link', { name: 'Entrar' })).not.toBeNull();
-    expect(screen.getByRole('link', { name: 'Sou aluno' })).not.toBeNull();
+    expect(screen.getByRole('link', { name: 'Criar conta' })).not.toBeNull();
     expect(screen.queryByRole('button', { name: 'Sair' })).toBeNull();
   });
 
   it('mostra o nome e os links do aluno logado e encerra a sessão ao sair', () => {
     salvarSessao({ token: 't1', usuario: ANA });
-    cabecalho();
+    estrutura();
 
-    expect(screen.getByText('Olá, Ana')).not.toBeNull();
+    expect(screen.getByText('Ana')).not.toBeNull();
     expect(screen.getByRole('link', { name: 'Vantagens' })).not.toBeNull();
     expect(screen.queryByRole('link', { name: 'Entrar' })).toBeNull();
 

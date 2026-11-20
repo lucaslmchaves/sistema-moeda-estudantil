@@ -2,22 +2,32 @@
 import React from 'react';
 import { urlDaApi } from '../../api/cliente';
 import { excluirVantagem, listarMinhasVantagens } from '../../api/vantagens';
+import { Icone } from '../../componentes/icones/Icone';
+import { ValorMoedas } from '../../componentes/marca/Moedas';
 import { PaginaListagem } from '../../componentes/tabela/PaginaListagem';
 import type { ColunaTabela } from '../../componentes/tabela/Tabela';
 import { useListagem } from '../../hooks/geral/useListagem';
 import type { Vantagem } from '../../tipos/vantagem';
-import { classeBotao } from '../../utils/estilos';
-import { formatarMoedas } from '../../utils/formatacao';
 
 const COLUNAS_BASE: ColunaTabela<Vantagem>[] = [
   {
-    cabecalho: 'Foto',
+    cabecalho: 'Vantagem',
     render: (v) => (
-      <img src={urlDaApi(v.foto)} alt={v.descricao} className="h-12 w-12 rounded object-cover" />
+      <div className="flex items-center gap-4">
+        <img
+          src={urlDaApi(v.foto)}
+          alt=""
+          className="size-14 shrink-0 rounded-xl bg-superficie-2 object-cover"
+        />
+        <span className="text-[15px] font-medium text-tinta">{v.descricao}</span>
+      </div>
     ),
   },
-  { cabecalho: 'Descrição', render: (v) => <strong>{v.descricao}</strong> },
-  { cabecalho: 'Custo', render: (v) => formatarMoedas(v.custo) },
+  {
+    cabecalho: 'Custo',
+    largura: 'w-40',
+    render: (v) => <ValorMoedas valor={v.custo} tamanho="sm" />,
+  },
 ];
 
 // Mostra a tabela de vantagens da empresa com a ação de excluir.
@@ -27,6 +37,7 @@ export const MinhasVantagens: React.FC = () => {
     excluirFn: excluirVantagem,
     obterId: (vantagem) => vantagem.id_vantagem,
     obterNome: (vantagem) => vantagem.descricao,
+    mensagemExcluido: (nome) => `"${nome}" saiu do catálogo.`,
   });
 
   const colunas: ColunaTabela<Vantagem>[] = [
@@ -34,13 +45,16 @@ export const MinhasVantagens: React.FC = () => {
     {
       cabecalho: 'Ações',
       alinhamento: 'right',
+      largura: 'w-24',
       render: (vantagem) => (
         <button
           type="button"
-          className={classeBotao('perigo', true)}
+          aria-label={`Excluir ${vantagem.descricao}`}
+          title="Excluir"
+          className="inline-flex size-9 cursor-pointer items-center justify-center rounded-lg text-tinta-3 transition hover:bg-negativo-fundo hover:text-negativo"
           onClick={() => listagem.abrirConfirmacaoExclusao(vantagem)}
         >
-          Excluir
+          <Icone nome="trash" tamanho={18} />
         </button>
       ),
     },
@@ -48,21 +62,22 @@ export const MinhasVantagens: React.FC = () => {
 
   return (
     <PaginaListagem
-      titulo="Minhas Vantagens"
-      descricao="Vantagens que a sua empresa oferece em troca de moedas"
+      titulo="Minhas vantagens"
+      descricao="O que a sua empresa oferece aos alunos em troca de moedas."
       rotaNovo="/minhas-vantagens/nova"
-      textoNovo="+ Nova Vantagem"
+      textoNovo="Nova vantagem"
       textoCarregando="Carregando vantagens..."
       tituloVazio="Nenhuma vantagem cadastrada"
-      mensagemVazia="Cadastre a primeira vantagem para os alunos poderem trocá-la por moedas."
-      textoPrimeiroCadastro="Cadastrar Primeira Vantagem"
-      tituloExclusao="Confirmar Exclusão de Vantagem"
+      mensagemVazia="Cadastre a primeira para ela aparecer no catálogo dos alunos."
+      textoPrimeiroCadastro="Cadastrar vantagem"
+      tituloExclusao="Excluir vantagem?"
       mensagemExclusao={(vantagem) =>
-        `Tem certeza que deseja excluir a vantagem "${vantagem.descricao}"? Ela deixará de aparecer no catálogo.`
+        `"${vantagem.descricao}" deixa de aparecer no catálogo. Os resgates já feitos são mantidos.`
       }
       colunas={colunas}
       chaveExtrator={(vantagem) => vantagem.id_vantagem}
       listagem={listagem}
+      iconeVazio="gift"
     />
   );
 };

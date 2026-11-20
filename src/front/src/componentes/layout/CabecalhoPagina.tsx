@@ -2,8 +2,8 @@
 import React from 'react';
 
 interface CabecalhoPaginaProps {
-  titulo: string;
-  descricao: string;
+  titulo: React.ReactNode;
+  descricao?: React.ReactNode;
   children?: React.ReactNode;
 }
 
@@ -14,12 +14,12 @@ export const CabecalhoPagina: React.FC<CabecalhoPaginaProps> = ({
   children,
 }) => {
   return (
-    <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-      <div>
-        <h1 className="text-3xl font-bold text-slate-800">{titulo}</h1>
-        <p className="mt-1 text-slate-500">{descricao}</p>
+    <div className="mb-8 flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
+      <div className="min-w-0">
+        <h1 className="titulo-display text-[32px] text-tinta sm:text-[40px]">{titulo}</h1>
+        {descricao && <p className="mt-2 max-w-2xl text-[15px] text-tinta-3">{descricao}</p>}
       </div>
-      {children && <div>{children}</div>}
+      {children && <div className="flex flex-wrap items-center gap-2">{children}</div>}
     </div>
   );
 };

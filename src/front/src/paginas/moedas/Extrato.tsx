@@ -1,42 +1,46 @@
 // Página de extrato: saldo e movimentações do aluno ou do professor logado.
-import React from 'react';
+import React, { useState } from 'react';
 import { CabecalhoPagina } from '../../componentes/layout/CabecalhoPagina';
-import { Cartao } from '../../componentes/layout/Cartao';
 import { Carregando } from '../../componentes/feedback/Carregando';
 import { EstadoVazio } from '../../componentes/feedback/EstadoVazio';
 import { MensagemAlerta } from '../../componentes/feedback/MensagemAlerta';
-import { ColunaTabela, Tabela } from '../../componentes/tabela/Tabela';
+import { ValorMoedas } from '../../componentes/marca/Moedas';
+import { ListaMovimentacoesPorDia } from '../../componentes/moedas/ListaMovimentacoes';
+import { useAutenticacao } from '../../hooks/autenticacao/useAutenticacao';
 import { useExtrato } from '../../hooks/moedas/useExtrato';
-import type { TransacaoExtrato } from '../../tipos/moedas';
-import { formatarDataHora, formatarMoedas } from '../../utils/formatacao';
+import { totaisDoExtrato } from '../../utils/extrato';
 
-// Pinta de verde o que entrou na conta e de vermelho o que saiu.
-function ValorDaTransacao({ valor }: { valor: number }) {
-  const cor = valor >= 0 ? 'text-emerald-700' : 'text-red-600';
-  const sinal = valor >= 0 ? '+' : '−';
-  return (
-    <strong className={`whitespace-nowrap ${cor}`}>
-      {sinal} {formatarMoedas(Math.abs(valor))}
-    </strong>
-  );
-}
+type Filtro = 'todas' | 'entradas' | 'saidas';
 
-const COLUNAS: ColunaTabela<TransacaoExtrato>[] = [
-  {
-    cabecalho: 'Data',
-    render: (t) => <span className="whitespace-nowrap">{formatarDataHora(t.data_hora)}</span>,
-  },
-  { cabecalho: 'Descrição', render: (t) => t.descricao },
-  { cabecalho: 'Valor', alinhamento: 'right', render: (t) => <ValorDaTransacao valor={t.valor} /> },
-];
-
-// Mostra o saldo atual e a tabela de movimentações, da mais recente para a mais antiga.
+// Mostra o saldo, os totais e as movimentações agrupadas por dia, com filtro por sentido.
 export const Extrato: React.FC = () => {
   const { extrato, carregando, erro, setErro } = useExtrato();
+  const { usuario } = useAutenticacao();
+  const [filtro, setFiltro] = useState<Filtro>('todas');
+  const professor = usuario?.tipo_usuario === 'PROFESSOR';
+
+  const transacoes = extrato?.transacoes ?? [];
+  const totais = totaisDoExtrato(transacoes);
+  const entradas = transacoes.filter((t) => t.valor >= 0);
+  const saidas = transacoes.filter((t) => t.valor < 0);
+  const visiveis = filtro === 'entradas' ? entradas : filtro === 'saidas' ? saidas : transacoes;
+
+  const filtros: { id: Filtro; rotulo: string; quantidade: number }[] = [
+    { id: 'todas', rotulo: 'Todas', quantidade: transacoes.length },
+    { id: 'entradas', rotulo: professor ? 'Créditos' : 'Recebidas', quantidade: entradas.length },
+    { id: 'saidas', rotulo: professor ? 'Enviadas' : 'Trocas', quantidade: saidas.length },
+  ];
 
   return (
     <div>
-      <CabecalhoPagina titulo="Extrato" descricao="Seu saldo e as suas movimentações de moedas" />
+      <CabecalhoPagina
+        titulo="Extrato"
+        descricao={
+          professor
+            ? 'O seu saldo e as moedas que você já enviou.'
+            : 'O seu saldo, as moedas recebidas e as trocas por vantagens.'
+        }
+      />
       <MensagemAlerta tipo="erro" mensagem={erro} onFechar={() => setErro(null)} />
 
       {carregando ? (
@@ -44,21 +48,72 @@ export const Extrato: React.FC = () => {
       ) : (
         extrato && (
           <>
-            <Cartao>
-              <p className="text-sm text-slate-500">Saldo atual</p>
-              <p className="text-3xl font-bold text-slate-800">{formatarMoedas(extrato.saldo)}</p>
-            </Cartao>
-            {extrato.transacoes.length === 0 ? (
+            <dl className="mb-8 grid overflow-hidden rounded-cartao border border-linha bg-superficie sm:grid-cols-[1.4fr_1fr_1fr]">
+              <div className="bg-lavanda-100 p-6 sm:p-7">
+                <dt className="text-sm text-tinta-2">Saldo atual</dt>
+                <dd className="mt-3">
+                  <ValorMoedas valor={extrato.saldo} tamanho="lg" />
+                </dd>
+              </div>
+              <div className="border-t border-linha p-6 sm:border-t-0 sm:border-l sm:p-7">
+                <dt className="text-sm text-tinta-3">{professor ? 'Créditos' : 'Recebidas'}</dt>
+                <dd className="mt-3 text-positivo">
+                  <ValorMoedas valor={totais.entradas} tamanho="lg" sinal semMoeda semUnidade />
+                </dd>
+              </div>
+              <div className="border-t border-linha p-6 sm:border-t-0 sm:border-l sm:p-7">
+                <dt className="text-sm text-tinta-3">{professor ? 'Enviadas' : 'Trocadas'}</dt>
+                <dd className="mt-3">
+                  <ValorMoedas valor={-totais.saidas} tamanho="lg" sinal semMoeda semUnidade />
+                </dd>
+              </div>
+            </dl>
+
+            {transacoes.length === 0 ? (
               <EstadoVazio
+                icone="receipt"
                 titulo="Nenhuma movimentação"
-                mensagem="Assim que houver envio, recebimento ou troca de moedas, ela aparece aqui."
+                mensagem={
+                  professor
+                    ? 'Quando você enviar moedas a um aluno, o envio aparece aqui.'
+                    : 'Quando um professor enviar moedas para você, elas aparecem aqui.'
+                }
               />
             ) : (
-              <Tabela
-                colunas={COLUNAS}
-                dados={extrato.transacoes}
-                chaveExtrator={(t) => t.id_transacao}
-              />
+              <section className="rounded-cartao border border-linha bg-superficie">
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-linha px-5 py-3 sm:px-6">
+                  <h2 className="text-[15px] font-semibold tracking-[-0.01em]">Movimentações</h2>
+                  <div role="group" aria-label="Filtrar movimentações" className="flex gap-1">
+                    {filtros.map((f) => (
+                      <button
+                        key={f.id}
+                        type="button"
+                        aria-pressed={filtro === f.id}
+                        onClick={() => setFiltro(f.id)}
+                        className={`inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-full px-3 text-[13px] font-medium transition ${
+                          filtro === f.id
+                            ? 'bg-tinta text-white'
+                            : 'text-tinta-2 hover:bg-tinta/5 hover:text-tinta'
+                        }`}
+                      >
+                        {f.rotulo}
+                        <span
+                          className={`numeros text-xs ${filtro === f.id ? 'text-white/60' : 'text-tinta-3'}`}
+                        >
+                          {f.quantidade}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                {visiveis.length === 0 ? (
+                  <p className="px-6 py-12 text-center text-sm text-tinta-3">
+                    Nada por aqui com este filtro.
+                  </p>
+                ) : (
+                  <ListaMovimentacoesPorDia transacoes={visiveis} />
+                )}
+              </section>
             )}
           </>
         )

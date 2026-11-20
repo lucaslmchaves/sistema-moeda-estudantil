@@ -10,8 +10,9 @@ describe('CampoFormulario', () => {
   it('mostra o rótulo com asterisco quando o campo é obrigatório', () => {
     render(<CampoFormulario id="nome" rotulo="Nome" obrigatorio />);
 
-    expect(screen.getByLabelText(/Nome/)).not.toBeNull();
-    expect(screen.getByText(/Nome \*/)).not.toBeNull();
+    const campo = screen.getByLabelText(/Nome/) as HTMLInputElement;
+    expect(campo.required).toBe(true);
+    expect(screen.getByText('*')).not.toBeNull();
   });
 
   it('mostra o erro de forma acessível e marca o campo como inválido', () => {

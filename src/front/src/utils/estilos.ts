@@ -1,41 +1,55 @@
 // Classes do Tailwind reutilizadas pelos componentes, para não repetir utilitários.
 
-type VarianteBotao = 'primario' | 'secundario' | 'perigo';
+type VarianteBotao = 'primario' | 'secundario' | 'perigo' | 'fantasma';
+type TamanhoBotao = 'normal' | 'pequeno' | 'grande';
 
 const BASE_BOTAO =
-  'inline-flex cursor-pointer items-center justify-center rounded-lg border border-transparent font-semibold no-underline transition disabled:cursor-not-allowed disabled:opacity-60';
+  'inline-flex shrink-0 cursor-pointer select-none items-center justify-center gap-2 whitespace-nowrap rounded-controle border font-medium no-underline transition-[background-color,border-color,color,transform] duration-150 active:translate-y-px disabled:pointer-events-none disabled:opacity-45';
 
 const VARIANTES_BOTAO: Record<VarianteBotao, string> = {
-  primario: 'bg-indigo-600 text-white enabled:hover:bg-indigo-700',
-  secundario: 'border-slate-200 bg-white text-slate-800 enabled:hover:bg-slate-100',
-  perigo: 'bg-red-500 text-white enabled:hover:bg-red-600',
+  primario: 'border-transparent bg-tinta text-white hover:bg-tinta-hover',
+  secundario:
+    'border-linha-forte bg-superficie text-tinta hover:border-tinta-3 hover:bg-superficie-2',
+  perigo: 'border-transparent bg-negativo text-white hover:bg-negativo-hover',
+  fantasma: 'border-transparent bg-transparent text-tinta-2 hover:bg-tinta/5 hover:text-tinta',
+};
+
+const TAMANHOS_BOTAO: Record<TamanhoBotao, string> = {
+  pequeno: 'h-8 px-3 text-xs',
+  normal: 'h-10 px-4 text-sm',
+  grande: 'h-12 px-5 text-[15px]',
 };
 
 // Monta as classes de um botão ou link com aparência de botão.
-export function classeBotao(variante: VarianteBotao, pequeno = false): string {
-  const tamanho = pequeno ? 'px-2.5 py-1 text-xs' : 'px-4 py-2 text-sm';
-  return `${BASE_BOTAO} ${tamanho} ${VARIANTES_BOTAO[variante]}`;
+export function classeBotao(
+  variante: VarianteBotao,
+  pequeno: boolean | TamanhoBotao = false,
+): string {
+  const tamanho: TamanhoBotao =
+    pequeno === true ? 'pequeno' : pequeno === false ? 'normal' : pequeno;
+  return `${BASE_BOTAO} ${TAMANHOS_BOTAO[tamanho]} ${VARIANTES_BOTAO[variante]}`;
 }
 
-// Monta as classes de um item da navegação, destacando o item da rota atual.
+// Monta as classes de um item da navegação lateral, destacando o item da rota atual.
 export function classeLinkNavegacao(ativo: boolean): string {
-  const base = 'rounded-lg px-3 py-2 font-medium no-underline transition';
+  const base =
+    'group flex h-10 items-center gap-3 rounded-controle px-3 text-sm font-medium no-underline transition-colors duration-150';
   const estado = ativo
-    ? 'bg-indigo-50 text-indigo-600'
-    : 'text-slate-500 hover:bg-indigo-50 hover:text-indigo-600';
+    ? 'bg-lavanda-100 text-tinta'
+    : 'text-tinta-2 hover:bg-tinta/5 hover:text-tinta';
   return `${base} ${estado}`;
 }
 
 // Monta as classes de um campo de formulário, com borda vermelha quando há erro.
 export function classeControle(comErro: boolean): string {
   const base =
-    'rounded-lg border bg-white px-3 py-2.5 text-sm text-slate-800 outline-none transition focus:border-indigo-600 focus:ring-4 focus:ring-indigo-600/15 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400';
-  return `${base} ${comErro ? 'border-red-500' : 'border-slate-200'}`;
+    'w-full rounded-controle border bg-superficie px-3.5 py-2.5 text-[15px] text-tinta outline-none transition-[border-color,box-shadow] duration-150 hover:border-tinta-3 focus:border-violeta focus:shadow-[0_0_0_4px_var(--color-lavanda-100)] disabled:cursor-not-allowed disabled:border-linha disabled:bg-superficie-2 disabled:text-tinta-3';
+  return `${base} ${comErro ? 'border-negativo focus:border-negativo focus:shadow-[0_0_0_4px_var(--color-negativo-fundo)]' : 'border-linha-forte'}`;
 }
 
-export const CLASSE_CARTAO = 'mb-6 rounded-lg border border-slate-200 bg-white p-6 shadow-sm';
+export const CLASSE_CARTAO = 'rounded-cartao border border-linha bg-superficie';
 
-export const CLASSE_GRADE_FORMULARIO =
-  'mb-6 grid gap-5 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]';
+export const CLASSE_GRADE_FORMULARIO = 'grid gap-x-5 gap-y-5 sm:grid-cols-2';
 
-export const CLASSE_ACOES_FORMULARIO = 'flex justify-end gap-4';
+export const CLASSE_ACOES_FORMULARIO =
+  'flex flex-col-reverse gap-3 border-t border-linha pt-6 sm:flex-row sm:items-center sm:justify-end';
