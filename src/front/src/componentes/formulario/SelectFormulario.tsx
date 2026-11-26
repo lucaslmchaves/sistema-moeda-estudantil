@@ -1,28 +1,27 @@
 // Campo de seleção com rótulo e mensagem de erro, no mesmo padrão dos campos de texto.
-import React from 'react';
 import { classeControle } from '../../utils/estilos';
 import { Icone } from '../icones/Icone';
 import { CampoFormulario } from './CampoFormulario';
 
-interface OpcaoSelect {
-  valor: number;
+interface OpcaoSelect<V> {
+  valor: V;
   rotulo: string;
 }
 
-interface SelectFormularioProps {
+interface SelectFormularioProps<V> {
   id: string;
   rotulo: string;
-  valor: number | '';
-  opcoes: OpcaoSelect[];
+  valor: V | '';
+  opcoes: OpcaoSelect<V>[];
   textoPadrao: string;
-  onChange: (valor: number) => void;
+  onChange: (valor: V) => void;
   erro?: string;
   obrigatorio?: boolean;
   colunaCheia?: boolean;
 }
 
-// Mostra a lista de opções e devolve o valor numérico escolhido.
-export const SelectFormulario: React.FC<SelectFormularioProps> = ({
+// Mostra a lista de opções e devolve o valor escolhido, no tipo das opções.
+export function SelectFormulario<V extends string | number>({
   id,
   rotulo,
   valor,
@@ -32,7 +31,7 @@ export const SelectFormulario: React.FC<SelectFormularioProps> = ({
   erro,
   obrigatorio = false,
   colunaCheia = false,
-}) => {
+}: SelectFormularioProps<V>) {
   return (
     <CampoFormulario
       id={id}
@@ -46,7 +45,10 @@ export const SelectFormulario: React.FC<SelectFormularioProps> = ({
           id={id}
           className={`${classeControle(Boolean(erro))} cursor-pointer appearance-none pr-10 ${valor === '' ? 'text-tinta-3' : ''}`}
           value={valor}
-          onChange={(e) => onChange(Number(e.target.value))}
+          onChange={(e) => {
+            const escolhida = opcoes.find((o) => String(o.valor) === e.target.value);
+            if (escolhida) onChange(escolhida.valor);
+          }}
           aria-invalid={Boolean(erro)}
           aria-describedby={erro ? `${id}-erro` : undefined}
         >
@@ -67,4 +69,4 @@ export const SelectFormulario: React.FC<SelectFormularioProps> = ({
       </div>
     </CampoFormulario>
   );
-};
+}

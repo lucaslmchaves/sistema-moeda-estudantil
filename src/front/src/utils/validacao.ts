@@ -1,6 +1,15 @@
 // Validação síncrona, em português, dos formulários do sistema.
 
 import { cnpjValido, cpfValido } from './documentos';
+import {
+  CURSOS,
+  emailValido,
+  enderecoValido,
+  loginValido,
+  nomeCompletoValido,
+  nomeDeEmpresaValido,
+  rgValido,
+} from './regrasDeCampos';
 
 export type ErrosValidacao = Record<string, string>;
 
@@ -26,7 +35,6 @@ export interface DadosValidacaoEmpresa {
   confirmarSenha?: string;
 }
 
-const REGEX_EMAIL = /^[\w.+-]+@[\w.-]+\.\w+$/;
 const SENHA_MINIMA = 8;
 const SENHA_MAXIMA = 72; // limite do bcrypt usado no back-end
 
@@ -37,11 +45,36 @@ function exigirTexto(erros: ErrosValidacao, campo: string, rotulo: string, valor
   }
 }
 
+// Exige o campo preenchido e, preenchido, no formato esperado.
+function exigirFormato(
+  erros: ErrosValidacao,
+  campo: string,
+  rotulo: string,
+  valor: string | undefined,
+  valido: (texto: string) => boolean,
+  mensagem: string,
+): void {
+  exigirTexto(erros, campo, rotulo, valor);
+  if (!erros[campo] && !valido((valor ?? '').trim())) erros[campo] = mensagem;
+}
+
+// Login novo: sem espaços nem acentos, para não dar erro na hora de entrar.
+function validarLoginNovo(erros: ErrosValidacao, login?: string): void {
+  exigirFormato(
+    erros,
+    'login',
+    'login',
+    login,
+    loginValido,
+    'Use de 3 a 60 letras sem acento, números, ponto, traço ou sublinhado.',
+  );
+}
+
 // Exige um e-mail preenchido e com formato válido.
 function validarEmail(erros: ErrosValidacao, email?: string): void {
   if (!email || !email.trim()) {
     erros.email = 'O campo e-mail é obrigatório.';
-  } else if (!REGEX_EMAIL.test(email.trim())) {
+  } else if (!emailValido(email.trim())) {
     erros.email = 'Por favor, informe um endereço de e-mail válido.';
   }
 }
@@ -58,6 +91,8 @@ function validarSenha(erros: ErrosValidacao, senha: string | undefined, edicao: 
     erros.senha = `${sujeito} deve conter no mínimo ${SENHA_MINIMA} caracteres.`;
   } else if (senha.length > SENHA_MAXIMA) {
     erros.senha = `${sujeito} deve conter no máximo ${SENHA_MAXIMA} caracteres.`;
+  } else if (!/\p{L}/u.test(senha) || !/\d/.test(senha)) {
+    erros.senha = `${sujeito} deve ter pelo menos uma letra e um número.`;
   }
 }
 
@@ -74,17 +109,37 @@ function validarConfirmacao(erros: ErrosValidacao, senha?: string, confirmacao?:
 // Valida os dados do formulário de aluno e devolve um erro por campo inválido.
 export function validarAluno(dados: DadosValidacaoAluno, edicao = false): ErrosValidacao {
   const erros: ErrosValidacao = {};
-  exigirTexto(erros, 'nome', 'nome', dados.nome);
+  exigirFormato(
+    erros,
+    'nome',
+    'nome',
+    dados.nome,
+    nomeCompletoValido,
+    'Informe o nome e o sobrenome, só com letras.',
+  );
   validarEmail(erros, dados.email);
-  exigirTexto(erros, 'cpf', 'CPF', dados.cpf);
-  if (!erros.cpf && !cpfValido(dados.cpf ?? '')) erros.cpf = 'O CPF informado não é válido.';
-  exigirTexto(erros, 'rg', 'RG', dados.rg);
-  exigirTexto(erros, 'endereco', 'endereço', dados.endereco);
-  exigirTexto(erros, 'curso', 'curso', dados.curso);
+  exigirFormato(erros, 'cpf', 'CPF', dados.cpf, cpfValido, 'O CPF informado não é válido.');
+  exigirFormato(erros, 'rg', 'RG', dados.rg, rgValido, 'Informe um RG válido. Ex.: MG-12.345.678.');
+  exigirFormato(
+    erros,
+    'endereco',
+    'endereço',
+    dados.endereco,
+    enderecoValido,
+    'Informe a rua e o número. Ex.: Rua da Bahia, 1200 (ou s/n).',
+  );
+  exigirFormato(
+    erros,
+    'curso',
+    'curso',
+    dados.curso,
+    (curso) => CURSOS.includes(curso),
+    'Escolha um curso da lista.',
+  );
   if (!dados.id_instituicao || String(dados.id_instituicao) === '') {
     erros.id_instituicao = 'Selecione uma instituição de ensino.';
   }
-  if (!edicao) exigirTexto(erros, 'login', 'login', dados.login);
+  if (!edicao) validarLoginNovo(erros, dados.login);
   validarSenha(erros, dados.senha, edicao);
   validarConfirmacao(erros, dados.senha, dados.confirmarSenha);
   return erros;
@@ -93,11 +148,17 @@ export function validarAluno(dados: DadosValidacaoAluno, edicao = false): ErrosV
 // Valida os dados do formulário de empresa e devolve um erro por campo inválido.
 export function validarEmpresa(dados: DadosValidacaoEmpresa, edicao = false): ErrosValidacao {
   const erros: ErrosValidacao = {};
-  exigirTexto(erros, 'nome', 'nome', dados.nome);
+  exigirFormato(
+    erros,
+    'nome',
+    'nome',
+    dados.nome,
+    nomeDeEmpresaValido,
+    'Informe o nome da empresa.',
+  );
   validarEmail(erros, dados.email);
-  exigirTexto(erros, 'cnpj', 'CNPJ', dados.cnpj);
-  if (!erros.cnpj && !cnpjValido(dados.cnpj ?? '')) erros.cnpj = 'O CNPJ informado não é válido.';
-  if (!edicao) exigirTexto(erros, 'login', 'login', dados.login);
+  exigirFormato(erros, 'cnpj', 'CNPJ', dados.cnpj, cnpjValido, 'O CNPJ informado não é válido.');
+  if (!edicao) validarLoginNovo(erros, dados.login);
   validarSenha(erros, dados.senha, edicao);
   validarConfirmacao(erros, dados.senha, dados.confirmarSenha);
   return erros;

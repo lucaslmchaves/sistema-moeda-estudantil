@@ -1,6 +1,7 @@
 // Campo de senha com o botão de mostrar e ocultar o que foi digitado.
 import React, { useState } from 'react';
 import { classeControle } from '../../utils/estilos';
+import { REQUISITOS_DA_SENHA } from '../../utils/regrasDeCampos';
 import { Icone } from '../icones/Icone';
 import { CampoFormulario } from './CampoFormulario';
 
@@ -14,6 +15,7 @@ interface CampoSenhaProps {
   dica?: string;
   erro?: string;
   autoComplete?: string;
+  mostrarRequisitos?: boolean;
 }
 
 export const CampoSenha: React.FC<CampoSenhaProps> = ({
@@ -22,6 +24,7 @@ export const CampoSenha: React.FC<CampoSenhaProps> = ({
   onChange,
   placeholder,
   autoComplete,
+  mostrarRequisitos = false,
   ...campo
 }) => {
   const [visivel, setVisivel] = useState(false);
@@ -53,6 +56,23 @@ export const CampoSenha: React.FC<CampoSenhaProps> = ({
           <Icone nome={visivel ? 'eye-slash' : 'eye'} tamanho={18} />
         </button>
       </div>
+      {mostrarRequisitos && valor && (
+        <ul aria-label="Requisitos da senha" className="flex flex-wrap gap-x-3 gap-y-1">
+          {REQUISITOS_DA_SENHA.map((requisito) => {
+            const ok = requisito.atende(valor);
+            return (
+              <li
+                key={requisito.rotulo}
+                className={`flex items-center gap-1 text-[13px] transition-colors ${ok ? 'text-positivo' : 'text-tinta-3'}`}
+              >
+                <Icone nome={ok ? 'check-circle' : 'info'} tamanho={14} />
+                {requisito.rotulo}
+                <span className="sr-only">{ok ? ' (ok)' : ' (falta)'}</span>
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </CampoFormulario>
   );
 };
