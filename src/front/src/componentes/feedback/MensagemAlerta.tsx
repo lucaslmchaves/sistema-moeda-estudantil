@@ -1,6 +1,7 @@
-// Caixa de alerta para mensagens de sucesso ou de erro.
+// Mensagens do sistema: o erro fica numa caixa na página e o sucesso num aviso flutuante.
 import React, { useEffect, useRef } from 'react';
 import { Icone } from '../icones/Icone';
+import { AvisoFlutuante } from './AvisoFlutuante';
 
 interface MensagemAlertaProps {
   tipo: 'erro' | 'sucesso';
@@ -8,12 +9,7 @@ interface MensagemAlertaProps {
   onFechar?: () => void;
 }
 
-const ESTILO_POR_TIPO = {
-  erro: { caixa: 'border-negativo/20 bg-negativo-fundo text-negativo', icone: 'warning-circle' },
-  sucesso: { caixa: 'border-positivo/20 bg-positivo-fundo text-positivo', icone: 'check-circle' },
-} as const;
-
-// Mostra a mensagem em destaque, com botão opcional para dispensá-la.
+// Mostra a mensagem, com botão opcional para dispensá-la.
 export const MensagemAlerta: React.FC<MensagemAlertaProps> = ({ tipo, mensagem, onFechar }) => {
   const caixa = useRef<HTMLDivElement>(null);
 
@@ -24,15 +20,15 @@ export const MensagemAlerta: React.FC<MensagemAlertaProps> = ({ tipo, mensagem, 
   }, [tipo, mensagem]);
 
   if (!mensagem) return null;
-  const estilo = ESTILO_POR_TIPO[tipo];
+  if (tipo === 'sucesso') return <AvisoFlutuante mensagem={mensagem} onFechar={onFechar} />;
 
   return (
     <div
       ref={caixa}
-      role={tipo === 'erro' ? 'alert' : 'status'}
-      className={`mb-6 flex animate-surgir items-start gap-3 rounded-controle border px-4 py-3 text-sm ${estilo.caixa}`}
+      role="alert"
+      className="mb-6 flex animate-surgir items-start gap-3 rounded-controle border border-negativo/20 bg-negativo-fundo px-4 py-3 text-sm text-negativo"
     >
-      <Icone nome={estilo.icone} tamanho={20} className="mt-px" />
+      <Icone nome="warning-circle" tamanho={20} className="mt-px" />
       <span className="flex-1 leading-relaxed font-medium">{mensagem}</span>
       {onFechar && (
         <button
