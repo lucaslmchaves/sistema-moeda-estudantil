@@ -74,14 +74,7 @@ export const ItemMovimentacao: React.FC<{ transacao: TransacaoExtrato; comDia?: 
         )}
       </div>
       <div className="flex shrink-0 flex-col items-end gap-1 pl-2">
-        <ValorMoedas
-          valor={transacao.valor}
-          sinal
-          semMoeda
-          semUnidade
-          tamanho="md"
-          className={transacao.valor >= 0 ? 'text-positivo' : 'text-tinta'}
-        />
+        <ValorMoedas valor={transacao.valor} sinal semUnidade tamanho="md" />
         <span className="numeros text-xs text-tinta-3">{quando}</span>
       </div>
     </li>

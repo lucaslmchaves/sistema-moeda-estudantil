@@ -40,6 +40,7 @@ interface ValorMoedasProps {
   sinal?: boolean;
   semMoeda?: boolean;
   semUnidade?: boolean;
+  fundoEscuro?: boolean;
   className?: string;
 }
 
@@ -50,12 +51,19 @@ export const ValorMoedas: React.FC<ValorMoedasProps> = ({
   sinal = false,
   semMoeda = false,
   semUnidade = false,
+  fundoEscuro = false,
   className = '',
 }) => {
   const c = CLASSES_TAMANHO[tamanho];
   const prefixo = sinal ? (valor > 0 ? '+' : valor < 0 ? '−' : '') : valor < 0 ? '−' : '';
+  // Com sinal, o que entra é verde e o que sai é vermelho; zero fica neutro.
+  let tom = '';
+  if (sinal && valor > 0) tom = fundoEscuro ? 'text-emerald-300' : 'text-positivo';
+  if (sinal && valor < 0) tom = fundoEscuro ? 'text-red-300' : 'text-negativo';
   return (
-    <span className={`numeros inline-flex items-baseline gap-1.5 whitespace-nowrap ${className}`}>
+    <span
+      className={`numeros inline-flex items-baseline gap-1.5 whitespace-nowrap ${tom} ${className}`}
+    >
       {!semMoeda && <IconeMoeda tamanho={c.moeda} className="self-center" />}
       <span className={c.numero}>
         {prefixo}
