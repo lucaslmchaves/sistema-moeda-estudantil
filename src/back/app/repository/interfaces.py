@@ -2,6 +2,7 @@
 
 from abc import ABC, abstractmethod
 
+from app.model.foto_vantagem import FotoVantagem
 from app.model.aluno import Aluno
 from app.model.conta import Conta
 from app.model.empresa_parceira import EmpresaParceira
@@ -162,3 +163,7 @@ class IArmazenamentoFoto(ABC):
     @abstractmethod
     def salvar(self, conteudo: bytes, extensao: str) -> str:
         """Guarda a foto e devolve o caminho público dela."""
+
+    @abstractmethod
+    def obter(self, id_foto: int) -> FotoVantagem | None:
+        """Devolve a foto guardada ou None quando ela não existe."""
