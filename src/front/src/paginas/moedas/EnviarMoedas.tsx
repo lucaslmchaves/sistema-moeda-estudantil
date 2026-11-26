@@ -1,28 +1,49 @@
 // Página em que o professor envia moedas a um aluno, com o motivo do reconhecimento.
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { CabecalhoPagina } from '../../componentes/layout/CabecalhoPagina';
 import { CampoFormulario } from '../../componentes/formulario/CampoFormulario';
 import { Carregando } from '../../componentes/feedback/Carregando';
 import { ChuvaDeMoedas } from '../../componentes/animacao/ChuvaDeMoedas';
 import { MensagemAlerta } from '../../componentes/feedback/MensagemAlerta';
+import { ModalConfirmacao } from '../../componentes/feedback/ModalConfirmacao';
 import { Icone } from '../../componentes/icones/Icone';
 import { Avatar } from '../../componentes/marca/Avatar';
 import { ValorMoedas } from '../../componentes/marca/Moedas';
 import { useEnviarMoedas } from '../../hooks/moedas/useEnviarMoedas';
 import { classeBotao, classeControle } from '../../utils/estilos';
+import { semAcentos } from '../../utils/texto';
 
 const VALORES_RAPIDOS = [10, 25, 50, 100];
 const LIMITE_MENSAGEM = 500;
-
-function semAcentos(texto: string): string {
-  return texto.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
-}
 
 // Monta o formulário de envio: aluno, valor em moedas e mensagem obrigatória.
 export const EnviarMoedas: React.FC = () => {
   const form = useEnviarMoedas();
   const { valores, erros } = form;
   const [busca, setBusca] = useState('');
+  const [confirmando, setConfirmando] = useState(false);
+  const local = useLocation();
+  const sugerido = (local.state as { aluno?: string } | null)?.aluno;
+  const { alunos, alterarCampo } = form;
+
+  // Quando a pessoa vem do atalho do painel, o aluno já chega escolhido.
+  useEffect(() => {
+    if (!sugerido) return;
+    const iguais = alunos.filter((a) => a.nome === sugerido);
+    if (iguais.length === 1) alterarCampo('id_aluno', iguais[0].id_usuario);
+    else if (iguais.length > 1) setBusca(sugerido);
+  }, [sugerido, alunos, alterarCampo]);
+
+  // O envio não pode ser desfeito: primeiro valida, depois pede a confirmação.
+  const revisar = (evento: React.FormEvent) => {
+    form.setSucesso(null);
+    if (form.conferir(evento)) setConfirmando(true);
+  };
+  const confirmar = async () => {
+    await form.enviar();
+    setConfirmando(false);
+  };
 
   const alunosFiltrados = useMemo(() => {
     const termo = semAcentos(busca.trim());
@@ -59,7 +80,7 @@ export const EnviarMoedas: React.FC = () => {
 
       <form
         noValidate
-        onSubmit={form.enviar}
+        onSubmit={revisar}
         className="grid grid-cols-[minmax(0,1fr)] items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px]"
       >
         <div className="flex flex-col gap-6">
@@ -240,7 +261,9 @@ export const EnviarMoedas: React.FC = () => {
             </div>
             <div className="flex items-center justify-between">
               <dt className="text-tinta-3">Envio</dt>
-              <dd className="numeros font-semibold">{valorValido ? `−${valor}` : '–'}</dd>
+              <dd>
+                {valorValido ? <ValorMoedas valor={-valor} tamanho="sm" sinal semUnidade /> : '–'}
+              </dd>
             </div>
             <div className="flex items-center justify-between border-t border-linha pt-3">
               <dt className="font-medium">Saldo depois</dt>
@@ -268,6 +291,37 @@ export const EnviarMoedas: React.FC = () => {
           </button>
         </aside>
       </form>
+
+      <ModalConfirmacao
+        aberto={confirmando}
+        titulo="Confirmar envio"
+        mensagem="Confira antes de enviar: depois não dá para desfazer."
+        textoConfirmar="Confirmar envio"
+        textoCancelar="Voltar"
+        textoCarregando="Enviando..."
+        variante="primario"
+        carregando={form.salvando}
+        onConfirmar={confirmar}
+        onCancelar={() => setConfirmando(false)}
+      >
+        {escolhido && (
+          <div className="rounded-controle border border-linha">
+            <div className="flex items-center justify-between gap-3 p-3">
+              <div className="flex min-w-0 items-center gap-3">
+                <Avatar nome={escolhido.nome} tamanho="sm" />
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-medium">{escolhido.nome}</p>
+                  <p className="truncate text-xs text-tinta-3">{escolhido.curso}</p>
+                </div>
+              </div>
+              <ValorMoedas valor={-valor} tamanho="md" sinal semUnidade />
+            </div>
+            <p className="border-t border-linha p-3 text-[13px] leading-relaxed break-words text-tinta-2">
+              {valores.mensagem}
+            </p>
+          </div>
+        )}
+      </ModalConfirmacao>
     </div>
   );
 };

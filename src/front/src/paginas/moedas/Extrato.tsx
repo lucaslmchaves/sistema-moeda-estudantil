@@ -1,4 +1,6 @@
 // Página de extrato: saldo e movimentações do aluno ou do professor logado.
+import { Icone } from '../../componentes/icones/Icone';
+import { classeControle } from '../../utils/estilos';
 import React, { useState } from 'react';
 import { CabecalhoPagina } from '../../componentes/layout/CabecalhoPagina';
 import { Carregando } from '../../componentes/feedback/Carregando';
@@ -8,7 +10,7 @@ import { ValorMoedas } from '../../componentes/marca/Moedas';
 import { ListaMovimentacoesPorDia } from '../../componentes/moedas/ListaMovimentacoes';
 import { useAutenticacao } from '../../hooks/autenticacao/useAutenticacao';
 import { useExtrato } from '../../hooks/moedas/useExtrato';
-import { totaisDoExtrato } from '../../utils/extrato';
+import { filtrarMovimentacoes, totaisDoExtrato } from '../../utils/extrato';
 
 type Filtro = 'todas' | 'entradas' | 'saidas';
 
@@ -17,13 +19,15 @@ export const Extrato: React.FC = () => {
   const { extrato, carregando, erro, setErro } = useExtrato();
   const { usuario } = useAutenticacao();
   const [filtro, setFiltro] = useState<Filtro>('todas');
+  const [busca, setBusca] = useState('');
   const professor = usuario?.tipo_usuario === 'PROFESSOR';
 
   const transacoes = extrato?.transacoes ?? [];
   const totais = totaisDoExtrato(transacoes);
   const entradas = transacoes.filter((t) => t.valor >= 0);
   const saidas = transacoes.filter((t) => t.valor < 0);
-  const visiveis = filtro === 'entradas' ? entradas : filtro === 'saidas' ? saidas : transacoes;
+  const doFiltro = filtro === 'entradas' ? entradas : filtro === 'saidas' ? saidas : transacoes;
+  const visiveis = filtrarMovimentacoes(doFiltro, busca);
 
   const filtros: { id: Filtro; rotulo: string; quantidade: number }[] = [
     { id: 'todas', rotulo: 'Todas', quantidade: transacoes.length },
@@ -57,14 +61,14 @@ export const Extrato: React.FC = () => {
               </div>
               <div className="border-t border-linha p-6 sm:border-t-0 sm:border-l sm:p-7">
                 <dt className="text-sm text-tinta-3">{professor ? 'Créditos' : 'Recebidas'}</dt>
-                <dd className="mt-3 text-positivo">
-                  <ValorMoedas valor={totais.entradas} tamanho="lg" sinal semMoeda semUnidade />
+                <dd className="mt-3">
+                  <ValorMoedas valor={totais.entradas} tamanho="lg" sinal semUnidade />
                 </dd>
               </div>
               <div className="border-t border-linha p-6 sm:border-t-0 sm:border-l sm:p-7">
                 <dt className="text-sm text-tinta-3">{professor ? 'Enviadas' : 'Trocadas'}</dt>
                 <dd className="mt-3">
-                  <ValorMoedas valor={-totais.saidas} tamanho="lg" sinal semMoeda semUnidade />
+                  <ValorMoedas valor={-totais.saidas} tamanho="lg" sinal semUnidade />
                 </dd>
               </div>
             </dl>
@@ -106,9 +110,28 @@ export const Extrato: React.FC = () => {
                     ))}
                   </div>
                 </div>
+                <div className="relative border-b border-linha px-5 py-3 sm:px-6">
+                  <Icone
+                    nome="magnifying-glass"
+                    tamanho={16}
+                    className="pointer-events-none absolute top-1/2 left-8 -translate-y-1/2 text-tinta-3 sm:left-9"
+                  />
+                  <input
+                    type="search"
+                    aria-label="Buscar nas movimentações"
+                    placeholder={
+                      professor ? 'Buscar por aluno ou motivo' : 'Buscar por nome, motivo ou cupom'
+                    }
+                    value={busca}
+                    onChange={(e) => setBusca(e.target.value)}
+                    className={`${classeControle(false)} h-9 py-1.5 pl-9 text-sm`}
+                  />
+                </div>
                 {visiveis.length === 0 ? (
                   <p className="px-6 py-12 text-center text-sm text-tinta-3">
-                    Nada por aqui com este filtro.
+                    {busca.trim()
+                      ? 'Nada encontrado para essa busca.'
+                      : 'Nada por aqui com este filtro.'}
                   </p>
                 ) : (
                   <ListaMovimentacoesPorDia transacoes={visiveis} />

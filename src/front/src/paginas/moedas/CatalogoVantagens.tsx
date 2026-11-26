@@ -12,12 +12,9 @@ import { ValorMoedas } from '../../componentes/marca/Moedas';
 import { useCatalogo } from '../../hooks/moedas/useCatalogo';
 import type { Vantagem } from '../../tipos/vantagem';
 import { classeBotao, classeControle } from '../../utils/estilos';
+import { semAcentos } from '../../utils/texto';
 
 type Ordem = 'menor' | 'maior';
-
-function semAcentos(texto: string): string {
-  return texto.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
-}
 
 // Cartão de uma vantagem: foto, empresa, descrição, custo e o botão de troca.
 const CartaoVantagem: React.FC<{
@@ -33,7 +30,7 @@ const CartaoVantagem: React.FC<{
           src={urlDaApi(vantagem.foto)}
           alt={vantagem.descricao}
           loading="lazy"
-          className="size-full object-cover transition-transform duration-500 ease-saida group-hover:scale-[1.03]"
+          className="size-full object-cover transition-transform duration-700 ease-saida group-hover:scale-110"
         />
         <span className="absolute top-3 left-3 rounded-full bg-superficie/95 px-2.5 py-1 shadow-elevado backdrop-blur-sm">
           <ValorMoedas valor={vantagem.custo} tamanho="sm" />
@@ -289,12 +286,18 @@ export const CatalogoVantagens: React.FC = () => {
             <dl className="grid grid-cols-2 border-t border-linha bg-superficie-2 text-sm">
               <div className="p-3">
                 <dt className="text-tinta-3">Custo</dt>
-                <dd className="numeros mt-0.5 font-semibold">−{escolhida.custo}</dd>
+                <dd className="mt-0.5">
+                  <ValorMoedas valor={-escolhida.custo} tamanho="sm" sinal semUnidade />
+                </dd>
               </div>
               <div className="border-l border-linha p-3">
                 <dt className="text-tinta-3">Saldo depois</dt>
-                <dd className="numeros mt-0.5 font-semibold">
-                  {saldo === null ? '–' : saldo - escolhida.custo}
+                <dd className="mt-0.5">
+                  {saldo === null ? (
+                    '–'
+                  ) : (
+                    <ValorMoedas valor={saldo - escolhida.custo} tamanho="sm" semUnidade />
+                  )}
                 </dd>
               </div>
             </dl>

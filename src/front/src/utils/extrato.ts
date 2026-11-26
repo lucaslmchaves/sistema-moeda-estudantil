@@ -1,5 +1,6 @@
 // Leitura das movimentações do extrato: separa quem enviou, o motivo e o código do cupom.
 import type { TransacaoExtrato } from '../tipos/moedas';
+import { semAcentos } from './texto';
 
 export type TipoMovimentacao = 'recebido' | 'enviado' | 'resgate' | 'outro';
 
@@ -34,6 +35,28 @@ export function lerMovimentacao(transacao: TransacaoExtrato): MovimentacaoLida {
     };
   }
   return { tipo: 'outro', titulo: descricao, detalhe: '' };
+}
+
+// Mantém as movimentações em que o nome, o motivo ou o código do cupom têm o termo buscado.
+export function filtrarMovimentacoes(transacoes: TransacaoExtrato[], busca: string) {
+  const termo = semAcentos(busca.trim());
+  if (!termo) return transacoes;
+  return transacoes.filter((t) => {
+    const { titulo, detalhe, codigo = '' } = lerMovimentacao(t);
+    return semAcentos(`${titulo} ${detalhe} ${codigo}`).includes(termo);
+  });
+}
+
+// Últimos alunos que receberam moedas, sem repetir o nome.
+export function alunosRecentes(transacoes: TransacaoExtrato[], limite = 3) {
+  const vistos = new Map<string, { nome: string; motivo: string }>();
+  for (const t of transacoes) {
+    const lida = lerMovimentacao(t);
+    if (lida.tipo === 'enviado' && !vistos.has(lida.titulo)) {
+      vistos.set(lida.titulo, { nome: lida.titulo, motivo: lida.detalhe });
+    }
+  }
+  return [...vistos.values()].slice(0, limite);
 }
 
 // Soma o que entrou e o que saiu da conta.

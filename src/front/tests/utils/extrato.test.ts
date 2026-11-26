@@ -6,6 +6,8 @@ import {
   lerMovimentacao,
   rotuloDoDia,
   totaisDoExtrato,
+  filtrarMovimentacoes,
+  alunosRecentes,
 } from '../../src/utils/extrato';
 
 const transacao = (parcial: Partial<TransacaoExtrato>): TransacaoExtrato => ({
@@ -99,5 +101,35 @@ describe('rotuloDoDia e agruparPorDia', () => {
       ['Hoje', 2],
       ['18 de novembro', 1],
     ]);
+  });
+});
+
+describe('filtrarMovimentacoes e alunosRecentes', () => {
+  const envio = (id: number, nome: string, motivo: string) => ({
+    id_transacao: id,
+    tipo: 'ENVIO_MOEDAS' as const,
+    data_hora: '2026-11-26T12:00:00',
+    valor: -10,
+    descricao: `Para ${nome}: ${motivo}`,
+  });
+  const lista = [
+    envio(3, 'João Pedro', 'Ajudou na monitoria'),
+    envio(2, 'Maria Clara', 'Trabalho em grupo'),
+    envio(1, 'João Pedro', 'Seminário'),
+  ];
+
+  it('busca por nome ou motivo, sem ligar para acentos', () => {
+    expect(filtrarMovimentacoes(lista, 'joao').map((t) => t.id_transacao)).toEqual([3, 1]);
+    expect(filtrarMovimentacoes(lista, 'GRUPO').map((t) => t.id_transacao)).toEqual([2]);
+    expect(filtrarMovimentacoes(lista, '  ')).toHaveLength(3);
+    expect(filtrarMovimentacoes(lista, 'xyz')).toHaveLength(0);
+  });
+
+  it('lista cada aluno uma vez, com o motivo mais recente', () => {
+    expect(alunosRecentes(lista)).toEqual([
+      { nome: 'João Pedro', motivo: 'Ajudou na monitoria' },
+      { nome: 'Maria Clara', motivo: 'Trabalho em grupo' },
+    ]);
+    expect(alunosRecentes(lista, 1)).toHaveLength(1);
   });
 });

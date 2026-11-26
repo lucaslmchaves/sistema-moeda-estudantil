@@ -11,8 +11,8 @@ interface OpcoesFormulario<T> {
 }
 
 // Depois que a tela marca os erros, leva o cursor ao primeiro campo inválido.
-function focarPrimeiroErro(evento: FormEvent): void {
-  const formulario = evento.currentTarget as HTMLElement | undefined;
+function focarPrimeiroErro(evento?: FormEvent): void {
+  const formulario = evento?.currentTarget as HTMLElement | undefined;
   if (!formulario?.querySelector) return;
   setTimeout(() => formulario.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus(), 0);
 }
@@ -44,22 +44,25 @@ export function useFormulario<T extends Record<string, unknown>>({
     setValores((anteriores) => ({ ...anteriores, ...novosValores }));
   }, []);
 
-  // Valida e, se tudo estiver certo, chama o envio; devolve se deu certo.
-  const submeter = async (
-    evento: FormEvent,
-    aoSalvar: (valores: T) => Promise<void>,
-  ): Promise<boolean> => {
-    evento.preventDefault();
+  // Valida os campos, marca os erros e diz se pode seguir.
+  const conferir = (evento?: FormEvent): boolean => {
+    evento?.preventDefault();
     setErroGeral(null);
 
     const errosValidacao = validar(valores, edicao);
-    if (Object.keys(errosValidacao).length > 0) {
-      setErros(errosValidacao);
-      focarPrimeiroErro(evento);
-      return false;
-    }
+    setErros(errosValidacao);
+    if (Object.keys(errosValidacao).length === 0) return true;
+    focarPrimeiroErro(evento);
+    return false;
+  };
 
-    setErros({});
+  // Valida e, se tudo estiver certo, chama o envio; devolve se deu certo.
+  const submeter = async (
+    evento: FormEvent | undefined,
+    aoSalvar: (valores: T) => Promise<void>,
+  ): Promise<boolean> => {
+    if (!conferir(evento)) return false;
+
     setSalvando(true);
     try {
       await aoSalvar(valores);
@@ -80,6 +83,7 @@ export function useFormulario<T extends Record<string, unknown>>({
     alterarCampo,
     definirValores,
     setErroGeral,
+    conferir,
     submeter,
   };
 }
