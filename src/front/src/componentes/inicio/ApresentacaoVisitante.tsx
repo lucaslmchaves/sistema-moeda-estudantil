@@ -9,6 +9,9 @@ import { SimboloMarca } from '../marca/Marca';
 import { ValorMoedas } from '../marca/Moedas';
 import { CLASSE_BOTAO_CLARO, CLASSE_BOTAO_CONTORNO_CLARO } from '../moedas/CartaoCarteira';
 import { classeBotao } from '../../utils/estilos';
+import { CarrosselDeVantagens } from './CarrosselDeVantagens';
+import { DemonstracaoDaMoeda } from './DemonstracaoDaMoeda';
+import { PerguntasFrequentes } from './PerguntasFrequentes';
 
 interface Papel {
   icone: NomeIcone;
@@ -77,7 +80,7 @@ const VitrineDoProduto: React.FC = () => (
         <div className="min-w-0 flex-1">
           <div className="flex items-baseline justify-between gap-2">
             <p className="truncate text-sm font-medium">Prof. Carlos Eduardo</p>
-            <span className="numeros text-sm font-semibold text-positivo">+120</span>
+            <ValorMoedas valor={120} tamanho="sm" sinal semUnidade />
           </div>
           <p className="mt-0.5 text-[13px] leading-snug text-tinta-2">
             Apresentação impecável do projeto de Engenharia de Requisitos.
@@ -96,54 +99,6 @@ const VitrineDoProduto: React.FC = () => (
       </div>
     </div>
   </div>
-);
-
-const PASSOS: { icone: NomeIcone; titulo: string; texto: string }[] = [
-  {
-    icone: 'chalkboard-teacher',
-    titulo: 'O professor reconhece',
-    texto: 'Escolhe o aluno, informa quantas moedas e escreve o motivo.',
-  },
-  {
-    icone: 'paper-plane-tilt',
-    titulo: 'O aluno recebe',
-    texto: 'As moedas entram no saldo e um aviso chega por e-mail.',
-  },
-  {
-    icone: 'gift',
-    titulo: 'Troca por vantagens',
-    texto: 'No catálogo das empresas parceiras, com cupom e código para conferir.',
-  },
-];
-
-// Apresenta o caminho da moeda em três passos, antes de pedir o login ou o cadastro.
-const CaminhoDaMoeda: React.FC = () => (
-  <Revelar>
-    <section aria-labelledby="caminho">
-      <h2 id="caminho" className="titulo-display mb-10 text-4xl sm:text-5xl">
-        O caminho de uma <em className="font-serif font-normal text-anil">moeda</em>.
-      </h2>
-      <ol className="grid gap-5 md:grid-cols-3">
-        {PASSOS.map((passo, i) => (
-          <li
-            key={passo.titulo}
-            className="elevar rounded-cartao border border-linha bg-superficie p-7"
-          >
-            <div className="flex items-center justify-between">
-              <span className="inline-flex size-12 items-center justify-center rounded-2xl bg-anil text-white">
-                <Icone nome={passo.icone} tamanho={22} />
-              </span>
-              <span aria-hidden="true" className="font-serif text-5xl text-ouro-500 italic">
-                {i + 1}
-              </span>
-            </div>
-            <h3 className="mt-6 text-lg font-semibold tracking-[-0.02em]">{passo.titulo}</h3>
-            <p className="mt-2 text-[15px] leading-relaxed text-tinta-2">{passo.texto}</p>
-          </li>
-        ))}
-      </ol>
-    </section>
-  </Revelar>
 );
 
 // Convite no fim da apresentação para ir ao login.
@@ -203,7 +158,13 @@ export const ApresentacaoVisitante: React.FC = () => (
       <VitrineDoProduto />
     </section>
 
-    <CaminhoDaMoeda />
+    <Revelar>
+      <DemonstracaoDaMoeda />
+    </Revelar>
+
+    <Revelar>
+      <CarrosselDeVantagens />
+    </Revelar>
 
     <section aria-labelledby="como-funciona">
       <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
@@ -241,6 +202,10 @@ export const ApresentacaoVisitante: React.FC = () => (
         ))}
       </ol>
     </section>
+
+    <Revelar>
+      <PerguntasFrequentes />
+    </Revelar>
 
     <ChamadaFinal />
   </div>
