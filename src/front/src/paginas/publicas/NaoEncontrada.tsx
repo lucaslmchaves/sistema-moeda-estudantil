@@ -1,8 +1,10 @@
 // Página para um endereço que não existe no sistema.
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { ApanheAsMoedas } from '../../componentes/animacao/ApanheAsMoedas';
 import { MoedaDourada } from '../../componentes/animacao/MoedaDourada';
 import { classeBotao } from '../../utils/estilos';
+import { podeAnimar } from '../../utils/movimento';
 
 export const NaoEncontrada: React.FC = () => (
   <div className="cascata flex flex-col items-center py-16 text-center">
@@ -16,5 +18,10 @@ export const NaoEncontrada: React.FC = () => (
     <Link to="/" className={`${classeBotao('primario', 'grande')} mt-8`}>
       Voltar ao início
     </Link>
+    {podeAnimar() && (
+      <div className="mt-10 w-full max-w-md">
+        <ApanheAsMoedas convite="Já que está aqui, toque nas moedas:" />
+      </div>
+    )}
   </div>
 );
