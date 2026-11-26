@@ -4,6 +4,7 @@ import { urlDaApi } from '../../api/cliente';
 import { CabecalhoPagina } from '../../componentes/layout/CabecalhoPagina';
 import { Esqueleto } from '../../componentes/feedback/Carregando';
 import { EstadoVazio } from '../../componentes/feedback/EstadoVazio';
+import { ChuvaDeMoedas } from '../../componentes/animacao/ChuvaDeMoedas';
 import { MensagemAlerta } from '../../componentes/feedback/MensagemAlerta';
 import { ModalConfirmacao } from '../../componentes/feedback/ModalConfirmacao';
 import { Icone } from '../../componentes/icones/Icone';
@@ -116,6 +117,7 @@ export const CatalogoVantagens: React.FC = () => {
         onFechar={() => catalogo.setErro(null)}
       />
 
+      {cupom && <ChuvaDeMoedas key={cupom.codigo} />}
       {cupom && (
         <div
           role="status"

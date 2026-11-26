@@ -3,6 +3,7 @@ import React, { useMemo, useState } from 'react';
 import { CabecalhoPagina } from '../../componentes/layout/CabecalhoPagina';
 import { CampoFormulario } from '../../componentes/formulario/CampoFormulario';
 import { Carregando } from '../../componentes/feedback/Carregando';
+import { ChuvaDeMoedas } from '../../componentes/animacao/ChuvaDeMoedas';
 import { MensagemAlerta } from '../../componentes/feedback/MensagemAlerta';
 import { Icone } from '../../componentes/icones/Icone';
 import { Avatar } from '../../componentes/marca/Avatar';
@@ -44,6 +45,7 @@ export const EnviarMoedas: React.FC = () => {
         descricao="Reconheça um aluno e conte o motivo. Ele recebe um aviso por e-mail."
       />
 
+      {form.sucesso && <ChuvaDeMoedas />}
       <MensagemAlerta
         tipo="sucesso"
         mensagem={form.sucesso}
