@@ -293,7 +293,7 @@ Não precisa criar o arquivo `.env`: os valores padrão já funcionam. Ele só �
 ### Como testar
 
 1. **Professor:** os professores já vêm cadastrados. Clique em "Sou professor" e entre com `prof.carlos` e a senha `senha1234` (também existem `prof.ana` e `prof.marcos`, com a mesma senha). Cada um começa com 1.000 moedas.
-2. **Aluno:** clique em "Sou aluno" e faça o cadastro. Use um CPF válido, por exemplo `529.982.247-25`, e uma senha com pelo menos 8 caracteres.
+2. **Aluno:** clique em "Sou aluno" e faça o cadastro. Use nome e sobrenome, um CPF válido (por exemplo `529.982.247-25`), um RG como `MG-12.345.678`, o endereço com número e uma senha com pelo menos 8 caracteres, com letra e número.
 3. **Empresa parceira:** clique em "Sou empresa" e faça o cadastro. Use um CNPJ válido, por exemplo `11.222.333/0001-81`.
 4. Entre como a **empresa**, vá em "Minhas vantagens" e cadastre uma vantagem com descrição, custo em moedas e uma foto (JPEG, PNG ou WebP de até 2 MB).
 5. Entre como o **professor** e, em "Enviar moedas", mande moedas ao aluno com o motivo.
