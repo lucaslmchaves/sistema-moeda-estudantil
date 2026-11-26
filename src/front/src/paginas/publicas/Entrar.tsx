@@ -76,7 +76,7 @@ const PainelLateral: React.FC<{ professor: boolean }> = ({ professor }) => {
 // Monta o formulário de login; no acesso do professor, explica que o cadastro já existe.
 export const Entrar: React.FC<EntrarProps> = ({ perfil }) => {
   const professor = perfil === 'professor';
-  const form = useEntrar();
+  const form = useEntrar(perfil);
   const { mensagem, setMensagem } = useMensagemNavegacao();
   const { aviso, limparAviso, usuario } = useAutenticacao();
   const { valores, erros } = form;
