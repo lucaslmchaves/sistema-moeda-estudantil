@@ -11,11 +11,13 @@ Referências: SaaS de Abdul Saboor (Behance: Umber, PivotHR), princípios do `im
 - **Raios:** controles 10px, cartões 16px, carteira 20px, chips em pílula.
 - **Peças-chave:** `CartaoCarteira` (saldo com contagem), `ListaMovimentacoes` (lê "De/Para/Resgate" da API), `ValorMoedas` + `IconeMoeda`, `Icone` (SVG embutido, sem rede).
 - **Movimento** (`componentes/animacao`): transição entre páginas, entrada em sequência, saldo contando, mural de mensagens no login, moedas flutuando, palavra "moeda" que vira moeda e seções que surgem ao rolar. Tudo respeita `prefers-reduced-motion`.
-- **Login:** a aba "Professor" aceita só professores; a aba "Aluno ou empresa" recusa professores (`utils/perfilDeAcesso.ts`).
+- **Login:** a aba "Professor" aceita só professores; a aba "Aluno ou empresa" recusa professores (`utils/perfilDeAcesso.ts`). A troca acontece na própria página, com o destaque deslizando, sem mudar o endereço nem apagar o que foi digitado.
 - **Espera:** quando uma resposta demora mais de 4 segundos (primeira visita do dia), aparece a tela `EsperaComMoedas`, com frases e moedas para apanhar, no lugar de um aviso técnico.
 - **Comemoração:** chuva de moedas ao enviar moedas e ao trocar por vantagem.
 - **Apresentação:** demonstração interativa em três passos (avança sozinha até a pessoa escolher), carrossel de vantagens de exemplo (fotos fixas do Unsplash, licença Unsplash, em `src/assets/vitrine`) e perguntas frequentes.
 - **Avisos:** sucesso aparece flutuando e some em 6 segundos (para se o ponteiro estiver nele); erro fica na página.
 - **Confirmação:** o envio de moedas e a troca por vantagem pedem confirmação, porque não podem ser desfeitos.
+- **Cupom:** o código pode ser copiado ou mostrado em QR code (`QrDoCupom`, biblioteca `qrcode.react`).
+- **Escolha marcada:** filtros e valores rápidos selecionados e o botão do cartão sob o ponteiro usam o índigo, nunca preto.
 - **Mini-game:** na tela de espera e na página que não existe.
-- **Formulários:** CPF e CNPJ com máscara e conferência dos dígitos, senha com mostrar/ocultar e confirmação, cursor no primeiro campo com erro.
+- **Formulários:** CPF e CNPJ com máscara e conferência dos dígitos; nome, e-mail, RG, endereço (rua e número) e login com formato conferido; curso escolhido de uma lista; senha com letra e número, requisitos marcados enquanto se digita, mostrar/ocultar e confirmação; cursor no primeiro campo com erro. Essas regras de formato são do front (`utils/regrasDeCampos.ts`).

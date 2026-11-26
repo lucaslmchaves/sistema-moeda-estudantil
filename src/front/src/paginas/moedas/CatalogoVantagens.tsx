@@ -1,5 +1,6 @@
 // Página do aluno: catálogo das vantagens das empresas parceiras e resgate com moedas.
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { urlDaApi } from '../../api/cliente';
 import { CabecalhoPagina } from '../../componentes/layout/CabecalhoPagina';
 import { Esqueleto } from '../../componentes/feedback/Carregando';
@@ -9,6 +10,7 @@ import { MensagemAlerta } from '../../componentes/feedback/MensagemAlerta';
 import { ModalConfirmacao } from '../../componentes/feedback/ModalConfirmacao';
 import { Icone } from '../../componentes/icones/Icone';
 import { ValorMoedas } from '../../componentes/marca/Moedas';
+import { QrDoCupom } from '../../componentes/moedas/QrDoCupom';
 import { useCatalogo } from '../../hooks/moedas/useCatalogo';
 import type { Vantagem } from '../../tipos/vantagem';
 import { classeBotao, classeControle } from '../../utils/estilos';
@@ -52,7 +54,7 @@ const CartaoVantagem: React.FC<{
           ) : (
             <button
               type="button"
-              className={`${classeBotao('secundario')} w-full group-hover:border-tinta group-hover:bg-tinta group-hover:text-white`}
+              className={`${classeBotao('destaque')} w-full`}
               onClick={aoResgatar}
             >
               Trocar por {vantagem.custo} moedas
@@ -72,6 +74,19 @@ export const CatalogoVantagens: React.FC = () => {
   const [soAlcance, setSoAlcance] = useState(false);
   const [ordem, setOrdem] = useState<Ordem>('menor');
   const [copiado, setCopiado] = useState(false);
+  const local = useLocation();
+  const navegar = useNavigate();
+  const pedida = (local.state as { vantagem?: number } | null)?.vantagem;
+  const { vantagens, abrirResgate } = catalogo;
+
+  // Vinda de um clique no painel: abre a confirmação da vantagem escolhida, uma vez só.
+  useEffect(() => {
+    if (!pedida || saldo === null) return;
+    const vantagem = vantagens.find((v) => v.id_vantagem === pedida);
+    if (!vantagem) return;
+    if (vantagem.custo <= saldo) abrirResgate(vantagem);
+    navegar(local.pathname, { replace: true, state: null });
+  }, [pedida, saldo, vantagens, abrirResgate, navegar, local.pathname]);
 
   const visiveis = useMemo(() => {
     const termo = semAcentos(busca.trim());
@@ -130,7 +145,8 @@ export const CatalogoVantagens: React.FC = () => {
               e-mail.
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <QrDoCupom codigo={cupom.codigo} />
             <button
               type="button"
               onClick={copiarCupom}
@@ -177,11 +193,18 @@ export const CatalogoVantagens: React.FC = () => {
           onClick={() => setSoAlcance((v) => !v)}
           className={`inline-flex h-10 cursor-pointer items-center gap-2 rounded-full border px-4 text-sm font-medium transition ${
             soAlcance
-              ? 'border-tinta bg-tinta text-white'
+              ? 'border-anil bg-anil text-white'
               : 'border-linha-forte bg-superficie text-tinta-2 hover:border-tinta-3 hover:text-tinta'
           }`}
         >
-          {soAlcance && <Icone nome="check" tamanho={14} />}
+          <span
+            aria-hidden="true"
+            className={`inline-flex size-4 items-center justify-center rounded-full border transition-colors ${
+              soAlcance ? 'border-white bg-white text-anil' : 'border-linha-forte'
+            }`}
+          >
+            {soAlcance && <Icone nome="check" tamanho={10} />}
+          </span>
           Cabe no meu saldo
         </button>
         <div className="relative">

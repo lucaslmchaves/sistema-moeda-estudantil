@@ -29,7 +29,7 @@ const CLASSES_TAMANHO: Record<TamanhoValor, { numero: string; unidade: string; m
   lg: { numero: 'text-2xl font-medium tracking-[-0.02em]', unidade: 'text-sm', moeda: '20' },
   xl: {
     numero: 'text-5xl font-normal tracking-[-0.04em] sm:text-6xl',
-    unidade: 'text-base',
+    unidade: 'text-lg',
     moeda: '28',
   },
 };

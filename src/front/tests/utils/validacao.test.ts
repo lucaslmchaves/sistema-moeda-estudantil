@@ -14,7 +14,7 @@ describe('validarAluno', () => {
     cpf: '12345678909',
     rg: 'MG-123456',
     endereco: 'Rua A, 100',
-    curso: 'Engenharia',
+    curso: 'Engenharia de Software',
     id_instituicao: 1,
     login: 'maria.silva',
     senha: 'senhaForte123',

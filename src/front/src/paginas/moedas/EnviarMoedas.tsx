@@ -198,7 +198,7 @@ export const EnviarMoedas: React.FC = () => {
                       aria-pressed={valores.valor === String(v)}
                       className={`numeros h-10 cursor-pointer rounded-full border px-4 text-sm font-medium transition ${
                         valores.valor === String(v)
-                          ? 'border-tinta bg-tinta text-white'
+                          ? 'border-anil bg-anil text-white'
                           : 'border-linha-forte text-tinta-2 hover:border-tinta-3 hover:text-tinta'
                       }`}
                     >

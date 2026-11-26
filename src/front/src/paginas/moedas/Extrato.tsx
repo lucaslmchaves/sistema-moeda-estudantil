@@ -96,13 +96,13 @@ export const Extrato: React.FC = () => {
                         onClick={() => setFiltro(f.id)}
                         className={`inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-full px-3 text-[13px] font-medium transition ${
                           filtro === f.id
-                            ? 'bg-tinta text-white'
+                            ? 'bg-anil text-white'
                             : 'text-tinta-2 hover:bg-tinta/5 hover:text-tinta'
                         }`}
                       >
                         {f.rotulo}
                         <span
-                          className={`numeros text-xs ${filtro === f.id ? 'text-white/60' : 'text-tinta-3'}`}
+                          className={`numeros text-xs ${filtro === f.id ? 'text-white/70' : 'text-tinta-3'}`}
                         >
                           {f.quantidade}
                         </span>

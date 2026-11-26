@@ -99,7 +99,8 @@ export const EmpresaFormulario: React.FC = () => {
                 {...campo('senha')}
                 rotulo={edicao ? 'Nova senha' : 'Senha'}
                 placeholder={edicao ? 'Deixe em branco para manter' : ''}
-                dica="Mínimo de 8 caracteres."
+                dica="Mínimo de 8 caracteres, com letra e número."
+                mostrarRequisitos
                 autoComplete="new-password"
                 obrigatorio={!edicao}
               />

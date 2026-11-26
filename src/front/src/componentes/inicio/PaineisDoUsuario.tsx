@@ -79,23 +79,38 @@ const LinhasCarregando: React.FC<{ quantidade?: number }> = ({ quantidade = 3 })
   </div>
 );
 
-// Linha compacta de vantagem: foto, descrição, empresa e custo.
-const LinhaVantagem: React.FC<{ vantagem: Vantagem; mostrarEmpresa?: boolean }> = ({
-  vantagem,
-  mostrarEmpresa = true,
-}) => (
-  <li className="group/linha flex items-center gap-4 px-5 py-3.5 transition-colors hover:bg-superficie-2 sm:px-6">
-    <img
-      src={urlDaApi(vantagem.foto)}
-      alt=""
-      className="size-14 shrink-0 rounded-xl bg-superficie-2 object-cover transition-transform duration-500 ease-saida group-hover/linha:scale-110"
-      loading="lazy"
-    />
-    <div className="min-w-0 flex-1">
-      <p className="truncate text-[15px] font-medium">{vantagem.descricao}</p>
-      {mostrarEmpresa && <p className="truncate text-sm text-tinta-3">{vantagem.nome_empresa}</p>}
-    </div>
-    <ValorMoedas valor={vantagem.custo} tamanho="sm" semUnidade />
+// Linha compacta de vantagem, inteira clicável: foto, descrição, empresa e custo.
+const LinhaVantagem: React.FC<{
+  vantagem: Vantagem;
+  para: string;
+  estado?: unknown;
+  mostrarEmpresa?: boolean;
+}> = ({ vantagem, para, estado, mostrarEmpresa = true }) => (
+  <li>
+    <Link
+      to={para}
+      state={estado}
+      className="group/linha flex items-center gap-4 px-5 py-3.5 text-tinta no-underline transition-colors hover:bg-anil-50 sm:px-6"
+    >
+      <img
+        src={urlDaApi(vantagem.foto)}
+        alt=""
+        className="size-14 shrink-0 rounded-xl bg-superficie-2 object-cover transition-transform duration-500 ease-saida group-hover/linha:scale-110"
+        loading="lazy"
+      />
+      <span className="min-w-0 flex-1">
+        <span className="block truncate text-[15px] font-medium">{vantagem.descricao}</span>
+        {mostrarEmpresa && (
+          <span className="block truncate text-sm text-tinta-3">{vantagem.nome_empresa}</span>
+        )}
+      </span>
+      <ValorMoedas valor={vantagem.custo} tamanho="sm" semUnidade />
+      <Icone
+        nome="arrow-right"
+        tamanho={16}
+        className="text-tinta-3 transition group-hover/linha:translate-x-1 group-hover/linha:text-anil"
+      />
+    </Link>
   </li>
 );
 
@@ -127,7 +142,7 @@ export const PainelAluno: React.FC<{ usuario: UsuarioLogado }> = ({ usuario }) =
                     valor: (
                       <ValorMoedas
                         valor={totais.entradas}
-                        tamanho="sm"
+                        tamanho="lg"
                         sinal
                         semUnidade
                         fundoEscuro
@@ -139,7 +154,7 @@ export const PainelAluno: React.FC<{ usuario: UsuarioLogado }> = ({ usuario }) =
                     valor: (
                       <ValorMoedas
                         valor={-totais.saidas}
-                        tamanho="sm"
+                        tamanho="lg"
                         sinal
                         semUnidade
                         fundoEscuro
@@ -166,7 +181,12 @@ export const PainelAluno: React.FC<{ usuario: UsuarioLogado }> = ({ usuario }) =
           ) : (
             <ul className="divide-y divide-linha">
               {alcance.slice(0, 4).map((v) => (
-                <LinhaVantagem key={v.id_vantagem} vantagem={v} />
+                <LinhaVantagem
+                  key={v.id_vantagem}
+                  vantagem={v}
+                  para="/vantagens"
+                  estado={{ vantagem: v.id_vantagem }}
+                />
               ))}
             </ul>
           )}
@@ -218,7 +238,7 @@ export const PainelProfessor: React.FC<{ usuario: UsuarioLogado }> = ({ usuario 
                     valor: (
                       <ValorMoedas
                         valor={-totais.saidas}
-                        tamanho="sm"
+                        tamanho="lg"
                         sinal
                         semUnidade
                         fundoEscuro
@@ -288,17 +308,17 @@ export const PainelEmpresa: React.FC<{ usuario: UsuarioLogado }> = ({ usuario })
   return (
     <div className="cascata grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
       <section className="relative isolate flex flex-col overflow-hidden rounded-[20px] bg-linear-to-br from-anil-escuro to-anil-fundo p-6 text-white shadow-flutuante sm:p-8">
-        <span className="text-sm text-white/70">Vantagens no catálogo</span>
+        <span className="text-base text-white/80">Vantagens no catálogo</span>
         <p className="numeros mt-6 mb-8 text-6xl font-normal tracking-[-0.04em]">
           {vantagens === null ? '–' : vantagens.length}
         </p>
-        <p className="mb-8 max-w-xs text-sm leading-relaxed text-white/70">
+        <p className="mb-8 max-w-xs text-base leading-relaxed text-white/70">
           Os alunos veem as suas vantagens no catálogo e podem trocá-las por moedas.
         </p>
         <div className="mt-auto flex flex-wrap items-end justify-between gap-4">
           <div className="min-w-0">
-            <p className="truncate text-[15px] font-medium">{usuario.nome}</p>
-            <p className="text-xs text-white/60">{NOME_DO_PERFIL[usuario.tipo_usuario]}</p>
+            <p className="truncate text-lg font-medium">{usuario.nome}</p>
+            <p className="text-sm text-white/70">{NOME_DO_PERFIL[usuario.tipo_usuario]}</p>
           </div>
           <div className="flex flex-wrap gap-2">
             <Link to="/minhas-vantagens" className={CLASSE_BOTAO_CONTORNO_CLARO}>
@@ -330,7 +350,12 @@ export const PainelEmpresa: React.FC<{ usuario: UsuarioLogado }> = ({ usuario })
         ) : (
           <ul className="divide-y divide-linha">
             {vantagens.slice(0, 5).map((v) => (
-              <LinhaVantagem key={v.id_vantagem} vantagem={v} mostrarEmpresa={false} />
+              <LinhaVantagem
+                key={v.id_vantagem}
+                vantagem={v}
+                para="/minhas-vantagens"
+                mostrarEmpresa={false}
+              />
             ))}
           </ul>
         )}

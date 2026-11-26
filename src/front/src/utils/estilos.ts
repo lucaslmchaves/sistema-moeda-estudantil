@@ -1,6 +1,6 @@
 // Classes do Tailwind reutilizadas pelos componentes, para não repetir utilitários.
 
-type VarianteBotao = 'primario' | 'secundario' | 'perigo' | 'fantasma';
+type VarianteBotao = 'primario' | 'secundario' | 'perigo' | 'fantasma' | 'destaque';
 type TamanhoBotao = 'normal' | 'pequeno' | 'grande';
 
 const BASE_BOTAO =
@@ -12,6 +12,9 @@ const VARIANTES_BOTAO: Record<VarianteBotao, string> = {
     'border-linha-forte bg-superficie text-tinta hover:border-tinta-3 hover:bg-superficie-2',
   perigo: 'border-transparent bg-negativo text-white hover:bg-negativo-hover',
   fantasma: 'border-transparent bg-transparent text-tinta-2 hover:bg-tinta/5 hover:text-tinta',
+  // Botão de dentro de um cartão: acende em índigo quando o ponteiro passa no cartão.
+  destaque:
+    'border-linha-forte bg-superficie text-tinta group-hover:border-anil group-hover:bg-anil group-hover:text-white hover:bg-anil-escuro',
 };
 
 const TAMANHOS_BOTAO: Record<TamanhoBotao, string> = {

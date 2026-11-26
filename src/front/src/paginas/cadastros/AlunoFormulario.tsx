@@ -15,6 +15,7 @@ import { useAlunoFormulario } from '../../hooks/cadastros/useAlunoFormulario';
 import type { AlunoFormulario as ValoresAluno } from '../../tipos/aluno';
 import { mascararCpf } from '../../utils/documentos';
 import { CLASSE_ACOES_FORMULARIO, CLASSE_GRADE_FORMULARIO, classeBotao } from '../../utils/estilos';
+import { CURSOS } from '../../utils/regrasDeCampos';
 
 type CampoTexto = Exclude<keyof ValoresAluno, 'id_instituicao'>;
 
@@ -93,6 +94,7 @@ export const AlunoFormulario: React.FC = () => {
               <CampoFormulario
                 {...campo('endereco')}
                 rotulo="Endereço"
+                placeholder="Rua da Bahia, 1200, Belo Horizonte"
                 autoComplete="street-address"
                 colunaCheia
                 obrigatorio
@@ -112,7 +114,16 @@ export const AlunoFormulario: React.FC = () => {
                 erro={erros.id_instituicao}
                 obrigatorio
               />
-              <CampoFormulario {...campo('curso')} rotulo="Curso" obrigatorio />
+              <SelectFormulario
+                id="curso"
+                rotulo="Curso"
+                valor={CURSOS.includes(valores.curso) ? valores.curso : ''}
+                opcoes={CURSOS.map((curso) => ({ valor: curso, rotulo: curso }))}
+                textoPadrao="Selecione"
+                onChange={(valor) => form.alterarCampo('curso', valor)}
+                erro={erros.curso}
+                obrigatorio
+              />
             </div>
           </SecaoFormulario>
 
@@ -135,7 +146,8 @@ export const AlunoFormulario: React.FC = () => {
                 {...campo('senha')}
                 rotulo={edicao ? 'Nova senha' : 'Senha'}
                 placeholder={edicao ? 'Deixe em branco para manter' : ''}
-                dica="Mínimo de 8 caracteres."
+                dica="Mínimo de 8 caracteres, com letra e número."
+                mostrarRequisitos
                 autoComplete="new-password"
                 obrigatorio={!edicao}
               />
