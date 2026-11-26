@@ -6,6 +6,7 @@ import {
   LIMITE_DE_ESPERA_MS,
   acompanharDemora,
 } from '../../src/utils/servidorLento';
+import { textoDoRodape } from '../../src/utils/rodape';
 import { tituloDaRota } from '../../src/utils/titulos';
 
 describe('tituloDaRota', () => {
@@ -14,6 +15,19 @@ describe('tituloDaRota', () => {
     expect(tituloDaRota('/entrar/professor')).toBe('Entrar como professor · Moeda Estudantil');
     expect(tituloDaRota('/alunos/7/editar')).toBe('Meu cadastro · Moeda Estudantil');
     expect(tituloDaRota('/nada-aqui')).toBe('Página não encontrada · Moeda Estudantil');
+  });
+});
+
+describe('textoDoRodape', () => {
+  it('tem uma frase em cada página de cadastro e o nome do sistema nas demais', () => {
+    expect(textoDoRodape('/', 2026)).toBe('© 2026 Moeda Estudantil');
+    expect(textoDoRodape('/cadastro/aluno', 2026)).toBe(
+      'Valorizando o mérito em sala de aula · © 2026',
+    );
+    expect(textoDoRodape('/cadastro/empresa', 2026)).toBe(
+      'O reconhecimento que move a sala de aula · © 2026',
+    );
+    expect(textoDoRodape('/nada-aqui', 2026)).toBe('© 2026 Moeda Estudantil');
   });
 });
 
