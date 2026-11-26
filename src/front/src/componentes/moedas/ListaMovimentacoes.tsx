@@ -4,6 +4,7 @@ import type { TransacaoExtrato } from '../../tipos/moedas';
 import { agruparPorDia, horaDe, lerMovimentacao, rotuloDoDia } from '../../utils/extrato';
 import { Icone, type NomeIcone } from '../icones/Icone';
 import { ValorMoedas } from '../marca/Moedas';
+import { QrDoCupom } from './QrDoCupom';
 
 const VISUAL: Record<string, { icone: NomeIcone; tom: string }> = {
   recebido: { icone: 'arrow-down-left', tom: 'bg-positivo-fundo text-positivo' },
@@ -64,6 +65,7 @@ export const ItemMovimentacao: React.FC<{ transacao: TransacaoExtrato; comDia?: 
         {lida.codigo ? (
           <p className="mt-1.5 flex flex-wrap items-center gap-2 text-sm text-tinta-3">
             Cupom <CodigoCupom codigo={lida.codigo} />
+            <QrDoCupom codigo={lida.codigo} compacto />
           </p>
         ) : (
           lida.detalhe && (
