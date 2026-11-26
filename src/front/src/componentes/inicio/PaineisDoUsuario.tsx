@@ -7,6 +7,7 @@ import { Esqueleto } from '../feedback/Carregando';
 import { EstadoVazio } from '../feedback/EstadoVazio';
 import { MensagemAlerta } from '../feedback/MensagemAlerta';
 import { Icone } from '../icones/Icone';
+import { Avatar } from '../marca/Avatar';
 import { ValorMoedas } from '../marca/Moedas';
 import {
   CLASSE_BOTAO_CLARO,
@@ -19,7 +20,7 @@ import { useVantagens } from '../../hooks/moedas/useVantagens';
 import type { UsuarioLogado } from '../../tipos/autenticacao';
 import type { Vantagem } from '../../tipos/vantagem';
 import { classeBotao } from '../../utils/estilos';
-import { totaisDoExtrato } from '../../utils/extrato';
+import { alunosRecentes, totaisDoExtrato } from '../../utils/extrato';
 import { NOME_DO_PERFIL } from '../../utils/navegacao';
 
 const NUMERO = new Intl.NumberFormat('pt-BR');
@@ -83,11 +84,11 @@ const LinhaVantagem: React.FC<{ vantagem: Vantagem; mostrarEmpresa?: boolean }> 
   vantagem,
   mostrarEmpresa = true,
 }) => (
-  <li className="flex items-center gap-4 px-5 py-3.5 sm:px-6">
+  <li className="group/linha flex items-center gap-4 px-5 py-3.5 transition-colors hover:bg-superficie-2 sm:px-6">
     <img
       src={urlDaApi(vantagem.foto)}
       alt=""
-      className="size-14 shrink-0 rounded-xl bg-superficie-2 object-cover"
+      className="size-14 shrink-0 rounded-xl bg-superficie-2 object-cover transition-transform duration-500 ease-saida group-hover/linha:scale-110"
       loading="lazy"
     />
     <div className="min-w-0 flex-1">
@@ -121,8 +122,30 @@ export const PainelAluno: React.FC<{ usuario: UsuarioLogado }> = ({ usuario }) =
           detalhes={
             totais
               ? [
-                  { rotulo: 'Recebidas', valor: `+${NUMERO.format(totais.entradas)}` },
-                  { rotulo: 'Trocadas', valor: `−${NUMERO.format(totais.saidas)}` },
+                  {
+                    rotulo: 'Recebidas',
+                    valor: (
+                      <ValorMoedas
+                        valor={totais.entradas}
+                        tamanho="sm"
+                        sinal
+                        semUnidade
+                        fundoEscuro
+                      />
+                    ),
+                  },
+                  {
+                    rotulo: 'Trocadas',
+                    valor: (
+                      <ValorMoedas
+                        valor={-totais.saidas}
+                        tamanho="sm"
+                        sinal
+                        semUnidade
+                        fundoEscuro
+                      />
+                    ),
+                  },
                 ]
               : []
           }
@@ -176,6 +199,7 @@ export const PainelProfessor: React.FC<{ usuario: UsuarioLogado }> = ({ usuario 
     ? new Set(extrato.transacoes.filter((t) => t.valor < 0).map((t) => t.descricao.split(':')[0]))
         .size
     : 0;
+  const recentes = extrato ? alunosRecentes(extrato.transacoes) : [];
 
   return (
     <>
@@ -189,7 +213,18 @@ export const PainelProfessor: React.FC<{ usuario: UsuarioLogado }> = ({ usuario 
           detalhes={
             totais
               ? [
-                  { rotulo: 'Já enviadas', valor: NUMERO.format(totais.saidas) },
+                  {
+                    rotulo: 'Já enviadas',
+                    valor: (
+                      <ValorMoedas
+                        valor={-totais.saidas}
+                        tamanho="sm"
+                        sinal
+                        semUnidade
+                        fundoEscuro
+                      />
+                    ),
+                  },
                   { rotulo: 'Alunos reconhecidos', valor: NUMERO.format(alunosReconhecidos) },
                 ]
               : []
@@ -216,6 +251,33 @@ export const PainelProfessor: React.FC<{ usuario: UsuarioLogado }> = ({ usuario 
           )}
         </Painel>
       </div>
+
+      {recentes.length > 0 && (
+        <Painel className="mt-6" titulo="Reconhecer de novo">
+          <ul className="cascata grid gap-3 p-4 sm:grid-cols-2 lg:grid-cols-3">
+            {recentes.map((aluno) => (
+              <li key={aluno.nome} className="flex">
+                <Link
+                  to="/enviar-moedas"
+                  state={{ aluno: aluno.nome }}
+                  className="elevar group flex w-full items-center gap-3 rounded-controle border border-linha p-3 text-tinta no-underline"
+                >
+                  <Avatar nome={aluno.nome} tamanho="sm" />
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-sm font-medium">{aluno.nome}</span>
+                    <span className="block truncate text-xs text-tinta-3">{aluno.motivo}</span>
+                  </span>
+                  <Icone
+                    nome="paper-plane-tilt"
+                    tamanho={16}
+                    className="text-tinta-3 transition group-hover:translate-x-0.5 group-hover:text-anil"
+                  />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Painel>
+      )}
     </>
   );
 };

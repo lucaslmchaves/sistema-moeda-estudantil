@@ -38,7 +38,7 @@ export function useEnviarMoedas() {
   }, [setErroGeral]);
 
   // Valida e envia as moedas; depois limpa o formulário, avisa o resultado e atualiza o saldo.
-  const enviar = (evento: FormEvent) => {
+  const enviar = (evento?: FormEvent) => {
     setSucesso(null);
     return submeter(evento, async (valores) => {
       const valor = Number(valores.valor);

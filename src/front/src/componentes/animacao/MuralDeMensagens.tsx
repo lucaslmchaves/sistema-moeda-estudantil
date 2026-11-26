@@ -1,4 +1,5 @@
 // Mural ilustrativo do login: reconhecimentos e trocas que chegam um depois do outro.
+import { ValorMoedas } from '../marca/Moedas';
 import React, { useEffect, useState } from 'react';
 import { podeAnimar } from '../../utils/movimento';
 import { Icone, type NomeIcone } from '../icones/Icone';
@@ -120,11 +121,7 @@ export const MuralDeMensagens: React.FC = () => {
                   <div className="flex items-baseline justify-between gap-3">
                     <p className="truncate text-sm font-medium">{mensagem.titulo}</p>
                     {mensagem.valor !== undefined && (
-                      <span
-                        className={`numeros text-sm font-semibold ${mensagem.valor > 0 ? 'text-positivo' : 'text-tinta-3'}`}
-                      >
-                        {mensagem.valor > 0 ? `+${mensagem.valor}` : `−${-mensagem.valor}`}
-                      </span>
+                      <ValorMoedas valor={mensagem.valor} tamanho="sm" sinal semUnidade />
                     )}
                   </div>
                   <p className="mt-0.5 text-[13px] leading-snug text-tinta-2">{mensagem.texto}</p>

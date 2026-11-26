@@ -5,6 +5,7 @@ import { useAutenticacao } from '../../hooks/autenticacao/useAutenticacao';
 import type { UsuarioLogado } from '../../tipos/autenticacao';
 import { classeBotao, classeLinkNavegacao } from '../../utils/estilos';
 import { NOME_DO_PERFIL, linksDoUsuario } from '../../utils/navegacao';
+import { textoDoRodape } from '../../utils/rodape';
 import { Avatar } from '../marca/Avatar';
 import { Marca } from '../marca/Marca';
 import { Icone } from '../icones/Icone';
@@ -127,43 +128,47 @@ export const EstruturaApp: React.FC<{ usuario: UsuarioLogado; children: React.Re
 export const EstruturaPublica: React.FC<{ children: React.ReactNode; largura?: string }> = ({
   children,
   largura = 'max-w-[1200px]',
-}) => (
-  <div className="flex min-h-dvh flex-col">
-    <header className="sticky top-0 z-30 border-b border-linha/70 bg-papel/85 backdrop-blur-md">
-      <div className="mx-auto flex h-16 w-full max-w-[1200px] items-center justify-between gap-4 px-4 sm:px-8">
-        <Link to="/" className="no-underline">
+}) => {
+  const { pathname } = useLocation();
+
+  return (
+    <div className="flex min-h-dvh flex-col">
+      <header className="sticky top-0 z-30 border-b border-linha/70 bg-papel/85 backdrop-blur-md">
+        <div className="mx-auto flex h-16 w-full max-w-[1200px] items-center justify-between gap-3 px-4 sm:gap-4 sm:px-8">
+          <Link to="/" className="no-underline">
+            <Marca />
+          </Link>
+          <nav aria-label="Navegação principal" className="flex items-center gap-1 sm:gap-2">
+            <NavLink
+              to="/cadastro/empresa"
+              className="hidden h-10 items-center rounded-controle px-3 text-sm font-medium text-tinta-2 no-underline transition hover:text-tinta md:inline-flex"
+            >
+              Para empresas
+            </NavLink>
+            <NavLink
+              to="/entrar/professor"
+              className="hidden h-10 items-center rounded-controle px-3 text-sm font-medium text-tinta-2 no-underline transition hover:text-tinta md:inline-flex"
+            >
+              Sou professor
+            </NavLink>
+            <Link to="/entrar" className={`${classeBotao('fantasma')} max-sm:px-2.5`}>
+              Entrar
+            </Link>
+            <Link to="/cadastro/aluno" className={`${classeBotao('primario')} max-sm:px-2.5`}>
+              Criar conta
+            </Link>
+          </nav>
+        </div>
+      </header>
+      <main className={`mx-auto w-full flex-1 px-4 py-10 sm:px-8 sm:py-14 ${largura}`}>
+        {children}
+      </main>
+      <footer className="border-t border-linha">
+        <div className="mx-auto flex w-full max-w-[1200px] flex-wrap items-center justify-between gap-3 px-4 py-6 text-[13px] text-tinta-3 sm:px-8">
           <Marca />
-        </Link>
-        <nav aria-label="Navegação principal" className="flex items-center gap-1 sm:gap-2">
-          <NavLink
-            to="/cadastro/empresa"
-            className="hidden h-10 items-center rounded-controle px-3 text-sm font-medium text-tinta-2 no-underline transition hover:text-tinta md:inline-flex"
-          >
-            Para empresas
-          </NavLink>
-          <NavLink
-            to="/entrar/professor"
-            className="hidden h-10 items-center rounded-controle px-3 text-sm font-medium text-tinta-2 no-underline transition hover:text-tinta md:inline-flex"
-          >
-            Sou professor
-          </NavLink>
-          <Link to="/entrar" className={classeBotao('fantasma')}>
-            Entrar
-          </Link>
-          <Link to="/cadastro/aluno" className={classeBotao('primario')}>
-            Criar conta
-          </Link>
-        </nav>
-      </div>
-    </header>
-    <main className={`mx-auto w-full flex-1 px-4 py-10 sm:px-8 sm:py-14 ${largura}`}>
-      {children}
-    </main>
-    <footer className="border-t border-linha">
-      <div className="mx-auto flex w-full max-w-[1200px] flex-wrap items-center justify-between gap-3 px-4 py-6 text-[13px] text-tinta-3 sm:px-8">
-        <Marca />
-        <span>Trabalho da disciplina Projeto de Software</span>
-      </div>
-    </footer>
-  </div>
-);
+          <span>{textoDoRodape(pathname)}</span>
+        </div>
+      </footer>
+    </div>
+  );
+};

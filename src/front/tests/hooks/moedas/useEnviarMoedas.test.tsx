@@ -57,6 +57,25 @@ describe('useEnviarMoedas', () => {
     );
   });
 
+  it('confere o formulário sem enviar, para a tela pedir a confirmação antes', async () => {
+    const hook = await montar();
+    let pode = true;
+    act(() => {
+      pode = hook.result.current.conferir(novoEvento());
+    });
+    expect(pode).toBe(false);
+
+    act(() =>
+      hook.result.current.definirValores({ id_aluno: 3, valor: '50', mensagem: 'Parabéns' }),
+    );
+    act(() => {
+      pode = hook.result.current.conferir(novoEvento());
+    });
+
+    expect(pode).toBe(true);
+    expect(enviarMoedas).not.toHaveBeenCalled();
+  });
+
   it('envia as moedas, avisa o resultado, limpa o formulário e atualiza o saldo', async () => {
     const hook = await montar();
     act(() =>
