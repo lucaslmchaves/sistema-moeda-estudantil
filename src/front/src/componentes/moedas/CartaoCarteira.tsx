@@ -1,5 +1,6 @@
-// Cartão escuro da carteira: o saldo em destaque, o titular e as ações principais.
+// Cartão da carteira em índigo: o saldo em destaque, o titular e as ações principais.
 import React from 'react';
+import { NumeroAnimado } from '../animacao/NumeroAnimado';
 import { SimboloMarca } from '../marca/Marca';
 import { ValorMoedas } from '../marca/Moedas';
 import { Esqueleto } from '../feedback/Carregando';
@@ -23,11 +24,11 @@ export const CartaoCarteira: React.FC<CartaoCarteiraProps> = ({
 }) => (
   <section
     aria-label={rotulo}
-    className="relative isolate flex flex-col overflow-hidden rounded-[20px] bg-tinta p-6 text-white sm:p-8"
+    className="relative isolate flex flex-col overflow-hidden rounded-[20px] bg-linear-to-br from-anil-escuro to-anil-fundo p-6 text-white shadow-flutuante sm:p-8"
   >
     <svg
       aria-hidden="true"
-      className="absolute -top-32 -right-32 -z-10 size-80 text-lavanda-300 opacity-[0.12]"
+      className="absolute -top-32 -right-32 -z-10 size-80 text-ouro-300 opacity-[0.18]"
       viewBox="0 0 200 200"
     >
       <circle cx="100" cy="100" r="96" fill="none" stroke="currentColor" strokeWidth="1.5" />
@@ -42,7 +43,7 @@ export const CartaoCarteira: React.FC<CartaoCarteiraProps> = ({
       {saldo === null ? (
         <Esqueleto className="h-14 w-48 bg-white/10" />
       ) : (
-        <ValorMoedas valor={saldo} tamanho="xl" />
+        <NumeroAnimado valor={saldo}>{(n) => <ValorMoedas valor={n} tamanho="xl" />}</NumeroAnimado>
       )}
     </div>
     {detalhes.length > 0 && (
@@ -67,6 +68,6 @@ export const CartaoCarteira: React.FC<CartaoCarteiraProps> = ({
 
 // Classe dos botões claros usados dentro do cartão escuro.
 export const CLASSE_BOTAO_CLARO =
-  'inline-flex h-10 items-center justify-center gap-2 rounded-controle bg-white px-4 text-sm font-medium text-tinta no-underline transition hover:bg-lavanda-100';
+  'inline-flex h-10 items-center justify-center gap-2 rounded-controle bg-white px-4 text-sm font-medium text-tinta no-underline transition hover:bg-anil-100';
 export const CLASSE_BOTAO_CONTORNO_CLARO =
   'inline-flex h-10 items-center justify-center gap-2 rounded-controle border border-white/20 px-4 text-sm font-medium text-white no-underline transition hover:bg-white/10';

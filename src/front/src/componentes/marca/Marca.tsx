@@ -8,17 +8,17 @@ interface MarcaProps {
 
 // Símbolo desenhado em SVG para manter o traço nítido em qualquer tamanho.
 export const SimboloMarca: React.FC<{ tamanho?: number }> = ({ tamanho = 28 }) => (
-  <svg width={tamanho} height={tamanho} viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-    <circle cx="12" cy="16" r="10" fill="var(--color-lavanda-300)" />
-    <circle cx="20" cy="16" r="10" fill="var(--color-tinta)" />
-    <circle
-      cx="20"
-      cy="16"
-      r="5.5"
-      fill="none"
-      stroke="var(--color-lavanda-300)"
-      strokeWidth="1.6"
-    />
+  <svg
+    width={tamanho}
+    height={tamanho}
+    viewBox="0 0 32 32"
+    aria-hidden="true"
+    focusable="false"
+    className="marca-giro"
+  >
+    <circle cx="12" cy="16" r="10" fill="var(--color-ouro-300)" />
+    <circle cx="20" cy="16" r="10" fill="var(--color-anil)" />
+    <circle cx="20" cy="16" r="5.5" fill="none" stroke="var(--color-ouro-300)" strokeWidth="1.6" />
   </svg>
 );
 

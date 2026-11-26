@@ -2,7 +2,7 @@
 import React from 'react';
 
 const TONS = [
-  'bg-lavanda-100 text-violeta-escuro',
+  'bg-anil-100 text-anil-escuro',
   'bg-[#e3efe8] text-[#1f5b40]',
   'bg-[#f6e8d8] text-[#7a4a12]',
   'bg-[#e2ebf5] text-[#24496e]',

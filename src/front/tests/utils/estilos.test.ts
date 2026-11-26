@@ -4,7 +4,7 @@ import { classeBotao, classeControle, classeLinkNavegacao } from '../../src/util
 
 describe('classeBotao', () => {
   it('usa a cor de cada variante', () => {
-    expect(classeBotao('primario')).toContain('bg-tinta');
+    expect(classeBotao('primario')).toContain('bg-anil');
     expect(classeBotao('secundario')).toContain('bg-superficie');
     expect(classeBotao('perigo')).toContain('bg-negativo');
   });
@@ -18,7 +18,7 @@ describe('classeBotao', () => {
 
 describe('classeLinkNavegacao', () => {
   it('destaca o link da rota ativa', () => {
-    expect(classeLinkNavegacao(true)).toContain('bg-lavanda-100');
+    expect(classeLinkNavegacao(true)).toContain('bg-anil-100');
     expect(classeLinkNavegacao(false)).toContain('text-tinta-2');
   });
 });

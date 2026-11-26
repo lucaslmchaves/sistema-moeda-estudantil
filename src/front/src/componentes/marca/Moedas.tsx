@@ -16,15 +16,8 @@ export const IconeMoeda: React.FC<{ tamanho?: number | string; className?: strin
     focusable="false"
     className={`shrink-0 ${className}`}
   >
-    <circle cx="10" cy="10" r="9" fill="var(--color-lavanda-300)" />
-    <circle
-      cx="10"
-      cy="10"
-      r="5.6"
-      fill="none"
-      stroke="var(--color-violeta-escuro)"
-      strokeWidth="1.5"
-    />
+    <circle cx="10" cy="10" r="9" fill="var(--color-ouro-300)" />
+    <circle cx="10" cy="10" r="5.6" fill="none" stroke="var(--color-ouro-700)" strokeWidth="1.5" />
   </svg>
 );
 

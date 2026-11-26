@@ -98,8 +98,8 @@ export const EnviarMoedas: React.FC = () => {
                   return (
                     <label
                       key={aluno.id_usuario}
-                      className={`flex cursor-pointer items-center gap-3 rounded-controle px-3 py-2.5 transition has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-violeta ${
-                        marcado ? 'bg-lavanda-100' : 'hover:bg-superficie-2'
+                      className={`flex cursor-pointer items-center gap-3 rounded-controle px-3 py-2.5 transition has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-anil ${
+                        marcado ? 'bg-anil-100' : 'hover:bg-superficie-2'
                       }`}
                     >
                       <input
@@ -120,7 +120,7 @@ export const EnviarMoedas: React.FC = () => {
                         aria-hidden="true"
                         className={`inline-flex size-5 items-center justify-center rounded-full border transition ${
                           marcado
-                            ? 'border-violeta bg-violeta text-white'
+                            ? 'border-anil bg-anil text-white'
                             : 'border-linha-forte bg-superficie'
                         }`}
                       >

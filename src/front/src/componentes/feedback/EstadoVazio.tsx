@@ -18,7 +18,7 @@ export const EstadoVazio: React.FC<EstadoVazioProps> = ({
 }) => {
   return (
     <div className="flex flex-col items-center rounded-cartao border border-dashed border-linha-forte bg-superficie-2 px-6 py-16 text-center">
-      <span className="mb-5 inline-flex size-12 items-center justify-center rounded-full bg-lavanda-100 text-violeta">
+      <span className="mb-5 inline-flex size-12 items-center justify-center rounded-full bg-anil-100 text-anil">
         <Icone nome={icone} tamanho={22} />
       </span>
       <h3 className="text-lg font-semibold tracking-[-0.01em] text-tinta">{titulo}</h3>
