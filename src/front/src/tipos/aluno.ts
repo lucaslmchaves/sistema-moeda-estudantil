@@ -53,4 +53,5 @@ export type AlunoFormulario = {
   id_instituicao: number | '';
   login: string;
   senha: string;
+  confirmarSenha: string;
 };

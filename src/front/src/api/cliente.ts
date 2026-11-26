@@ -1,8 +1,14 @@
 // Cliente base para requisições HTTP fetch com tratamento tolerante de respostas.
 import { extrairMensagemErro } from '../utils/erros';
+import { acompanharDemora } from '../utils/servidorLento';
 import { EVENTO_SESSAO_EXPIRADA, limparSessao, obterToken } from '../utils/sessao';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
+// Chama a API assim que o site abre, para o servidor gratuito começar a acordar cedo.
+export function acordarServidor(): void {
+  fetch(`${API_URL}/saude`).catch(() => undefined);
+}
 
 // Monta os cabeçalhos: JSON quando o corpo é texto e o token da sessão, se houver.
 function montarCabecalhos(opcoes?: RequestInit): Record<string, string> {
@@ -19,6 +25,7 @@ export async function requisicao<T>(caminho: string, opcoes?: RequestInit): Prom
   const tinhaSessao = obterToken() !== null;
 
   let resposta: Response;
+  const encerrarEspera = acompanharDemora();
   try {
     resposta = await fetch(url, {
       ...opcoes,
@@ -29,6 +36,8 @@ export async function requisicao<T>(caminho: string, opcoes?: RequestInit): Prom
       throw new Error('Não foi possível conectar ao servidor. Verifique se a API está no ar.');
     }
     throw err;
+  } finally {
+    encerrarEspera();
   }
 
   if (!resposta.ok) {

@@ -12,3 +12,6 @@ Referências: SaaS de Abdul Saboor (Behance: Umber, PivotHR), princípios do `im
 - **Peças-chave:** `CartaoCarteira` (saldo com contagem), `ListaMovimentacoes` (lê "De/Para/Resgate" da API), `ValorMoedas` + `IconeMoeda`, `Icone` (SVG embutido, sem rede).
 - **Movimento** (`componentes/animacao`): transição entre páginas, entrada em sequência, saldo contando, mural de mensagens no login, moedas flutuando, palavra "moeda" que vira moeda e seções que surgem ao rolar. Tudo respeita `prefers-reduced-motion`.
 - **Login:** a aba "Professor" aceita só professores; a aba "Aluno ou empresa" recusa professores (`utils/perfilDeAcesso.ts`).
+- **Espera:** quando uma resposta demora mais de 4 segundos (primeira visita do dia), aparece a tela `EsperaComMoedas`, com frases e moedas para apanhar, no lugar de um aviso técnico.
+- **Comemoração:** chuva de moedas ao enviar moedas e ao trocar por vantagem.
+- **Formulários:** CPF e CNPJ com máscara e conferência dos dígitos, senha com mostrar/ocultar e confirmação, cursor no primeiro campo com erro.

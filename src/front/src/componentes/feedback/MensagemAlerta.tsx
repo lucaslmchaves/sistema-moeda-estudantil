@@ -1,5 +1,5 @@
 // Caixa de alerta para mensagens de sucesso ou de erro.
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Icone } from '../icones/Icone';
 
 interface MensagemAlertaProps {
@@ -15,11 +15,20 @@ const ESTILO_POR_TIPO = {
 
 // Mostra a mensagem em destaque, com botão opcional para dispensá-la.
 export const MensagemAlerta: React.FC<MensagemAlertaProps> = ({ tipo, mensagem, onFechar }) => {
+  const caixa = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (tipo === 'erro' && mensagem) {
+      caixa.current?.scrollIntoView?.({ block: 'nearest', behavior: 'smooth' });
+    }
+  }, [tipo, mensagem]);
+
   if (!mensagem) return null;
   const estilo = ESTILO_POR_TIPO[tipo];
 
   return (
     <div
+      ref={caixa}
       role={tipo === 'erro' ? 'alert' : 'status'}
       className={`mb-6 flex animate-surgir items-start gap-3 rounded-controle border px-4 py-3 text-sm ${estilo.caixa}`}
     >

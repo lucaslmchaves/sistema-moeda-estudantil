@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { atualizarEmpresa, buscarEmpresaPorId, criarEmpresa } from '../../api/empresas';
 import type { Empresa, EmpresaFormulario } from '../../tipos/empresa';
 import { extrairMensagemErro } from '../../utils/erros';
+import { formatarCnpj } from '../../utils/formatacao';
 import { validarEmpresa } from '../../utils/validacao';
 import { useFormulario } from '../geral/useFormulario';
 
@@ -14,12 +15,13 @@ const VALORES_INICIAIS: EmpresaFormulario = {
   cnpj: '',
   login: '',
   senha: '',
+  confirmarSenha: '',
 };
 
 // Converte a empresa vinda da API nos valores do formulário, com a senha em branco.
 function paraFormulario(empresa: Empresa): EmpresaFormulario {
   const { nome, email, cnpj, login } = empresa;
-  return { nome, email, cnpj, login, senha: '' };
+  return { nome, email, cnpj: formatarCnpj(cnpj), login, senha: '', confirmarSenha: '' };
 }
 
 // Reúne o carregamento, a validação e o envio do cadastro e da edição de empresa.

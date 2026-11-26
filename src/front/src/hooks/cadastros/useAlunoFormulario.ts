@@ -7,6 +7,7 @@ import { listarInstituicoes } from '../../api/instituicoes';
 import type { Aluno, AlunoFormulario } from '../../tipos/aluno';
 import type { Instituicao } from '../../tipos/instituicao';
 import { extrairMensagemErro } from '../../utils/erros';
+import { formatarCpf } from '../../utils/formatacao';
 import { validarAluno } from '../../utils/validacao';
 import { useFormulario } from '../geral/useFormulario';
 
@@ -20,12 +21,24 @@ const VALORES_INICIAIS: AlunoFormulario = {
   id_instituicao: '',
   login: '',
   senha: '',
+  confirmarSenha: '',
 };
 
 // Converte o aluno vindo da API nos valores do formulário, com a senha em branco.
 function paraFormulario(aluno: Aluno): AlunoFormulario {
   const { nome, email, cpf, rg, endereco, curso, id_instituicao, login } = aluno;
-  return { nome, email, cpf, rg, endereco, curso, id_instituicao, login, senha: '' };
+  return {
+    nome,
+    email,
+    cpf: formatarCpf(cpf),
+    rg,
+    endereco,
+    curso,
+    id_instituicao,
+    login,
+    senha: '',
+    confirmarSenha: '',
+  };
 }
 
 // Reúne o carregamento, a validação e o envio do cadastro e da edição de aluno.

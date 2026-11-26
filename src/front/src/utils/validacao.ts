@@ -1,5 +1,7 @@
 // Validação síncrona, em português, dos formulários do sistema.
 
+import { cnpjValido, cpfValido } from './documentos';
+
 export type ErrosValidacao = Record<string, string>;
 
 export interface DadosValidacaoAluno {
@@ -12,6 +14,7 @@ export interface DadosValidacaoAluno {
   id_instituicao?: number | string;
   login?: string;
   senha?: string;
+  confirmarSenha?: string;
 }
 
 export interface DadosValidacaoEmpresa {
@@ -20,6 +23,7 @@ export interface DadosValidacaoEmpresa {
   cnpj?: string;
   login?: string;
   senha?: string;
+  confirmarSenha?: string;
 }
 
 const REGEX_EMAIL = /^[\w.+-]+@[\w.-]+\.\w+$/;
@@ -57,12 +61,23 @@ function validarSenha(erros: ErrosValidacao, senha: string | undefined, edicao: 
   }
 }
 
+// Quando a tela pede a confirmação, as duas senhas precisam ser iguais.
+function validarConfirmacao(erros: ErrosValidacao, senha?: string, confirmacao?: string): void {
+  if (confirmacao === undefined || !senha) return;
+  if (!confirmacao) {
+    erros.confirmarSenha = 'Confirme a senha.';
+  } else if (confirmacao !== senha) {
+    erros.confirmarSenha = 'As senhas não são iguais.';
+  }
+}
+
 // Valida os dados do formulário de aluno e devolve um erro por campo inválido.
 export function validarAluno(dados: DadosValidacaoAluno, edicao = false): ErrosValidacao {
   const erros: ErrosValidacao = {};
   exigirTexto(erros, 'nome', 'nome', dados.nome);
   validarEmail(erros, dados.email);
   exigirTexto(erros, 'cpf', 'CPF', dados.cpf);
+  if (!erros.cpf && !cpfValido(dados.cpf ?? '')) erros.cpf = 'O CPF informado não é válido.';
   exigirTexto(erros, 'rg', 'RG', dados.rg);
   exigirTexto(erros, 'endereco', 'endereço', dados.endereco);
   exigirTexto(erros, 'curso', 'curso', dados.curso);
@@ -71,6 +86,7 @@ export function validarAluno(dados: DadosValidacaoAluno, edicao = false): ErrosV
   }
   if (!edicao) exigirTexto(erros, 'login', 'login', dados.login);
   validarSenha(erros, dados.senha, edicao);
+  validarConfirmacao(erros, dados.senha, dados.confirmarSenha);
   return erros;
 }
 
@@ -80,8 +96,10 @@ export function validarEmpresa(dados: DadosValidacaoEmpresa, edicao = false): Er
   exigirTexto(erros, 'nome', 'nome', dados.nome);
   validarEmail(erros, dados.email);
   exigirTexto(erros, 'cnpj', 'CNPJ', dados.cnpj);
+  if (!erros.cnpj && !cnpjValido(dados.cnpj ?? '')) erros.cnpj = 'O CNPJ informado não é válido.';
   if (!edicao) exigirTexto(erros, 'login', 'login', dados.login);
   validarSenha(erros, dados.senha, edicao);
+  validarConfirmacao(erros, dados.senha, dados.confirmarSenha);
   return erros;
 }
 

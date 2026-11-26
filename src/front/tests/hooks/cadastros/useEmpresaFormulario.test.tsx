@@ -49,7 +49,7 @@ describe('useEmpresaFormulario', () => {
     await waitFor(() => expect(hook.result.current.carregandoDados).toBe(false));
 
     expect(hook.result.current.edicao).toBe(true);
-    expect(hook.result.current.valores.cnpj).toBe('11444777000161');
+    expect(hook.result.current.valores.cnpj).toBe('11.444.777/0001-61');
     expect(hook.result.current.valores.senha).toBe('');
   });
 
@@ -84,6 +84,7 @@ describe('useEmpresaFormulario', () => {
         cnpj: '11.444.777/0001-61',
         login: 'livraria.horizonte',
         senha: 'senha-segura-1',
+        confirmarSenha: 'senha-segura-1',
       });
     });
 
@@ -133,6 +134,7 @@ describe('useEmpresaFormulario', () => {
         cnpj: '11444777000161',
         login: 'loja',
         senha: 'senha-segura-1',
+        confirmarSenha: 'senha-segura-1',
       });
     });
 

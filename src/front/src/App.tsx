@@ -1,6 +1,8 @@
 // Componente raiz: sessão, roteador, cabeçalho e área de conteúdo das páginas.
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { acordarServidor } from './api/cliente';
+import { EsperaComMoedas } from './componentes/feedback/EsperaComMoedas';
 import { EstruturaApp, EstruturaPublica } from './componentes/layout/Cabecalho';
 import { useAutenticacao } from './hooks/autenticacao/useAutenticacao';
 import { RotaProtegida } from './componentes/acesso/RotaProtegida';
@@ -12,7 +14,9 @@ import { EnviarMoedas } from './paginas/moedas/EnviarMoedas';
 import { Entrar } from './paginas/publicas/Entrar';
 import { Extrato } from './paginas/moedas/Extrato';
 import { Inicio } from './paginas/publicas/Inicio';
+import { NaoEncontrada } from './paginas/publicas/NaoEncontrada';
 import { MinhasVantagens } from './paginas/vantagens/MinhasVantagens';
+import { tituloDaRota } from './utils/titulos';
 import { VantagemFormulario } from './paginas/vantagens/VantagemFormulario';
 
 // Escolhe a casca da página: menu lateral para quem entrou, barra pública para visitantes
@@ -20,6 +24,9 @@ import { VantagemFormulario } from './paginas/vantagens/VantagemFormulario';
 const Estrutura: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { usuario } = useAutenticacao();
   const { pathname } = useLocation();
+  useEffect(() => {
+    document.title = tituloDaRota(pathname);
+  }, [pathname]);
   // A chave pela rota faz cada página entrar com animação e começar com o estado limpo.
   const pagina = (
     <div key={pathname} className="animate-pagina">
@@ -33,6 +40,8 @@ const Estrutura: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
 // Liga cada rota à sua página, protegendo as telas de cada perfil.
 export const App: React.FC = () => {
+  useEffect(acordarServidor, []);
+
   return (
     <BrowserRouter>
       <ProvedorAutenticacao>
@@ -99,10 +108,11 @@ export const App: React.FC = () => {
                 </RotaProtegida>
               }
             />
-            <Route path="*" element={<Inicio />} />
+            <Route path="*" element={<NaoEncontrada />} />
           </Routes>
         </Estrutura>
       </ProvedorAutenticacao>
+      <EsperaComMoedas />
     </BrowserRouter>
   );
 };

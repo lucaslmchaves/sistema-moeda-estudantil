@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { excluirAluno } from '../../api/alunos';
 import { CabecalhoPagina } from '../../componentes/layout/CabecalhoPagina';
 import { CampoFormulario } from '../../componentes/formulario/CampoFormulario';
+import { CampoSenha } from '../../componentes/formulario/CampoSenha';
 import { Cartao } from '../../componentes/layout/Cartao';
 import { Carregando } from '../../componentes/feedback/Carregando';
 import { ExclusaoDoCadastro } from '../../componentes/acesso/ExclusaoDoCadastro';
@@ -12,6 +13,7 @@ import { SecaoFormulario } from '../../componentes/formulario/SecaoFormulario';
 import { SelectFormulario } from '../../componentes/formulario/SelectFormulario';
 import { useAlunoFormulario } from '../../hooks/cadastros/useAlunoFormulario';
 import type { AlunoFormulario as ValoresAluno } from '../../tipos/aluno';
+import { mascararCpf } from '../../utils/documentos';
 import { CLASSE_ACOES_FORMULARIO, CLASSE_GRADE_FORMULARIO, classeBotao } from '../../utils/estilos';
 
 type CampoTexto = Exclude<keyof ValoresAluno, 'id_instituicao'>;
@@ -76,6 +78,7 @@ export const AlunoFormulario: React.FC = () => {
               />
               <CampoFormulario
                 {...campo('cpf')}
+                onChange={(e) => form.alterarCampo('cpf', mascararCpf(e.target.value))}
                 rotulo="CPF"
                 placeholder="000.000.000-00"
                 inputMode="numeric"
@@ -128,12 +131,17 @@ export const AlunoFormulario: React.FC = () => {
                 autoComplete="username"
                 obrigatorio={!edicao}
               />
-              <CampoFormulario
+              <CampoSenha
                 {...campo('senha')}
                 rotulo={edicao ? 'Nova senha' : 'Senha'}
-                tipo="password"
                 placeholder={edicao ? 'Deixe em branco para manter' : ''}
                 dica="Mínimo de 8 caracteres."
+                autoComplete="new-password"
+                obrigatorio={!edicao}
+              />
+              <CampoSenha
+                {...campo('confirmarSenha')}
+                rotulo={edicao ? 'Confirmar nova senha' : 'Confirmar senha'}
                 autoComplete="new-password"
                 obrigatorio={!edicao}
               />

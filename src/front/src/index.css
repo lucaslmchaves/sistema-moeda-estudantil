@@ -241,6 +241,37 @@
   }
 }
 
+/* Moeda da comemoração: cai girando até sair pela parte de baixo da tela. */
+.moeda-caindo {
+  animation-name: cair;
+  animation-timing-function: cubic-bezier(0.45, 0.05, 0.7, 0.6);
+  animation-fill-mode: both;
+}
+@keyframes cair {
+  from {
+    transform: translateY(-12vh) rotate(0);
+  }
+  to {
+    transform: translateY(112vh) rotate(var(--giro, 540deg));
+  }
+}
+
+/* Moedas da tela de espera: caem dentro do cartão e recomeçam. */
+.moeda-do-jogo {
+  top: -60px;
+  animation: cair-no-cofre linear infinite backwards;
+}
+@keyframes cair-no-cofre {
+  from {
+    top: -60px;
+    rotate: -20deg;
+  }
+  to {
+    top: 100%;
+    rotate: 40deg;
+  }
+}
+
 @keyframes chegar-no-mural {
   from {
     opacity: 0;

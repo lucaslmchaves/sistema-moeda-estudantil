@@ -10,6 +10,13 @@ interface OpcoesFormulario<T> {
   edicao?: boolean;
 }
 
+// Depois que a tela marca os erros, leva o cursor ao primeiro campo inválido.
+function focarPrimeiroErro(evento: FormEvent): void {
+  const formulario = evento.currentTarget as HTMLElement | undefined;
+  if (!formulario?.querySelector) return;
+  setTimeout(() => formulario.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus(), 0);
+}
+
 // Controla os campos, mostra um erro por campo e só envia quando a validação passa.
 export function useFormulario<T extends Record<string, unknown>>({
   valoresIniciais,
@@ -48,6 +55,7 @@ export function useFormulario<T extends Record<string, unknown>>({
     const errosValidacao = validar(valores, edicao);
     if (Object.keys(errosValidacao).length > 0) {
       setErros(errosValidacao);
+      focarPrimeiroErro(evento);
       return false;
     }
 
