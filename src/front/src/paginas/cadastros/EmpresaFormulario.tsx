@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { excluirEmpresa } from '../../api/empresas';
 import { CabecalhoPagina } from '../../componentes/layout/CabecalhoPagina';
 import { CampoFormulario } from '../../componentes/formulario/CampoFormulario';
+import { CampoSenha } from '../../componentes/formulario/CampoSenha';
 import { Cartao } from '../../componentes/layout/Cartao';
 import { Carregando } from '../../componentes/feedback/Carregando';
 import { ExclusaoDoCadastro } from '../../componentes/acesso/ExclusaoDoCadastro';
@@ -11,6 +12,7 @@ import { MensagemAlerta } from '../../componentes/feedback/MensagemAlerta';
 import { SecaoFormulario } from '../../componentes/formulario/SecaoFormulario';
 import { useEmpresaFormulario } from '../../hooks/cadastros/useEmpresaFormulario';
 import type { EmpresaFormulario as ValoresEmpresa } from '../../tipos/empresa';
+import { mascararCnpj } from '../../utils/documentos';
 import { CLASSE_ACOES_FORMULARIO, CLASSE_GRADE_FORMULARIO, classeBotao } from '../../utils/estilos';
 
 // Monta o formulário de empresa; login fixo e senha opcional na edição.
@@ -60,6 +62,7 @@ export const EmpresaFormulario: React.FC = () => {
               />
               <CampoFormulario
                 {...campo('cnpj')}
+                onChange={(e) => form.alterarCampo('cnpj', mascararCnpj(e.target.value))}
                 rotulo="CNPJ"
                 placeholder="00.000.000/0000-00"
                 inputMode="numeric"
@@ -92,12 +95,17 @@ export const EmpresaFormulario: React.FC = () => {
                 autoComplete="username"
                 obrigatorio={!edicao}
               />
-              <CampoFormulario
+              <CampoSenha
                 {...campo('senha')}
                 rotulo={edicao ? 'Nova senha' : 'Senha'}
-                tipo="password"
                 placeholder={edicao ? 'Deixe em branco para manter' : ''}
                 dica="Mínimo de 8 caracteres."
+                autoComplete="new-password"
+                obrigatorio={!edicao}
+              />
+              <CampoSenha
+                {...campo('confirmarSenha')}
+                rotulo={edicao ? 'Confirmar nova senha' : 'Confirmar senha'}
                 autoComplete="new-password"
                 obrigatorio={!edicao}
               />

@@ -4,6 +4,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { MoedaDourada } from '../../componentes/animacao/MoedaDourada';
 import { MuralDeMensagens } from '../../componentes/animacao/MuralDeMensagens';
 import { CampoFormulario } from '../../componentes/formulario/CampoFormulario';
+import { CampoSenha } from '../../componentes/formulario/CampoSenha';
 import { MensagemAlerta } from '../../componentes/feedback/MensagemAlerta';
 import { Icone } from '../../componentes/icones/Icone';
 import { Marca } from '../../componentes/marca/Marca';
@@ -120,10 +121,9 @@ export const Entrar: React.FC<EntrarProps> = ({ perfil }) => {
                 placeholder={professor ? 'prof.nome' : 'seu.login'}
                 autoComplete="username"
               />
-              <CampoFormulario
+              <CampoSenha
                 id="senha"
                 rotulo="Senha"
-                tipo="password"
                 valor={valores.senha}
                 onChange={(e) => form.alterarCampo('senha', e.target.value)}
                 erro={erros.senha}

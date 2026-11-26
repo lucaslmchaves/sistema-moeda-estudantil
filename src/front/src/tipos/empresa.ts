@@ -31,4 +31,5 @@ export type EmpresaFormulario = {
   cnpj: string;
   login: string;
   senha: string;
+  confirmarSenha: string;
 };

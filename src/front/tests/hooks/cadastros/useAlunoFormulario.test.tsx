@@ -44,6 +44,7 @@ function preencher(hook: ReturnType<typeof montar>) {
       curso: 'ES',
       login: 'ana.souza',
       senha: 'senha-segura-1',
+      confirmarSenha: 'senha-segura-1',
     });
   });
 }
