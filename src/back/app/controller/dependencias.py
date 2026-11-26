@@ -55,11 +55,6 @@ def obter_armazenamento_foto(sessao: Session = SESSAO_DA_REQUISICAO) -> IArmazen
     return ArmazenamentoFotoBanco(sessao)
 
 
-def obter_leitor_de_fotos(sessao: Session = SESSAO_DA_REQUISICAO) -> ArmazenamentoFotoBanco:
-    """Devolve o armazenamento de fotos para a rota que entrega a imagem ao navegador."""
-    return ArmazenamentoFotoBanco(sessao)
-
-
 def obter_servico_vantagem(
     sessao: Session = SESSAO_DA_REQUISICAO,
     armazenamento: IArmazenamentoFoto = Depends(obter_armazenamento_foto),

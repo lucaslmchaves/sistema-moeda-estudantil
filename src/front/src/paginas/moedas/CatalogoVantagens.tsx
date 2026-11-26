@@ -190,7 +190,7 @@ export const CatalogoVantagens: React.FC = () => {
             aria-label="Ordenar por custo"
             value={ordem}
             onChange={(e) => setOrdem(e.target.value as Ordem)}
-            className="h-10 cursor-pointer appearance-none rounded-full border border-linha-forte bg-superficie pr-10 pl-4 text-sm font-medium text-tinta-2 transition outline-none hover:border-tinta-3 focus-visible:border-violeta"
+            className="h-10 cursor-pointer appearance-none rounded-full border border-linha-forte bg-superficie pr-10 pl-4 text-sm font-medium text-tinta-2 transition outline-none hover:border-tinta-3 focus-visible:border-anil"
           >
             <option value="menor">Menor custo</option>
             <option value="maior">Maior custo</option>
@@ -248,7 +248,7 @@ export const CatalogoVantagens: React.FC = () => {
           </button>
         </EstadoVazio>
       ) : (
-        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="cascata grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {visiveis.map((vantagem) => (
             <CartaoVantagem
               key={vantagem.id_vantagem}

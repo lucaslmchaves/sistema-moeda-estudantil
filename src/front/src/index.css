@@ -2,27 +2,33 @@
 @import '@fontsource/instrument-serif/400-italic.css';
 @import 'tailwindcss';
 
-/* Tokens do sistema: papel quente, tinta quase preta e lavanda como acento. */
+/* Tokens do sistema: fundo claro e frio, azul-índigo (anil) como cor principal e ouro nas moedas. */
 @theme {
   --font-sans: 'Instrument Sans Variable', ui-sans-serif, system-ui, sans-serif;
   --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
 
-  --color-papel: #f4f2ed;
+  --color-papel: #f6f7fb;
   --color-superficie: #ffffff;
-  --color-superficie-2: #faf9f6;
-  --color-tinta: #16151a;
-  --color-tinta-hover: #2c2a31;
-  --color-tinta-2: #4a4640;
-  --color-tinta-3: #6b655c;
-  --color-linha: #e6e2d9;
-  --color-linha-forte: #d4cec2;
+  --color-superficie-2: #f8fafc;
+  --color-tinta: #0f172a;
+  --color-tinta-hover: #1e293b;
+  --color-tinta-2: #334155;
+  --color-tinta-3: #5b6678;
+  --color-linha: #e4e8f1;
+  --color-linha-forte: #cdd5e3;
 
-  --color-lavanda-50: #f5f2fe;
-  --color-lavanda-100: #ebe5fd;
-  --color-lavanda-200: #d9cefb;
-  --color-lavanda-300: #c0aff7;
-  --color-violeta: #5a3fd6;
-  --color-violeta-escuro: #4329b5;
+  --color-anil-50: #eef2ff;
+  --color-anil-100: #e0e7ff;
+  --color-anil-200: #c7d2fe;
+  --color-anil-300: #a5b4fc;
+  --color-anil: #4f46e5;
+  --color-anil-escuro: #4338ca;
+  --color-anil-fundo: #1e1b4b;
+
+  --color-ouro-100: #fdf3d3;
+  --color-ouro-300: #f6d365;
+  --color-ouro-500: #e0aa1f;
+  --color-ouro-700: #8a6100;
 
   --color-positivo: #17744b;
   --color-positivo-fundo: #e8f4ed;
@@ -35,14 +41,18 @@
   --radius-controle: 10px;
   --radius-cartao: 16px;
 
-  --shadow-elevado: 0 1px 2px rgb(22 21 26 / 0.04), 0 8px 24px -8px rgb(22 21 26 / 0.12);
-  --shadow-flutuante: 0 2px 4px rgb(22 21 26 / 0.06), 0 24px 48px -12px rgb(22 21 26 / 0.22);
+  --shadow-elevado: 0 1px 2px rgb(15 23 42 / 0.05), 0 8px 24px -8px rgb(30 27 75 / 0.14);
+  --shadow-flutuante: 0 2px 4px rgb(15 23 42 / 0.06), 0 28px 56px -14px rgb(49 46 129 / 0.32);
+  --shadow-botao: 0 6px 16px -6px rgb(79 70 229 / 0.55);
 
   --ease-saida: cubic-bezier(0.16, 1, 0.3, 1);
 
   --animate-surgir: surgir 320ms var(--ease-saida) both;
   --animate-subir: subir 420ms var(--ease-saida) both;
+  /* A transição de página não mantém o último quadro, para não prender os modais dentro dela. */
+  --animate-pagina: subir 380ms var(--ease-saida) backwards;
   --animate-pulsar: pulsar 1.6s ease-in-out infinite;
+  --animate-flutuar: flutuar 6s ease-in-out infinite;
 
   @keyframes surgir {
     from {
@@ -60,12 +70,18 @@
       opacity: 0.55;
     }
   }
+  @keyframes flutuar {
+    50% {
+      translate: 0 -10px;
+    }
+  }
 }
 
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
     color-scheme: light;
+    scroll-behavior: smooth;
   }
   body {
     background: var(--color-papel);
@@ -84,17 +100,17 @@
     text-wrap: pretty;
   }
   ::selection {
-    background: var(--color-lavanda-200);
+    background: var(--color-anil-200);
     color: var(--color-tinta);
   }
   :focus-visible {
-    outline: 2px solid var(--color-violeta);
+    outline: 2px solid var(--color-anil);
     outline-offset: 2px;
   }
   input,
   textarea,
   select {
-    caret-color: var(--color-violeta);
+    caret-color: var(--color-anil);
   }
   ::placeholder {
     color: var(--color-tinta-3);
@@ -127,6 +143,110 @@
     letter-spacing: -0.03em;
     line-height: 1.05;
   }
+
+  /* Filhos entram um depois do outro. */
+  .cascata > * {
+    animation: subir 460ms var(--ease-saida) backwards;
+  }
+  .cascata > :nth-child(2) {
+    animation-delay: 80ms;
+  }
+  .cascata > :nth-child(3) {
+    animation-delay: 160ms;
+  }
+  .cascata > :nth-child(4) {
+    animation-delay: 240ms;
+  }
+  .cascata > :nth-child(n + 5) {
+    animation-delay: 320ms;
+  }
+
+  /* Cartão que levanta ao passar o ponteiro. */
+  .elevar {
+    transition:
+      translate 260ms var(--ease-saida),
+      box-shadow 260ms var(--ease-saida),
+      border-color 260ms var(--ease-saida);
+  }
+  .elevar:hover {
+    translate: 0 -4px;
+    border-color: var(--color-anil-200);
+    box-shadow: var(--shadow-elevado);
+  }
+
+  /* Seção que aparece quando chega na tela. */
+  .revelar {
+    opacity: 0;
+    translate: 0 24px;
+    transition:
+      opacity 600ms var(--ease-saida),
+      translate 600ms var(--ease-saida);
+  }
+  .revelar.visivel {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  /* Palavra que vira uma moeda de ouro ao passar o ponteiro. */
+  .vira-moeda {
+    display: inline-block;
+    cursor: pointer;
+    perspective: 900px;
+  }
+  .vira-moeda-giro {
+    display: inline-grid;
+    transform-style: preserve-3d;
+    transition: transform 800ms var(--ease-saida);
+  }
+  .vira-moeda:hover .vira-moeda-giro,
+  .vira-moeda:focus-visible .vira-moeda-giro {
+    transform: rotateY(180deg);
+  }
+  .vira-moeda-face {
+    grid-area: 1 / 1;
+    backface-visibility: hidden;
+  }
+  .vira-moeda-verso {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotateY(180deg);
+  }
+
+  /* Mensagens do mural do login: chegam por baixo e recolhem ao sair no topo. */
+  .mural-item {
+    display: grid;
+    grid-template-rows: 1fr;
+    animation: chegar-no-mural 650ms var(--ease-saida) backwards;
+    transition:
+      grid-template-rows 450ms var(--ease-saida),
+      opacity 450ms var(--ease-saida),
+      translate 450ms var(--ease-saida);
+  }
+  .mural-item.saindo {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    translate: 0 -18px;
+  }
+  .mural-item.saindo > div {
+    overflow: hidden;
+  }
+
+  /* A marca gira como uma moeda quando o ponteiro passa sobre o logotipo. */
+  .marca-giro {
+    transition: transform 700ms var(--ease-saida);
+  }
+  a:hover .marca-giro {
+    transform: rotateY(360deg);
+  }
+}
+
+@keyframes chegar-no-mural {
+  from {
+    opacity: 0;
+    translate: 0 32px;
+    scale: 0.95;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -135,6 +255,7 @@
   *::after {
     animation-duration: 1ms !important;
     animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
     transition-duration: 1ms !important;
   }
 }

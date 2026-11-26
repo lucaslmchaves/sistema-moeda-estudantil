@@ -7,7 +7,7 @@ import { ValorMoedas } from '../marca/Moedas';
 
 const VISUAL: Record<string, { icone: NomeIcone; tom: string }> = {
   recebido: { icone: 'arrow-down-left', tom: 'bg-positivo-fundo text-positivo' },
-  enviado: { icone: 'paper-plane-tilt', tom: 'bg-lavanda-100 text-violeta' },
+  enviado: { icone: 'paper-plane-tilt', tom: 'bg-anil-100 text-anil' },
   resgate: { icone: 'ticket', tom: 'bg-aviso-fundo text-aviso' },
   outro: { icone: 'coins', tom: 'bg-superficie-2 text-tinta-2' },
 };

@@ -2,10 +2,13 @@
 import { createContext, useContext } from 'react';
 import type { UsuarioLogado } from '../../tipos/autenticacao';
 
+// Recebe o usuário antes de a sessão ser salva e levanta um erro para recusar o login.
+export type ConferirUsuario = (usuario: UsuarioLogado) => void;
+
 export interface ContextoAutenticacao {
   usuario: UsuarioLogado | null;
   aviso: string | null;
-  entrar: (login: string, senha: string) => Promise<UsuarioLogado>;
+  entrar: (login: string, senha: string, conferir?: ConferirUsuario) => Promise<UsuarioLogado>;
   sair: (aviso?: string) => void;
   limparAviso: () => void;
 }

@@ -2,9 +2,7 @@
 
 from fastapi import status
 from fastapi.testclient import TestClient
-from sqlalchemy.orm import Session
 
-from app.model.foto_vantagem import FotoVantagem
 from tests.suporte.fabricas import FOTO_PNG
 from tests.suporte.fakes import ArmazenamentoFotoFalso
 
@@ -120,15 +118,13 @@ def test_vantagens_de_empresa_excluida_saem_do_catalogo(
     assert catalogo.json() == []
 
 
-def test_foto_guardada_no_banco_e_entregue_sem_login_com_o_tipo_certo(
-    cliente_api: TestClient, sessao: Session
+def test_foto_guardada_e_entregue_sem_login_com_o_tipo_certo(
+    cliente_api: TestClient, armazenamento: ArmazenamentoFotoFalso
 ):
     """A imagem sai da rota pública /fotos/{id}, que o navegador usa direto no <img>."""
-    foto = FotoVantagem(conteudo=FOTO_PNG, extensao="png")
-    sessao.add(foto)
-    sessao.flush()
+    caminho = armazenamento.salvar(FOTO_PNG, "png")
 
-    res = cliente_api.get(f"/fotos/{foto.id_foto}")
+    res = cliente_api.get(caminho)
 
     assert res.status_code == status.HTTP_200_OK
     assert res.headers["content-type"] == "image/png"

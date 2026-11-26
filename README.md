@@ -183,7 +183,7 @@ senha.
 
 ## Diagrama de Classes
 
-![Diagrama de classes](<docs/diagramas/Laboratório 4/Sprint 2/Diagrama de Classes Atualizado.png>)
+![Diagrama de classes](<docs/diagramas/Laboratório 4/Sprint 3/Diagrama de Classes Atualizado.png>)
 
 ## Diagramas de Sequência
 

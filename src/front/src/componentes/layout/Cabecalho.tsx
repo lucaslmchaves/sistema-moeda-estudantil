@@ -24,7 +24,7 @@ const ListaDeLinks: React.FC<{ usuario: UsuarioLogado }> = ({ usuario }) => (
             <Icone
               nome={icone}
               tamanho={20}
-              className={isActive ? 'text-violeta' : 'text-tinta-3 group-hover:text-tinta-2'}
+              className={isActive ? 'text-anil' : 'text-tinta-3 group-hover:text-tinta-2'}
             />
             {rotulo}
           </>

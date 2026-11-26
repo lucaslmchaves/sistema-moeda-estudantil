@@ -3,6 +3,7 @@
 from datetime import datetime, timezone
 from itertools import count
 
+from app.model.foto_vantagem import FotoVantagem
 from app.model.aluno import Aluno
 from app.model.conta import Conta
 from app.model.empresa_parceira import EmpresaParceira
@@ -154,3 +155,10 @@ class ArmazenamentoFotoFalso(IArmazenamentoFoto):
         """Guarda a foto e devolve o caminho dela."""
         self.fotos.append((conteudo, extensao))
         return f"/fotos/{len(self.fotos)}"
+
+    def obter(self, id_foto: int) -> FotoVantagem | None:
+        """Devolve a foto pelo número do caminho ou None."""
+        if not 1 <= id_foto <= len(self.fotos):
+            return None
+        conteudo, extensao = self.fotos[id_foto - 1]
+        return FotoVantagem(id_foto=id_foto, conteudo=conteudo, extensao=extensao)

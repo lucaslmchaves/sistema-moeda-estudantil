@@ -49,7 +49,7 @@ export const Extrato: React.FC = () => {
         extrato && (
           <>
             <dl className="mb-8 grid overflow-hidden rounded-cartao border border-linha bg-superficie sm:grid-cols-[1.4fr_1fr_1fr]">
-              <div className="bg-lavanda-100 p-6 sm:p-7">
+              <div className="bg-anil-100 p-6 sm:p-7">
                 <dt className="text-sm text-tinta-2">Saldo atual</dt>
                 <dd className="mt-3">
                   <ValorMoedas valor={extrato.saldo} tamanho="lg" />

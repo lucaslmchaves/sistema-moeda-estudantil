@@ -20,9 +20,15 @@ import { VantagemFormulario } from './paginas/vantagens/VantagemFormulario';
 const Estrutura: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { usuario } = useAutenticacao();
   const { pathname } = useLocation();
-  if (usuario) return <EstruturaApp usuario={usuario}>{children}</EstruturaApp>;
-  if (pathname.startsWith('/entrar')) return <>{children}</>;
-  return <EstruturaPublica>{children}</EstruturaPublica>;
+  // A chave pela rota faz cada página entrar com animação e começar com o estado limpo.
+  const pagina = (
+    <div key={pathname} className="animate-pagina">
+      {children}
+    </div>
+  );
+  if (usuario) return <EstruturaApp usuario={usuario}>{pagina}</EstruturaApp>;
+  if (pathname.startsWith('/entrar')) return pagina;
+  return <EstruturaPublica>{pagina}</EstruturaPublica>;
 };
 
 // Liga cada rota à sua página, protegendo as telas de cada perfil.

@@ -1,5 +1,6 @@
 """Serviço com as regras de negócio e os casos de uso da entidade Vantagem."""
 
+from app.model.foto_vantagem import FotoVantagem
 from app.model.vantagem import Vantagem
 from app.repository.interfaces import IArmazenamentoFoto, IRepositorioVantagem
 from app.service.excecoes import DadoInvalido, NaoEncontrado
@@ -42,6 +43,13 @@ class ServicoVantagem:
             foto=self.armazenamento.salvar(foto, extensao),
         )
         return self.repo_vantagem.salvar(vantagem)
+
+    def obter_foto(self, id_foto: int) -> FotoVantagem:
+        """Devolve a foto de uma vantagem ou levanta NaoEncontrado."""
+        foto = self.armazenamento.obter(id_foto)
+        if foto is None:
+            raise NaoEncontrado("Foto não encontrada.")
+        return foto
 
     def listar_vantagens(self) -> list[Vantagem]:
         """Devolve o catálogo de vantagens ativas, de todas as empresas."""

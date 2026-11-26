@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { entrar as entrarNaApi } from '../api/autenticacao';
 import { AutenticacaoContexto } from '../hooks/autenticacao/useAutenticacao';
+import type { ConferirUsuario } from '../hooks/autenticacao/useAutenticacao';
 import type { UsuarioLogado } from '../tipos/autenticacao';
 import { EVENTO_SESSAO_EXPIRADA, limparSessao, obterSessao, salvarSessao } from '../utils/sessao';
 
@@ -17,8 +18,10 @@ export const ProvedorAutenticacao: React.FC<ProvedorAutenticacaoProps> = ({ chil
 
   const [aviso, setAviso] = useState<string | null>(null);
 
-  const entrar = useCallback(async (login: string, senha: string) => {
+  // A conferência roda antes de salvar a sessão: se recusar o usuário, ninguém fica logado.
+  const entrar = useCallback(async (login: string, senha: string, conferir?: ConferirUsuario) => {
     const resposta = await entrarNaApi(login, senha);
+    conferir?.(resposta.usuario);
     salvarSessao({ token: resposta.access_token, usuario: resposta.usuario });
     setAviso(null);
     setUsuario(resposta.usuario);

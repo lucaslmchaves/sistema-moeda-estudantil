@@ -44,7 +44,7 @@ export const CampoFormulario: React.FC<CampoFormularioProps> = ({
       <label htmlFor={id} className="flex items-center gap-1.5 text-sm font-medium text-tinta">
         {rotulo}
         {obrigatorio && (
-          <span aria-hidden="true" className="text-violeta">
+          <span aria-hidden="true" className="text-anil">
             *
           </span>
         )}

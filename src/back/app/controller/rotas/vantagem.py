@@ -3,13 +3,11 @@
 from fastapi import APIRouter, Depends, File, Form, Response, UploadFile, status
 
 from app.controller.permissoes import exigir_perfil, usuario_autenticado
-from app.controller.dependencias import obter_leitor_de_fotos, obter_servico_vantagem
+from app.controller.dependencias import obter_servico_vantagem
 from app.controller.schemas.tipos import IdDaRota
 from app.controller.schemas import VantagemRespostaSchema
 from app.model.enums import TipoUsuario
 from app.model.usuario import Usuario
-from app.repository.armazenamento_foto_banco import ArmazenamentoFotoBanco
-from app.service.excecoes import NaoEncontrado
 from app.service.servico_vantagem import FOTO_TAMANHO_MAXIMO, ServicoVantagem
 
 router = APIRouter(prefix="/vantagens", tags=["Vantagens"])
@@ -94,12 +92,10 @@ def excluir_vantagem(
 )
 def baixar_foto(
     id: IdDaRota,
-    armazenamento: ArmazenamentoFotoBanco = Depends(obter_leitor_de_fotos),
+    servico: ServicoVantagem = Depends(obter_servico_vantagem),
 ) -> Response:
     """Devolve os bytes da foto com o tipo de imagem correspondente."""
-    foto = armazenamento.obter(id)
-    if foto is None:
-        raise NaoEncontrado("Foto não encontrada.")
+    foto = servico.obter_foto(id)
     return Response(
         content=foto.conteudo,
         media_type=TIPOS_DE_FOTO.get(foto.extensao, "application/octet-stream"),

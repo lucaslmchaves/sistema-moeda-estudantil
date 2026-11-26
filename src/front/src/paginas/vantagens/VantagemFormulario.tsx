@@ -102,11 +102,11 @@ export const VantagemFormulario: React.FC = () => {
                 setArrastando(false);
                 escolherArquivo(e.dataTransfer.files?.[0]);
               }}
-              className={`flex cursor-pointer items-center gap-4 rounded-controle border border-dashed p-4 transition has-[:focus-visible]:border-violeta has-[:focus-visible]:shadow-[0_0_0_4px_var(--color-lavanda-100)] ${
+              className={`flex cursor-pointer items-center gap-4 rounded-controle border border-dashed p-4 transition has-[:focus-visible]:border-anil has-[:focus-visible]:shadow-[0_0_0_4px_var(--color-anil-100)] ${
                 erros.foto
                   ? 'border-negativo bg-negativo-fundo/40'
                   : arrastando
-                    ? 'border-violeta bg-lavanda-50'
+                    ? 'border-anil bg-anil-50'
                     : 'border-linha-forte bg-superficie-2 hover:border-tinta-3'
               }`}
             >

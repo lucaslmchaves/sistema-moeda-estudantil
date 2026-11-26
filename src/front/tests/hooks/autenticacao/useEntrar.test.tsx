@@ -17,7 +17,7 @@ vi.mock('react-router-dom', () => ({
 
 const novoEvento = () => ({ preventDefault: vi.fn() }) as unknown as FormEvent;
 
-function montar() {
+function montar(perfil?: 'professor') {
   const wrapper = ({ children }: { children: ReactNode }) => (
     <AutenticacaoContexto.Provider
       value={{ usuario: null, aviso: null, entrar, sair: vi.fn(), limparAviso: vi.fn() }}
@@ -25,7 +25,7 @@ function montar() {
       {children}
     </AutenticacaoContexto.Provider>
   );
-  return renderHook(() => useEntrar(), { wrapper });
+  return renderHook(() => useEntrar(perfil), { wrapper });
 }
 
 describe('useEntrar', () => {
@@ -57,7 +57,7 @@ describe('useEntrar', () => {
       await hook.result.current.enviar(novoEvento());
     });
 
-    expect(entrar).toHaveBeenCalledWith('ana', 'senha-segura-1');
+    expect(entrar).toHaveBeenCalledWith('ana', 'senha-segura-1', expect.any(Function));
     expect(navegar).toHaveBeenCalledWith('/', { replace: true });
   });
 
@@ -71,6 +71,50 @@ describe('useEntrar', () => {
     });
 
     expect(navegar).toHaveBeenCalledWith('/extrato', { replace: true });
+  });
+
+  // Imita o provedor: roda a conferência do perfil antes de aceitar o login.
+  const entrarComo = (tipo_usuario: string) =>
+    entrar.mockImplementation(async (_l: string, _s: string, conferir: (u: unknown) => void) => {
+      conferir({ id_usuario: 1, tipo_usuario, nome: 'Teste', login: 'teste' });
+    });
+
+  it.each([
+    ['PROFESSOR', undefined, 'Este login é de professor. Entre pela aba "Professor".'],
+    ['ALUNO', 'professor', 'Esta aba é só para professores. Entre pela aba "Aluno ou empresa".'],
+    [
+      'EMPRESA_PARCEIRA',
+      'professor',
+      'Esta aba é só para professores. Entre pela aba "Aluno ou empresa".',
+    ],
+  ] as const)('recusa %s na aba errada (aba: %s)', async (tipo, aba, mensagem) => {
+    entrarComo(tipo);
+    const hook = montar(aba);
+    act(() => hook.result.current.definirValores({ login: 'teste', senha: 'senha-segura-1' }));
+
+    await act(async () => {
+      await hook.result.current.enviar(novoEvento());
+    });
+
+    expect(hook.result.current.erroGeral).toBe(mensagem);
+    expect(navegar).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    ['PROFESSOR', 'professor'],
+    ['ALUNO', undefined],
+    ['EMPRESA_PARCEIRA', undefined],
+  ] as const)('aceita %s na própria aba', async (tipo, aba) => {
+    entrarComo(tipo);
+    const hook = montar(aba);
+    act(() => hook.result.current.definirValores({ login: 'teste', senha: 'senha-segura-1' }));
+
+    await act(async () => {
+      await hook.result.current.enviar(novoEvento());
+    });
+
+    expect(hook.result.current.erroGeral).toBeNull();
+    expect(navegar).toHaveBeenCalledWith('/', { replace: true });
   });
 
   it('mostra o erro da API e não navega quando o login é recusado', async () => {

@@ -4,10 +4,10 @@ type VarianteBotao = 'primario' | 'secundario' | 'perigo' | 'fantasma';
 type TamanhoBotao = 'normal' | 'pequeno' | 'grande';
 
 const BASE_BOTAO =
-  'inline-flex shrink-0 cursor-pointer select-none items-center justify-center gap-2 whitespace-nowrap rounded-controle border font-medium no-underline transition-[background-color,border-color,color,transform] duration-150 active:translate-y-px disabled:pointer-events-none disabled:opacity-45';
+  'inline-flex shrink-0 cursor-pointer select-none items-center justify-center gap-2 whitespace-nowrap rounded-controle border font-medium no-underline transition-[background-color,border-color,color,box-shadow,transform] duration-200 hover:-translate-y-px active:translate-y-px active:scale-[0.98] disabled:pointer-events-none disabled:opacity-45';
 
 const VARIANTES_BOTAO: Record<VarianteBotao, string> = {
-  primario: 'border-transparent bg-tinta text-white hover:bg-tinta-hover',
+  primario: 'border-transparent bg-anil text-white hover:bg-anil-escuro hover:shadow-botao',
   secundario:
     'border-linha-forte bg-superficie text-tinta hover:border-tinta-3 hover:bg-superficie-2',
   perigo: 'border-transparent bg-negativo text-white hover:bg-negativo-hover',
@@ -35,7 +35,7 @@ export function classeLinkNavegacao(ativo: boolean): string {
   const base =
     'group flex h-10 items-center gap-3 rounded-controle px-3 text-sm font-medium no-underline transition-colors duration-150';
   const estado = ativo
-    ? 'bg-lavanda-100 text-tinta'
+    ? 'bg-anil-100 text-anil-escuro'
     : 'text-tinta-2 hover:bg-tinta/5 hover:text-tinta';
   return `${base} ${estado}`;
 }
@@ -43,7 +43,7 @@ export function classeLinkNavegacao(ativo: boolean): string {
 // Monta as classes de um campo de formulário, com borda vermelha quando há erro.
 export function classeControle(comErro: boolean): string {
   const base =
-    'w-full rounded-controle border bg-superficie px-3.5 py-2.5 text-[15px] text-tinta outline-none transition-[border-color,box-shadow] duration-150 hover:border-tinta-3 focus:border-violeta focus:shadow-[0_0_0_4px_var(--color-lavanda-100)] disabled:cursor-not-allowed disabled:border-linha disabled:bg-superficie-2 disabled:text-tinta-3';
+    'w-full rounded-controle border bg-superficie px-3.5 py-2.5 text-[15px] text-tinta outline-none transition-[border-color,box-shadow] duration-150 hover:border-tinta-3 focus:border-anil focus:shadow-[0_0_0_4px_var(--color-anil-100)] disabled:cursor-not-allowed disabled:border-linha disabled:bg-superficie-2 disabled:text-tinta-3';
   return `${base} ${comErro ? 'border-negativo focus:border-negativo focus:shadow-[0_0_0_4px_var(--color-negativo-fundo)]' : 'border-linha-forte'}`;
 }
 

@@ -1,10 +1,11 @@
 // Página de login: entrada de aluno, professor e empresa parceira.
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { MoedaDourada } from '../../componentes/animacao/MoedaDourada';
+import { MuralDeMensagens } from '../../componentes/animacao/MuralDeMensagens';
 import { CampoFormulario } from '../../componentes/formulario/CampoFormulario';
 import { MensagemAlerta } from '../../componentes/feedback/MensagemAlerta';
 import { Icone } from '../../componentes/icones/Icone';
-import { Avatar } from '../../componentes/marca/Avatar';
 import { Marca } from '../../componentes/marca/Marca';
 import { useAutenticacao } from '../../hooks/autenticacao/useAutenticacao';
 import { useEntrar } from '../../hooks/autenticacao/useEntrar';
@@ -18,65 +19,33 @@ interface EntrarProps {
 const CLASSE_ABA =
   'flex h-9 flex-1 items-center justify-center rounded-lg text-sm font-medium no-underline transition';
 
-// Lado ilustrado da tela: reconhecimentos reais do jeito que aparecem no extrato.
-const PainelLateral: React.FC<{ professor: boolean }> = ({ professor }) => {
-  const exemplos = [
-    { de: 'Ana Paula Souza', valor: 80, motivo: 'Ajudou os colegas na monitoria de Cálculo.' },
-    {
-      de: 'Marcos Vinicius Pereira',
-      valor: 150,
-      motivo: 'Melhor nota da turma na prova de Algoritmos.',
-    },
-    {
-      de: 'Carlos Eduardo Silva',
-      valor: 30,
-      motivo: 'Pontualidade em todas as entregas do semestre.',
-    },
-  ];
-  return (
-    <div
-      aria-hidden="true"
-      className="relative hidden overflow-hidden rounded-[28px] bg-lavanda-100 lg:flex lg:flex-col lg:justify-between lg:p-12"
-    >
-      <p className="titulo-display max-w-[14ch] text-[44px] text-tinta">
-        {professor ? (
-          <>
-            Reconheça quem <em className="font-serif font-normal text-violeta">se destaca</em>.
-          </>
-        ) : (
-          <>
-            Cada conquista em sala <em className="font-serif font-normal text-violeta">conta</em>.
-          </>
-        )}
-      </p>
-      <ul className="flex flex-col gap-3">
-        {exemplos.map((e, i) => (
-          <li
-            key={e.de}
-            className="flex items-start gap-3 rounded-2xl bg-superficie p-4 shadow-elevado"
-            style={{ marginLeft: `${i * 28}px`, marginRight: `${(2 - i) * 28}px` }}
-          >
-            <Avatar nome={e.de} tamanho="sm" />
-            <div className="min-w-0 flex-1">
-              <div className="flex items-baseline justify-between gap-3">
-                <p className="truncate text-sm font-medium">
-                  Prof. {e.de.split(' ').slice(0, 2).join(' ')}
-                </p>
-                <span className="numeros text-sm font-semibold text-positivo">+{e.valor}</span>
-              </div>
-              <p className="mt-0.5 text-[13px] leading-snug text-tinta-2">{e.motivo}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
+// Lado ilustrado da tela: a chamada e o mural de reconhecimentos chegando.
+const PainelLateral: React.FC<{ professor: boolean }> = ({ professor }) => (
+  <div
+    aria-hidden="true"
+    className="relative isolate hidden overflow-hidden rounded-[28px] bg-linear-to-br from-anil-escuro to-anil-fundo lg:flex lg:flex-col lg:justify-between lg:gap-8 lg:p-12"
+  >
+    <MoedaDourada className="animate-flutuar absolute top-12 right-12 -z-10 size-24 drop-shadow-2xl" />
+    <MoedaDourada className="animate-flutuar absolute top-48 right-44 -z-10 size-12 opacity-90 [animation-delay:-2.5s]" />
+    <p className="titulo-display max-w-[14ch] text-[44px] text-white">
+      {professor ? (
+        <>
+          Reconheça quem <em className="font-serif font-normal text-ouro-300">se destaca</em>.
+        </>
+      ) : (
+        <>
+          Cada conquista em sala <em className="font-serif font-normal text-ouro-300">conta</em>.
+        </>
+      )}
+    </p>
+    <MuralDeMensagens />
+  </div>
+);
 
 // Monta o formulário de login; no acesso do professor, explica que o cadastro já existe.
 export const Entrar: React.FC<EntrarProps> = ({ perfil }) => {
   const professor = perfil === 'professor';
-  const form = useEntrar();
+  const form = useEntrar(perfil);
   const { mensagem, setMensagem } = useMensagemNavegacao();
   const { aviso, limparAviso, usuario } = useAutenticacao();
   const { valores, erros } = form;
