@@ -191,13 +191,13 @@ Há um diagrama de sequência para cada caso de uso. As telas e os controladores
 
 | Caso de uso | Diagrama |
 |---|---|
-| Caso de Uso 01 - Autenticar-se | [Caso de Uso 01 - Autenticar-se](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/Caso de Uso 01 - Autenticar-se.png>) |
+| Caso de Uso 01 - Autenticar-se | [Caso de Uso 01 - Autenticar-se](<docs/diagramas/Laboratório 4/Sprint 3/Diagramas de Sequência/Caso de Uso 01 - Autenticar-se Atualizado.png>) |
 | Caso de Uso 02 - Cadastrar Aluno | [Caso de Uso 02 - Cadastrar Aluno](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/Caso de Uso 02 - Cadastrar Aluno.png>) |
 | Caso de Uso 03 - Atualizar Dados do Aluno | [Caso de Uso 03 - Atualizar Dados do Aluno](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/Caso de Uso 03 - Atualizar Dados do Aluno.png>) |
 | Caso de Uso 04 - Excluir Cadastro do Aluno | [Caso de Uso 04 - Excluir Cadastro do Aluno](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/Caso de Uso 04 - Excluir Cadastro do Aluno.png>) |
 | Caso de Uso 05 - Consultar Extrato do Aluno | [Caso de Uso 05 - Consultar Extrato do Aluno](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/Caso de Uso 05 - Consultar Extrato do Aluno.png>) |
 | Caso de Uso 06 - Trocar Moedas por Vantagem | [Caso de Uso 06 - Trocar Moedas por Vantagem](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/Caso de Uso 06 - Trocar Moedas por Vantagem.png>) |
-| Caso de Uso 07 - Enviar Moedas a um Aluno | [Caso de Uso 07 - Enviar Moedas a um Aluno](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/Caso de Uso 07 - Enviar Moedas a um Aluno.png>) |
+| Caso de Uso 07 - Enviar Moedas a um Aluno | [Caso de Uso 07 - Enviar Moedas a um Aluno](<docs/diagramas/Laboratório 4/Sprint 3/Diagramas de Sequência/Caso de Uso 07 - Enviar Moedas a um Aluno Atualizado.png>) |
 | Caso de Uso 08 - Consultar Extrato do Professor | [Caso de Uso 08 - Consultar Extrato do Professor](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/Caso de Uso 08 - Consultar Extrato do Professor.png>) |
 | Caso de Uso 09 - Receber Moedas do Semestre | [Caso de Uso 09 - Receber Moedas do Semestre](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/Caso de Uso 09 - Receber Moedas do Semestre.png>) |
 | Caso de Uso 10 - Cadastrar Empresa Parceira | [Caso de Uso 10 - Cadastrar Empresa Parceira](<docs/diagramas/Laboratório 4/Sprint 1/Diagramas de Sequência/Caso de Uso 10 - Cadastrar Empresa Parceira.png>) |
@@ -211,11 +211,11 @@ Há um diagrama de sequência para cada caso de uso. As telas e os controladores
 
 ## Diagrama de Visão Geral da Interação
 
-![Diagrama de visão geral da interação](<docs/diagramas/Laboratório 4/Sprint 1/Diagrama de Visão Geral da Interação.png>)
+![Diagrama de visão geral da interação](<docs/diagramas/Laboratório 4/Sprint 3/Diagrama de Visão Geral da Interação Atualizado.png>)
 
 ## Diagrama de Componentes
 
-![Diagrama de componentes](<docs/diagramas/Laboratório 4/Sprint 2/Diagrama de Componentes Inalterado.png>)
+![Diagrama de componentes](<docs/diagramas/Laboratório 4/Sprint 3/Diagrama de Componentes Atualizado.png>)
 
 ## Diagrama de Implantação
 
@@ -225,9 +225,9 @@ O navegador do usuário baixa o front-end da Vercel e conversa com a API na Rend
 
 ## Modelo Lógico
 
-![Modelo lógico](<docs/diagramas/Laboratório 3/Sprint 2/Modelo Lógico.png>)
+![Modelo lógico](<docs/diagramas/Laboratório 4/Sprint 3/Modelo Lógico Atualizado.png>)
 
-A tabela `foto_vantagem`, que guarda as fotos das vantagens, foi acrescentada depois deste modelo pela migração `0002_foto_vantagem`.
+As fotos das vantagens ficam na tabela `foto_vantagem`; a coluna `foto` da vantagem guarda o endereço da imagem. As tabelas são criadas pelas migrações em `src/back/migrations`.
 
 ## Estrutura do projeto
 
@@ -241,6 +241,7 @@ docs/
     Laboratório 4/      Sprint 1: casos de uso, classes, visão geral da
                         interação e Diagramas de Sequência (um por caso de uso)
                         Sprint 2: diagrama de implantação e versões atualizadas
+                        Sprint 3: modelos revisados (versões atuais)
   entregas/         PDFs e zip de entrega de cada laboratório
   apresentacao/     slides da apresentação final
   enunciado/        enunciado do laboratório
@@ -263,8 +264,11 @@ src/
 
 ### O que precisa ter instalado
 
-- Git
-- Docker com Docker Compose (o Docker Desktop já traz os dois)
+- [Git](https://git-scm.com/downloads)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (já traz o Docker Compose). Deixe o Docker Desktop **aberto** antes de começar.
+- As portas **5173**, **8000** e **5432** livres.
+
+Não precisa instalar Python, Node nem PostgreSQL, nem criar o arquivo `.env`.
 
 ### Passo a passo
 
@@ -275,29 +279,41 @@ git clone https://github.com/lucaslmchaves/sistema-moeda-estudantil.git
 cd sistema-moeda-estudantil
 ```
 
-2. Suba o sistema (a primeira vez demora alguns minutos, porque baixa as imagens e monta tudo):
+2. Suba o sistema. A primeira vez demora de 5 a 10 minutos, porque baixa as imagens e monta tudo:
 
 ```bash
 docker compose up -d --build
 ```
 
-3. Espere uns 30 segundos. Nesse tempo a API cria as tabelas do banco e os dados iniciais (2 instituições e 3 professores). Para conferir, abra http://localhost:8000/saude e veja se aparece `"status":"ok"`.
+3. Espere uns 30 segundos depois que o comando terminar. Nesse tempo a API cria as tabelas do banco e os dados iniciais (2 instituições e 3 professores). Abra http://localhost:8000/saude: quando aparecer `"status":"ok"`, está pronto.
 
 4. Abra o sistema:
 
-- Front-end: http://localhost:5173
+- Sistema (front-end): http://localhost:5173
 - API e documentação: http://localhost:8000/docs
-
-Não precisa criar o arquivo `.env`: os valores padrão já funcionam. Ele só é necessário para configurar o envio de e-mails (veja mais abaixo).
 
 ### Como testar
 
-1. **Professor:** os professores já vêm cadastrados. Clique em "Sou professor" e entre com `prof.carlos` e a senha `senha1234` (também existem `prof.ana` e `prof.marcos`, com a mesma senha). Cada um começa com 1.000 moedas.
-2. **Aluno:** clique em "Sou aluno" e faça o cadastro. Use nome e sobrenome, um CPF válido (por exemplo `529.982.247-25`), um RG como `MG-12.345.678`, o endereço com número e uma senha com pelo menos 8 caracteres, com letra e número.
-3. **Empresa parceira:** clique em "Sou empresa" e faça o cadastro. Use um CNPJ válido, por exemplo `11.222.333/0001-81`.
-4. Entre como a **empresa**, vá em "Minhas vantagens" e cadastre uma vantagem com descrição, custo em moedas e uma foto (JPEG, PNG ou WebP de até 2 MB).
-5. Entre como o **professor** e, em "Enviar moedas", mande moedas ao aluno com o motivo.
-6. Entre como o **aluno**, veja o catálogo em "Vantagens", troque moedas por uma vantagem e confira o saldo em "Extrato".
+O banco local começa só com os professores. Siga nesta ordem (para trocar de usuário, use o botão de sair, no fim do menu):
+
+1. **Empresa parceira:** na página inicial, clique em "Para empresas" (ou, na tela de login, em "Sou empresa") e faça o cadastro. Use um CNPJ válido, por exemplo `11.222.333/0001-81`.
+2. Entre como a **empresa**, vá em "Minhas vantagens" → "Nova vantagem" e cadastre uma vantagem com descrição, custo em moedas e uma foto (JPEG, PNG ou WebP de até 2 MB).
+3. **Aluno:** clique em "Criar conta de aluno" e faça o cadastro. Use nome e sobrenome, um CPF válido (por exemplo `529.982.247-25`), um RG como `MG-12.345.678`, o endereço com número, um curso da lista e uma senha com pelo menos 8 caracteres, com letra e número.
+4. **Professor:** na tela de login, escolha a aba "Professor" e entre com `prof.carlos` e a senha `senha1234` (também existem `prof.ana` e `prof.marcos`, com a mesma senha). Cada um começa com 1.000 moedas.
+5. Ainda como professor, em "Enviar moedas", escolha o aluno, informe o valor e o motivo e confirme o envio.
+6. Entre como o **aluno**, abra "Vantagens", troque moedas pela vantagem cadastrada (aparece o código do cupom, também em QR code) e confira o saldo em "Extrato".
+
+As regras dos cadastros (formato do e-mail, RG, endereço, curso, login e senha) valem na tela e também na API.
+
+### Se algo der errado
+
+| O que aparece | O que fazer |
+|---|---|
+| `error during connect` ou `Cannot connect to the Docker daemon` | Abra o Docker Desktop, espere ele iniciar e rode o comando de novo. |
+| `port is already allocated` na porta 5432 (outro PostgreSQL instalado) | Crie o arquivo `.env` com a linha `POSTGRES_PORTA=5433` e rode o comando de novo. |
+| `port is already allocated` nas portas 5173 ou 8000 | Feche o programa que está usando a porta e rode o comando de novo. |
+| `container name ... is already in use` | Há uma execução antiga. Rode `docker rm -f moeda_estudantil_db moeda_estudantil_api moeda_estudantil_front` e suba de novo. |
+| A tela abre, mas diz que não conectou ao servidor | A API ainda está iniciando. Veja http://localhost:8000/saude ou rode `docker compose logs api`. |
 
 ### E-mails
 
@@ -420,4 +436,7 @@ Para criar os segredos:
   diagrama de visão geral da interação e atualização do diagrama de casos de uso. Os
   diagramas de sequência e o de visão geral estão reunidos em
   `docs/entregas/Sistema de Moeda Estudantil - Laboratório 4 - Sprint 1.pdf` (e, em zip, só os diagramas).
-- **Release 02, Sprint 2** — diagrama de implantação e publicação da aplicação na nuvem (Vercel, Render e Neon). O diagrama de classes foi atualizado para a nova forma de guardar as fotos e o de componentes seguiu igual.
+- **Release 02, Sprint 2** — diagrama de implantação e publicação da aplicação na nuvem (Vercel, Render e Neon). O diagrama de classes foi atualizado para a nova forma de guardar as fotos.
+- **Release 02, Sprint 3** — revisão para a avaliação: diagrama de componentes, modelo lógico, visão geral da interação e sequências dos casos de uso 01 e 07 atualizados; as mesmas regras de cadastro na tela e na API; melhorias de uso no front-end.
+
+As versões publicadas estão em [Releases](https://github.com/lucaslmchaves/sistema-moeda-estudantil/releases): `v1.0.0` (Release 01) e `v2.0.0` (Release 02).

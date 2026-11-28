@@ -29,7 +29,7 @@ def test_exigir_texto_vazio_levanta_dado_invalido_com_rotulo_em_portugues(valor)
 
 def test_validar_senha_preserva_espacos_digitados():
     """A senha nunca é alterada."""
-    assert validar_senha("  senha com espaço  ") == "  senha com espaço  "
+    assert validar_senha("  senha 1 com espaço  ") == "  senha 1 com espaço  "
 
 
 @pytest.mark.parametrize("senha", ["", "        ", None])

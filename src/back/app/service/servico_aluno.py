@@ -7,15 +7,25 @@ from app.model.seguranca import hash_senha
 from app.repository.interfaces import IRepositorioAluno, IRepositorioInstituicao
 from app.service.excecoes import DadoInvalido, NaoEncontrado
 from app.service.regras_cadastro import (
-    exigir_texto,
     garantir_login_livre,
     garantir_unico,
     validar_e_normalizar_cpf,
+    validar_curso,
     validar_e_normalizar_email,
+    validar_endereco,
+    validar_login,
+    validar_nome_completo,
+    validar_rg,
     validar_senha,
 )
 
-CAMPOS_TEXTO_ALUNO = ("nome", "rg", "endereco", "curso")
+# Campos de texto do aluno, cada um com a regra que o confere.
+REGRAS_TEXTO_ALUNO = {
+    "nome": validar_nome_completo,
+    "rg": validar_rg,
+    "endereco": validar_endereco,
+    "curso": validar_curso,
+}
 
 
 class ServicoAluno:
@@ -28,8 +38,8 @@ class ServicoAluno:
 
     def cadastrar_aluno(self, dados: dict) -> Aluno:
         """Cadastra o aluno e abre a conta com saldo zero na mesma operação."""
-        login = exigir_texto("login", dados.get("login"))
-        textos = {campo: exigir_texto(campo, dados.get(campo)) for campo in CAMPOS_TEXTO_ALUNO}
+        login = validar_login(dados.get("login"))
+        textos = {campo: regra(dados.get(campo)) for campo, regra in REGRAS_TEXTO_ALUNO.items()}
         cpf = validar_e_normalizar_cpf(dados.get("cpf"))
         email = validar_e_normalizar_email(dados.get("email"))
         senha = validar_senha(dados.get("senha"))
@@ -58,9 +68,9 @@ class ServicoAluno:
         self._atualizar_instituicao(aluno, dados.get("id_instituicao"))
         if dados.get("senha") is not None:
             aluno.senha_hash = hash_senha(validar_senha(dados["senha"], nova=True))
-        for campo in CAMPOS_TEXTO_ALUNO:
+        for campo, regra in REGRAS_TEXTO_ALUNO.items():
             if dados.get(campo) is not None:
-                setattr(aluno, campo, exigir_texto(campo, dados[campo]))
+                setattr(aluno, campo, regra(dados[campo]))
         self.repo_aluno.salvar(aluno)
         return aluno
 

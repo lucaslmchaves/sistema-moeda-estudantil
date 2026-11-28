@@ -1,7 +1,18 @@
 """Regras de cadastro compartilhadas pelos serviços de aluno e de empresa parceira."""
 
+from collections.abc import Callable
+
 from app.model.usuario import Usuario
 from app.service.excecoes import Conflito, DadoInvalido
+from app.service.formatos import (
+    curso_valido,
+    endereco_valido,
+    login_valido,
+    nome_completo_valido,
+    nome_de_empresa_valido,
+    rg_valido,
+    senha_tem_letra_e_numero,
+)
 from app.service.rotulos import rotulo_do_campo
 from app.service.validadores import (
     normalizar_cnpj,
@@ -27,7 +38,7 @@ def exigir_texto(campo: str, valor: object) -> str:
 
 
 def validar_senha(senha: object, nova: bool = False) -> str:
-    """Recusa senha vazia ou fora do tamanho permitido e a devolve sem alterações."""
+    """Recusa senha vazia, fora do tamanho ou sem letra e número e a devolve sem alterações."""
     prefixo = "A nova senha" if nova else "A senha"
     texto = str(senha if senha is not None else "")
     if not texto.strip():
@@ -37,7 +48,61 @@ def validar_senha(senha: object, nova: bool = False) -> str:
             f"{prefixo} deve conter entre {SENHA_TAMANHO_MINIMO} e "
             f"{SENHA_TAMANHO_MAXIMO} caracteres."
         )
+    if not senha_tem_letra_e_numero(texto):
+        raise DadoInvalido(f"{prefixo} deve ter pelo menos uma letra e um número.")
     return texto
+
+
+def _exigir_formato(
+    campo: str, valor: object, valido: Callable[[str], bool], mensagem: str
+) -> str:
+    """Exige o texto preenchido e no formato esperado."""
+    texto = exigir_texto(campo, valor)
+    if not valido(texto):
+        raise DadoInvalido(mensagem)
+    return texto
+
+
+def validar_login(login: object) -> str:
+    """Confere o login de um cadastro novo."""
+    return _exigir_formato(
+        "login",
+        login,
+        login_valido,
+        "Use no login de 3 a 60 letras sem acento, números, ponto, traço ou sublinhado.",
+    )
+
+
+def validar_nome_completo(nome: object) -> str:
+    """Confere o nome de uma pessoa."""
+    return _exigir_formato(
+        "nome", nome, nome_completo_valido, "Informe o nome e o sobrenome, só com letras."
+    )
+
+
+def validar_nome_de_empresa(nome: object) -> str:
+    """Confere o nome de uma empresa."""
+    return _exigir_formato("nome", nome, nome_de_empresa_valido, "Informe o nome da empresa.")
+
+
+def validar_rg(rg: object) -> str:
+    """Confere o formato do RG."""
+    return _exigir_formato("rg", rg, rg_valido, "Informe um RG válido. Ex.: MG-12.345.678.")
+
+
+def validar_endereco(endereco: object) -> str:
+    """Confere se o endereço tem rua e número."""
+    return _exigir_formato(
+        "endereco",
+        endereco,
+        endereco_valido,
+        "Informe a rua e o número. Ex.: Rua da Bahia, 1200 (ou s/n).",
+    )
+
+
+def validar_curso(curso: object) -> str:
+    """Confere se o curso está na lista."""
+    return _exigir_formato("curso", curso, curso_valido, "Escolha um curso da lista.")
 
 
 def validar_e_normalizar_email(email: object) -> str:

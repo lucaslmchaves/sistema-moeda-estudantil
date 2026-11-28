@@ -1,6 +1,6 @@
 # Moeda Estudantil — sistema visual
 
-Referências: SaaS de Abdul Saboor (Behance: Umber, PivotHR), princípios do `impeccable`, ícones Phosphor via Iconify.
+Ícones Phosphor (licença MIT) obtidos pelo Iconify.
 
 - **Fundo:** claro e frio `#f6f7fb`; superfícies brancas com borda fina `#e4e8f1`. Sem sombra em cartão parado; sombra no que flutua (modal, notificações, cartão de saldo).
 - **Tinta:** `#0f172a` para texto. Secundário `#334155`, apagado `#5b6678` (≥ 4,5:1 sobre o fundo).

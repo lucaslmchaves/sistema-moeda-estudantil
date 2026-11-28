@@ -35,10 +35,10 @@ def dados_aluno(id_instituicao: int = 1, **sobrescrita) -> dict:
     """Retorna dicionário com dados válidos completos para cadastro de aluno."""
     sufixo = random.randint(1000, 9999)
     dados = {
-        "nome": f"Estudante Teste {sufixo}",
+        "nome": "Estudante de Teste",
         "email": f"aluno{sufixo}@universidade.edu.br",
         "cpf": gerar_cpf_valido(),
-        "rg": f"MG-{sufixo}",
+        "rg": f"MG-1{sufixo}",
         "endereco": f"Avenida Brasil, {sufixo}",
         "curso": "Engenharia de Software",
         "id_instituicao": id_instituicao,
