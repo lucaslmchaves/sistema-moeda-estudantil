@@ -6,11 +6,12 @@ from app.model.seguranca import hash_senha
 from app.repository.interfaces import IRepositorioEmpresa
 from app.service.excecoes import NaoEncontrado
 from app.service.regras_cadastro import (
-    exigir_texto,
     garantir_login_livre,
     garantir_unico,
     validar_e_normalizar_cnpj,
     validar_e_normalizar_email,
+    validar_login,
+    validar_nome_de_empresa,
     validar_senha,
 )
 
@@ -24,8 +25,8 @@ class ServicoEmpresa:
 
     def cadastrar_empresa(self, dados: dict) -> EmpresaParceira:
         """Cadastra a empresa com senha em hash, depois de validar e conferir unicidade."""
-        login = exigir_texto("login", dados.get("login"))
-        nome = exigir_texto("nome", dados.get("nome"))
+        login = validar_login(dados.get("login"))
+        nome = validar_nome_de_empresa(dados.get("nome"))
         cnpj = validar_e_normalizar_cnpj(dados.get("cnpj"))
         email = validar_e_normalizar_email(dados.get("email"))
         senha = validar_senha(dados.get("senha"))
@@ -50,7 +51,7 @@ class ServicoEmpresa:
         if dados.get("senha") is not None:
             empresa.senha_hash = hash_senha(validar_senha(dados["senha"], nova=True))
         if dados.get("nome") is not None:
-            empresa.nome = exigir_texto("nome", dados["nome"])
+            empresa.nome = validar_nome_de_empresa(dados["nome"])
         return self.repo_empresa.salvar(empresa)
 
     def excluir_empresa(self, id_usuario: int) -> bool:
